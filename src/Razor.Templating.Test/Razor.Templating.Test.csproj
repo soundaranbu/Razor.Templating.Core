@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\examples\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
-    <ProjectReference Include="..\RazorRenderer\RazorRenderer.csproj" />
+    <ProjectReference Include="..\Razor.Templating.Core\Razor.Templating.Core.csproj" />
   </ItemGroup>
 
 </Project>

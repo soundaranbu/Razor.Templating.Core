@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleRazorTemplatesLibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleConsoleApp", "examples\ExampleApp\ExampleConsoleApp.csproj", "{9AC66309-ECB9-4ECA-A251-4F8B2376DB5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorRenderer", "src\RazorRenderer\RazorRenderer.csproj", "{9072E376-CDB8-42E8-81A3-807E91F75B32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor.Templating.Core", "src\Razor.Templating.Core\Razor.Templating.Core.csproj", "{9072E376-CDB8-42E8-81A3-807E91F75B32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorRendererTest", "src\RazorRendererTest\RazorRendererTest.csproj", "{7DAE3FC4-C968-43C1-9E6E-DA06C6C09261}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor.Templating.Test", "src\Razor.Templating.Test\Razor.Templating.Test.csproj", "{7DAE3FC4-C968-43C1-9E6E-DA06C6C09261}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EBFC0DA-02BB-4759-B246-8FF9C11179BE}"
 	ProjectSection(SolutionItems) = preProject

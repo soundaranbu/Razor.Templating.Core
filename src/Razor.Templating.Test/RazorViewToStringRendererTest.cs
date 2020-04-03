@@ -1,6 +1,6 @@
 using ExampleRazorTemplatesLibrary.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RazorTemplating;
+using Razor.Templating.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

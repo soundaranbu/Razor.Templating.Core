@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-namespace RazorTemplating
+namespace Razor.Templating.Core
 {
     public static class RazorViewToStringRendererFactory
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RazorTemplating
+namespace Razor.Templating.Core
 {
     public class RazorTemplateEngine
     {

@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
-namespace RazorTemplating
+namespace Razor.Templating.Core
 {
     public class RazorViewToStringRenderer
     {

@@ -1,5 +1,5 @@
 ﻿using ExampleRazorTemplatesLibrary.Models;
-using RazorTemplating;
+using Razor.Templating.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
