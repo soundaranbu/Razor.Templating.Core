@@ -1,10 +1,6 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -14,6 +10,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
@@ -26,7 +26,7 @@ namespace Razor.Templating.Core
         public RazorViewToStringRenderer(
             IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider, IHttpContextAccessor contextAccessor, LinkGenerator linkGenerator)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
@@ -63,7 +63,7 @@ namespace Razor.Templating.Core
 
         private IView FindView(ActionContext actionContext, string viewName)
         {
-            var getViewResult = _viewEngine.GetView(executingFilePath: viewName, viewPath: viewName, isMainPage: true);
+            var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: true);
             if (getViewResult.Success)
             {
                 return getViewResult.View;
@@ -89,7 +89,22 @@ namespace Razor.Templating.Core
             {
                 RequestServices = _serviceProvider
             };
-            return new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+            var routeData = new RouteData();
+            routeData.Routers.Add(new CustomRouter());
+            return new ActionContext(httpContext, routeData, new ActionDescriptor());
+        }
+    }
+
+    public class CustomRouter : IRouter
+    {
+        public VirtualPathData GetVirtualPath(VirtualPathContext context)
+        {
+            return null;
+        }
+
+        public Task RouteAsync(RouteContext context)
+        {
+            return Task.CompletedTask;
         }
     }
 }
