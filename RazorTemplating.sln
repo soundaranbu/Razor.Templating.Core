@@ -22,9 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C6E8ABD2-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{CD363F56-4887-4824-9177-30B8C675F27A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWebApp", "ExampleWebApp\ExampleWebApp.csproj", "{CD9167F5-3F09-47F1-8088-490332430A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWebApp", "examples\ExampleWebApp\ExampleWebApp.csproj", "{CD9167F5-3F09-47F1-8088-490332430A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWebApiApp", "ExampleWebApiApp\ExampleWebApiApp.csproj", "{56A2F707-A5E6-4797-A2F0-D28ADB6A20F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWebApiApp", "examples\ExampleWebApiApp\ExampleWebApiApp.csproj", "{56A2F707-A5E6-4797-A2F0-D28ADB6A20F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
