@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ExampleWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ExampleWebApp.Models;
 using Razor.Templating.Core;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ExampleWebApp.Controllers
 {
@@ -21,6 +18,14 @@ namespace ExampleWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            //Render View From the Web Application
+            var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/Home/Index.cshtml");
+            return Ok(renderedString);
+        }
+
+        public async Task<IActionResult> Template()
+        {
+            //Render View From the Template Library Application
             var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
             return Ok(renderedString);
         }

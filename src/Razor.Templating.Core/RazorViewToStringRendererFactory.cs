@@ -17,21 +17,30 @@ namespace Razor.Templating.Core
         {
             var services = new ServiceCollection();
             var appDirectory = Directory.GetCurrentDirectory();
+            var webRootDirectory = Path.Combine(appDirectory, "wwwroot");
+            if (!Directory.Exists(webRootDirectory))
+            {
+                webRootDirectory = appDirectory;
+            }
             var viewAssemblyFiles = Directory.GetFiles(appDirectory, "*.Views.dll");
             var viewAssemblies = new List<Assembly>();
+            var fileProvider = new PhysicalFileProvider(appDirectory);
             foreach (var assemblyFile in viewAssemblyFiles)
             {
                 viewAssemblies.Add(Assembly.LoadFile(assemblyFile));
             }
             services.AddSingleton<IWebHostEnvironment>(new HostingEnvironment
             {
-                ApplicationName = Assembly.GetEntryAssembly().GetName().Name
-            });
+                ApplicationName = Assembly.GetEntryAssembly().GetName().Name,
+                ContentRootPath = appDirectory,
+                ContentRootFileProvider = fileProvider,
+                WebRootPath = webRootDirectory,
+                WebRootFileProvider = new PhysicalFileProvider(webRootDirectory)
+            }); ;
             services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             services.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
             services.AddSingleton<DiagnosticListener>(new DiagnosticListener("Microsoft.AspNetCore"));
             services.AddLogging();
-
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -43,7 +52,7 @@ namespace Razor.Templating.Core
             }
 
             services.Configure<MvcRazorRuntimeCompilationOptions>(o => {
-                o.FileProviders.Add(new PhysicalFileProvider(appDirectory));
+                o.FileProviders.Add(fileProvider);
             });
             services.AddSingleton<RazorViewToStringRenderer>();
 
