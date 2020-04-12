@@ -10,6 +10,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright />
     <PackageProjectUrl>https://github.com/soundaranbu/RazorTemplating</PackageProjectUrl>
+    <Authors>Soundar Anbalagan</Authors>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
