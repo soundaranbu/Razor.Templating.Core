@@ -1,4 +1,6 @@
-# Razor Templating <img src="https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/src/Razor.Templating.Core/assets/icon.png" width="35" height="35" />
+<img src="https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/src/Razor.Templating.Core/assets/icon.png" width="70" height="70" /> 
+
+# Razor Templating 
 
 ![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core)
 
@@ -8,11 +10,23 @@ Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=
 
 This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
 
-# Applications
+## Applications
 - Email Templating
 - Report Generation & so on
 
-# Simple Usage:
+## Installing Nuget Package
+This library is available as [Nuget package](https://www.nuget.org/packages/Razor.Templating.Core/)
+
+##### Using .NET CLI
+```bash
+dotnet add package Razor.Templating.Core
+```
+##### Using Package Reference .csproj
+```bash
+<PackageReference Include="Razor.Templating.Core" Version="1.1.2" />
+```
+
+## Simple Usage:
 ```csharp
 using Razor.Templating.Core;
 
@@ -29,17 +43,17 @@ viewData["Value2"] = "2";
 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 ```
 
-# Razor Views in Library
+## Razor Views in Library
  Razor view files(.cshtml) can be organized in a separate shared libary. Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/ExampleAppRazorTemplates)
  
-# Sample Applications
+## Sample Applications
  Please find the sample applications [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples) 
  
-# Note:
+## Note:
 - Please ensure that the views path is always unique among all the shared template projects.
 
 #### References:
-Thanks to all the great articles which helped to bring this library out!
+Thanks to all the great articles and projects which helped to bring this library out!
 - https://github.com/Andy9FromSpace/razor-renderer-core
 - https://github.com/aspnet/Entropy/tree/master/samples/Mvc.RenderViewToString
 - https://www.frakkingsweet.com/razor-template-rendering/
