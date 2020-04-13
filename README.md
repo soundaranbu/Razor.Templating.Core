@@ -1,4 +1,5 @@
 # Razor Templating
+![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master)
 
 Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this.
   - Works for **.NET Core 3.0, 3.1**
@@ -26,7 +27,6 @@ var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", mo
 ## Note:
 - Please ensure that the views path is always unique among all the shared template projects.
 
-------
 #### References:
 Thanks to all the great articles which helped to bring this library out!
 - https://github.com/Andy9FromSpace/razor-renderer-core
