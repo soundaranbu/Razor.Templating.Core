@@ -6,11 +6,15 @@ Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=
   - Works in Console Application, ASP.NET Core Application Independently
 
 This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
+
 # Applications
 - Email Templating
 - Report Generation & so on
-# Example:
+
+# Simple Usage:
 ```csharp
+using Razor.Templating.Core;
+
 var model = new ExampleModel()
 {
     PlainText = "Some text",
@@ -24,7 +28,13 @@ viewData["Value2"] = "2";
 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 ```
 
-## Note:
+# Razor Views in Library
+ Razor view files(.cshtml) can be organized in a separate shared libary. Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/ExampleAppRazorTemplates)
+ 
+# Sample Applications
+ Please find the sample applications [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples) 
+ 
+# Note:
 - Please ensure that the views path is always unique among all the shared template projects.
 
 #### References:
