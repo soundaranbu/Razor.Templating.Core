@@ -1,11 +1,13 @@
 # Razor Templating
 
-Using RazorEngine for HTML templating has never been so easy like this.
-  - Works for .NET Core 3.1+
+Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this.
+  - Works for **.NET Core 3.0, 3.1**
   - Works in Console Application, ASP.NET Core Application Independently
 
 This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
-
+# Applications
+- Email Templating
+- Report Generation & so on
 # Example:
 ```csharp
 var model = new ExampleModel()

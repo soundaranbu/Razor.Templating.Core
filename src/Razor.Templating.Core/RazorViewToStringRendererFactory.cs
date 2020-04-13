@@ -36,7 +36,7 @@ namespace Razor.Templating.Core
                 ContentRootFileProvider = fileProvider,
                 WebRootPath = webRootDirectory,
                 WebRootFileProvider = new PhysicalFileProvider(webRootDirectory)
-            }); ;
+            });
             services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             services.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
             services.AddSingleton<DiagnosticListener>(new DiagnosticListener("Microsoft.AspNetCore"));
