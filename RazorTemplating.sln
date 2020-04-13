@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWebApp", "examples\E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWebApiApp", "examples\ExampleWebApiApp\ExampleWebApiApp.csproj", "{56A2F707-A5E6-4797-A2F0-D28ADB6A20F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleConsoleApp.NetCore3_0", "examples\ExampleAppRazorTemplates\ExampleRazorTemplatesLibraryExampleConsoleApp.NetCore3_0\ExampleConsoleApp.NetCore3_0.csproj", "{48FC8415-1297-4A05-B9E8-2B39A443EBEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleConsoleApp.NetCore3_0", "examples\ExampleConsoleApp.NetCore3_0\ExampleConsoleApp.NetCore3_0.csproj", "{48FC8415-1297-4A05-B9E8-2B39A443EBEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
