@@ -42,6 +42,7 @@ viewData["Value2"] = "2";
 
 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 ```
+Before applying this code, follow this article for working implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
 
 ## Razor Views in Library
  Razor view files(.cshtml) can be organized in a separate shared libary. Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/ExampleAppRazorTemplates)
