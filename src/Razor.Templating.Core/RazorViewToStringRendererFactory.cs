@@ -16,7 +16,7 @@ namespace Razor.Templating.Core
         public static RazorViewToStringRenderer CreateRenderer()
         {
             var services = new ServiceCollection();
-            var appDirectory = Directory.GetCurrentDirectory();
+            var appDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             var webRootDirectory = Path.Combine(appDirectory, "wwwroot");
             if (!Directory.Exists(webRootDirectory))
             {
@@ -29,6 +29,7 @@ namespace Razor.Templating.Core
             {
                 viewAssemblies.Add(Assembly.LoadFile(assemblyFile));
             }
+
             services.AddSingleton<IWebHostEnvironment>(new HostingEnvironment
             {
                 ApplicationName = Assembly.GetEntryAssembly().GetName().Name,
@@ -38,12 +39,12 @@ namespace Razor.Templating.Core
                 WebRootFileProvider = new PhysicalFileProvider(webRootDirectory)
             });
             services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-            services.AddSingleton<DiagnosticSource>(new DiagnosticListener("Microsoft.AspNetCore"));
-            services.AddSingleton<DiagnosticListener>(new DiagnosticListener("Microsoft.AspNetCore"));
+            services.AddSingleton<DiagnosticSource>(new DiagnosticListener("Razor.Templating.Core"));
+            services.AddSingleton<DiagnosticListener>(new DiagnosticListener("Razor.Templating.Core"));
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddLogging();
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             //https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
             //load view assembly application parts to find the view from shared libraries
             foreach (var viewAssembly in viewAssemblies)
