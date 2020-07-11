@@ -6,7 +6,7 @@
 
 Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this.
   - Works for **.NET Core 3.0, 3.1**
-  - Works in Console Application, ASP.NET Core Application Independently
+  - Works in **Console, Worker Service, ASP.NET Core, Desktop(WPF, WinForms in .NET Core) Applications** Independently
 
 This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
 
@@ -23,7 +23,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.1.2" />
+<PackageReference Include="Razor.Templating.Core" Version="1.2.0" />
 ```
 
 ## Simple Usage:
@@ -32,8 +32,8 @@ using Razor.Templating.Core;
 
 var model = new ExampleModel()
 {
-    PlainText = "Some text",
-    HtmlContent = "<em>Some emphasized text</em>"
+    PlainText = "This text is rendered from Razor Views using Razor.Templating.Core",
+    HtmlContent = "<em>You can use it to generate email content, report generation and so on</em>"
 };
 
 var viewData = new Dictionary<string, object>();
