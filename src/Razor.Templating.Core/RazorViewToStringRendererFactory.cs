@@ -16,7 +16,7 @@ namespace Razor.Templating.Core
         public static RazorViewToStringRenderer CreateRenderer()
         {
             var services = new ServiceCollection();
-            var appDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var webRootDirectory = Path.Combine(appDirectory, "wwwroot");
             if (!Directory.Exists(webRootDirectory))
             {
