@@ -8,7 +8,7 @@ namespace RazorRendererTest
 {
     [TestClass]
     public class RazorViewToStringRendererTest
-    {        
+    {
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
@@ -18,11 +18,12 @@ namespace RazorRendererTest
         }
 
         [TestMethod]
-        public async Task RenderView_WithModelAndViewData()
+        public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
-            // Act
-            var model = new ExampleModel() { 
-                PlainText = "Lorem Ipsium", 
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
                 HtmlContent = "<em>Lorem Ipsium</em>"
             };
 
@@ -30,8 +31,9 @@ namespace RazorRendererTest
             viewData["Value1"] = "1";
             viewData["Value2"] = "2";
 
+            // Act
             var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
-        
+
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("Lorem Ipsium"));
@@ -39,7 +41,7 @@ namespace RazorRendererTest
         }
 
         [TestMethod]
-        public async Task RenderView_WithLayout()
+        public async Task RenderView_WithLayout_WithViewData()
         {
             // Arrange
             var viewData = new Dictionary<string, object>();
@@ -63,6 +65,25 @@ namespace RazorRendererTest
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("This is the view content"));
+        }
+
+        [TestMethod]
+        public async Task RenderParitialView_WithModel()
+        {
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
+
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains("Partial view"));
+            Assert.IsTrue(html.Contains("Html content: <em>Lorem Ipsium</em>"));
         }
     }
 }
