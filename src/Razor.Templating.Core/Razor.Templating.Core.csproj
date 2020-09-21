@@ -4,17 +4,16 @@
 
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Renders .cshtml files to string. Using RazorEngine for HTML templating has never been so easy like this.
-Works for Web, Console, Worker Service</Description>
+    <Description>Render your .cshtml files to string. Works out of the box for Web, Console, Worker Service, Desktop Apps in .NET Core.</Description>
     <RepositoryUrl>https://github.com/soundaranbu/RazorTemplating</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright />
     <PackageProjectUrl>https://github.com/soundaranbu/RazorTemplating</PackageProjectUrl>
     <Authors>Soundar Anbalagan</Authors>
-    <Version>1.2.0</Version>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <Version>1.2.1</Version>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <FileVersion>1.2.1.0</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
