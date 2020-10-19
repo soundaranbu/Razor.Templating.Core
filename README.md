@@ -2,10 +2,10 @@
 
 # Razor Templating 
 
-![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core)
+![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core)
 
 Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this.
-  - Works for **.NET Core 3.0, 3.1**
+  - Works for **.NET Core 3.0, 3.1**, .NET 5.0 (coming soon)
   - Works in **Console, Worker Service, ASP.NET Core, Desktop(WPF, WinForms in .NET Core) Applications** Independently
 
 This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
