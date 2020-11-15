@@ -12,17 +12,15 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 ## Supported Application Types
 
-App Type\.NET Versions | .NET Core 3.0 | .NET Core 3.1 | .NET 5
 
-|App Type/.NET Versions|.NET Core 3.0|.NET Core 3.1|.NET 5
-|---|---|---|
-|Console|&check;|&check;|&check;|
-|Api|&check;|&check;|&check;|
-|Mvc|&check;|&check;|&check;|
-|Worker Service|&check;|&check;|&check;|
-|WinForms|&check;|&check;|&check;|
-|WCF|&check;|&check;|&check;|
-
+|                | .NET Core 3.0 | .NET Core 3.1 | .NET 5  |
+|----------------|---------------|---------------|---------|
+| Console        | &check;       | &check;       | &check; |
+| Api            | &check;       | &check;       | &check; |
+| Mvc            | &check;       | &check;       | &check; |
+| Worker Service | &check;       | &check;       | &check; |
+| WPF            | &check;       | &check;       | &check; |
+| WinForms       | &check;       | &check;       | &check; |
 
 ## Applications
 - Email Templating
