@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
-{ 
-    public class RazorTemplateEngine
+{
+    public static class RazorTemplateEngine
     {
         private static RazorViewToStringRenderer _razorViewToStringRenderer;
 
@@ -22,7 +23,7 @@ namespace Razor.Templating.Core
         /// Get the RazorViewToStringRenderer object from cache if already exists else creates a new object.
         /// </summary>
         /// <returns></returns>
-        public static RazorViewToStringRenderer GetRenderer()
+        static RazorViewToStringRenderer GetRenderer()
         {
 
             if (_razorViewToStringRenderer is null)
@@ -37,7 +38,7 @@ namespace Razor.Templating.Core
         /// </summary>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <returns>Rendered string from the view</returns>
-        public static async Task<string> RenderAsync(string viewName)
+        public static async Task<string> RenderAsync([DisallowNull] string viewName)
         {
             return await GetRenderer().RenderViewToStringAsync<object>(viewName, default).ConfigureAwait(false);
         }
@@ -49,7 +50,7 @@ namespace Razor.Templating.Core
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <param name="model">Strongly typed object </param>
         /// <returns></returns>
-        public static async Task<string> RenderAsync<TModel>(string viewName, TModel model)
+        public static async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
         {
             return await GetRenderer().RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
         }
@@ -62,7 +63,7 @@ namespace Razor.Templating.Core
         /// <param name="model">Strongly typed object</param>
         /// <param name="viewData">ViewData</param>
         /// <returns></returns>
-        public static async Task<string> RenderAsync<TModel>(string viewName, TModel model, Dictionary<string, object> viewData)
+        public static async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
         {
             var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
             if (!(viewData is null))

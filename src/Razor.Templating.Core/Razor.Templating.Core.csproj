@@ -17,6 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
+    <Nullable>Enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp3'))">

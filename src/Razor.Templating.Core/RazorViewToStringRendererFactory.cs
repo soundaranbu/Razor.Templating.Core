@@ -5,18 +5,21 @@ using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 namespace Razor.Templating.Core
 {
-    public static class RazorViewToStringRendererFactory
+    internal static class RazorViewToStringRendererFactory
     {
         public static RazorViewToStringRenderer CreateRenderer()
         {
             var services = new ServiceCollection();
-            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //ref: https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
+            var appDirectory = AppContext.BaseDirectory;
+
             var webRootDirectory = Path.Combine(appDirectory, "wwwroot");
             if (!Directory.Exists(webRootDirectory))
             {
@@ -32,7 +35,7 @@ namespace Razor.Templating.Core
 
             services.AddSingleton<IWebHostEnvironment>(new HostingEnvironment
             {
-                ApplicationName = Assembly.GetEntryAssembly().GetName().Name,
+                ApplicationName = Assembly.GetEntryAssembly()?.GetName().Name ?? "Razor.Templating.Core",
                 ContentRootPath = appDirectory,
                 ContentRootFileProvider = fileProvider,
                 WebRootPath = webRootDirectory,
@@ -45,14 +48,15 @@ namespace Razor.Templating.Core
             services.AddLogging();
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
-            //https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
+            //ref: https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
             //load view assembly application parts to find the view from shared libraries
             foreach (var viewAssembly in viewAssemblies)
             {
                 builder.PartManager.ApplicationParts.Add(new CompiledRazorAssemblyPart(viewAssembly));
             }
 
-            services.Configure<MvcRazorRuntimeCompilationOptions>(o => {
+            services.Configure<MvcRazorRuntimeCompilationOptions>(o =>
+            {
                 o.FileProviders.Add(fileProvider);
             });
             services.AddSingleton<RazorViewToStringRenderer>();
@@ -62,11 +66,10 @@ namespace Razor.Templating.Core
         }
     }
 
-    public class HostingEnvironment : IWebHostEnvironment
+    internal class HostingEnvironment : IWebHostEnvironment
     {
         public HostingEnvironment()
         {
-
         }
 
         public string EnvironmentName { get; set; }
