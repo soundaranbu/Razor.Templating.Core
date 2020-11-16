@@ -10,6 +10,18 @@ Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=
 
 This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
 
+## Supported Application Types
+
+
+|                | .NET Core 3.0 | .NET Core 3.1 | .NET 5  |
+|----------------|---------------|---------------|---------|
+| Console        | &check;       | &check;       | &check; |
+| Api            | &check;       | &check;       | &check; |
+| Mvc            | &check;       | &check;       | &check; |
+| Worker Service | &check;       | &check;       | &check; |
+| WPF            | &check;       | &check;       | &check; |
+| WinForms       | &check;       | &check;       | &check; |
+
 ## Applications
 - Email Templating
 - Report Generation & so on

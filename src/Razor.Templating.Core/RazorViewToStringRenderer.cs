@@ -10,15 +10,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public class RazorViewToStringRenderer
+    internal class RazorViewToStringRenderer
     {
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
@@ -34,12 +34,12 @@ namespace Razor.Templating.Core
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync<TModel>(string viewName, TModel model)
+        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
         {
             return await RenderViewToStringAsync(viewName, model, new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()));
         }
 
-        public async Task<string> RenderViewToStringAsync<TModel>(string viewName, TModel model, ViewDataDictionary viewDataDictionary)
+        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] ViewDataDictionary viewDataDictionary)
         {
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName);
@@ -79,7 +79,14 @@ namespace Razor.Templating.Core
             var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
             var errorMessage = string.Join(
                 Environment.NewLine,
-                new[] { $"Unable to find view '{viewName}'. The following locations were searched:" }.Concat(searchedLocations)); ;
+                new string[] { 
+                    $"Unable to find view '{viewName}'. The following locations were searched:" 
+                }.Concat(searchedLocations)
+                .Concat(new string[]{
+                "Hint:",
+                "- Check whether you have added reference to the Razor Class Library that contains the view files.",
+                "- Check whether the view file name is correct or exists at the given path.",
+                "- Refer documentation here: https://github.com/soundaranbu/RazorTemplating"}));
 
             throw new InvalidOperationException(errorMessage);
         }
@@ -96,7 +103,7 @@ namespace Razor.Templating.Core
         }
     }
 
-    public class CustomRouter : IRouter
+    internal class CustomRouter : IRouter
     {
         public VirtualPathData GetVirtualPath(VirtualPathContext context)
         {
