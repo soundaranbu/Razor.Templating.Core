@@ -23,7 +23,7 @@ namespace Razor.Templating.Core
         /// Get the RazorViewToStringRenderer object from cache if already exists else creates a new object.
         /// </summary>
         /// <returns></returns>
-        static RazorViewToStringRenderer GetRenderer()
+        private static RazorViewToStringRenderer GetRenderer()
         {
 
             if (_razorViewToStringRenderer is null)
