@@ -11,9 +11,9 @@
     <Copyright />
     <PackageProjectUrl>https://github.com/soundaranbu/RazorTemplating</PackageProjectUrl>
     <Authors>Soundar Anbalagan</Authors>
-    <Version>1.3.0</Version>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
+    <Version>1.4.0</Version>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
