@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ExampleRazorTemplatesLibrary.Models;
+using ExampleRazorTemplatesLibrary.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Razor.Templating.Core;
 
@@ -84,6 +86,31 @@ namespace Razor.Templating.Test.Net5_0
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("Partial view"));
             Assert.IsTrue(html.Contains("Html content: <em>Lorem Ipsium</em>"));
+        }
+
+        [TestMethod]
+        public async Task RenderView_WithServiceInjection()
+        {
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
+
+            // Add dependencies to the service collection and add razor templating to the collection
+            var services = new ServiceCollection();
+            services.AddTransient<ExampleService>();
+            // Add after registering all dependencies
+            // this is important for the razor template engine to find the injected services
+            services.AddRazorTemplating(); 
+
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains("Injected Service Data: Some Random Value - "));
         }
     }
 }

@@ -54,8 +54,28 @@ var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", mo
 ```
 Before applying this code, follow this article for working implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
 
+## Dependency Injection [Since `v1.3.1`]
+Dependencies can be injected directly into views using `@inject` in .csthml file. Refer [sample application here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Mvc)
+
+In ASP.NET Core, add dependency like below in `Startup.cs -> ConfigureServices`
+```csharp
+...
+services.AddTransient<ExampleService>();
+//add after registering all the dependencies
+services.AddRazorTemplating();
+```
+or in console or other applications, add as below
+```csharp
+// Add dependencies to the service collection
+var services = new ServiceCollection();
+services.AddTransient<ExampleService>();
+// Add RazorTemplating after registering all dependencies
+// this is important for the razor template engine to find the injected services
+services.AddRazorTemplating(); 
+var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
+```
 ## Razor Views in Library
- Razor view files(.cshtml) can be organized in a separate shared libary. Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/ExampleAppRazorTemplates)
+ Razor view files(.cshtml) can be organized in a separate shared Razor Class Libary(RCL). Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/ExampleAppRazorTemplates)
  
 ## Sample Applications
  Please find the sample applications [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples) 

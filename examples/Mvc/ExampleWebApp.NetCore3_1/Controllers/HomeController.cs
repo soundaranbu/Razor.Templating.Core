@@ -30,6 +30,17 @@ namespace ExampleWebApp.Controllers
             return Ok(renderedString);
         }
 
+        /// <summary>
+        /// Add /Home/Inject to the URL to view this  page
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> Inject()
+        {
+            //Render View From the Web Application with Injected Service
+            var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/Home/Inject.cshtml");
+            return Ok(renderedString);
+        }
+
         public IActionResult Privacy()
         {
             return View();

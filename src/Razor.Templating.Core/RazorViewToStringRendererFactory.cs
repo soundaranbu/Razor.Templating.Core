@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
 using Razor.Templating.Core.Infrastructure;
@@ -16,6 +17,27 @@ namespace Razor.Templating.Core
 {
     internal static class RazorViewToStringRendererFactory
     {
+        private static IServiceCollection? _serviceCollection;
+
+        /// <summary>
+        /// Get's the new instance of ServiceCollection class, if doesn't exists
+        /// </summary>
+        public static IServiceCollection ServiceCollection
+        {
+            get
+            {
+                if (_serviceCollection is null)
+                {
+                    return new ServiceCollection();
+                }
+
+                return _serviceCollection;
+            }
+            set
+            {
+                _serviceCollection = value;
+            }
+        }
         /// <summary>
         /// Returns the instance of RazorViewToStringRenderer by resolving all the dependencies required to 
         /// successfully render the razor views to string.
@@ -23,7 +45,8 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         public static RazorViewToStringRenderer CreateRenderer()
         {
-            var services = new ServiceCollection();
+            var services = ServiceCollection;
+
             //ref: https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
             var assembliesBaseDirectory = AppContext.BaseDirectory;
 
@@ -41,7 +64,7 @@ namespace Razor.Templating.Core
 
             var fileProvider = new PhysicalFileProvider(assembliesBaseDirectory);
 
-            services.AddSingleton<IWebHostEnvironment>(new HostingEnvironment
+            services.TryAddSingleton<IWebHostEnvironment>(new HostingEnvironment
             {
                 ApplicationName = Assembly.GetEntryAssembly()?.GetName().Name ?? Constants.LibraryIdentifier,
                 ContentRootPath = assembliesBaseDirectory,
@@ -49,10 +72,10 @@ namespace Razor.Templating.Core
                 WebRootPath = webRootDirectory,
                 WebRootFileProvider = new PhysicalFileProvider(webRootDirectory)
             });
-            services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-            services.AddSingleton<DiagnosticSource>(new DiagnosticListener(Constants.LibraryIdentifier));
-            services.AddSingleton<DiagnosticListener>(new DiagnosticListener(Constants.LibraryIdentifier));
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
+            services.TryAddSingleton<DiagnosticSource>(new DiagnosticListener(Constants.LibraryIdentifier));
+            services.TryAddSingleton<DiagnosticListener>(new DiagnosticListener(Constants.LibraryIdentifier));
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddLogging();
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
@@ -66,7 +89,7 @@ namespace Razor.Templating.Core
             {
                 o.FileProviders.Add(fileProvider);
             });
-            services.AddSingleton<RazorViewToStringRenderer>();
+            services.TryAddSingleton<RazorViewToStringRenderer>();
 
             var provider = services.BuildServiceProvider();
             return provider.GetRequiredService<RazorViewToStringRenderer>();
@@ -110,8 +133,9 @@ namespace Razor.Templating.Core
                 viewAssemblyFiles.AddRange(GetRazorClassLibraryAssemblyFilesPath(mainExecutableDirectory));
             }
             Log($"Found {viewAssemblyFiles.Count} RCL assemblies");
-            Log($"Following RCL assemblies were found: {string.Join(Environment.NewLine, viewAssemblyFiles)}");
-            return viewAssemblyFiles;
+            Log($"Found {viewAssemblyFiles.Distinct().Count()} distinct RCL assemblies");
+            Log($"Following RCL assemblies were found: {string.Join(Environment.NewLine, viewAssemblyFiles.Distinct())}");
+            return viewAssemblyFiles.Distinct().ToList();
         }
 
         /// <summary>
@@ -150,11 +174,11 @@ namespace Razor.Templating.Core
 
         private static void Log(string message)
         {
-            #if DEBUG
+#if DEBUG
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{Constants.LibraryIdentifier}: {message}");
             Console.ResetColor();
-            #endif
+#endif
         }
     }
 }

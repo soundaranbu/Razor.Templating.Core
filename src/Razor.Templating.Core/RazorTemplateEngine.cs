@@ -9,13 +9,14 @@ namespace Razor.Templating.Core
 {
     public static class RazorTemplateEngine
     {
-        private static RazorViewToStringRenderer _razorViewToStringRenderer;
+        private static RazorViewToStringRenderer? _razorViewToStringRenderer;
 
         /// <summary>
-        /// Creates the cache of RazorViewToStringRenderer
+        /// Creates the cache of RazorViewToStringRenderer. If already initialized, re-initializes.
         /// </summary>
         public static void Initialize()
         {
+            _razorViewToStringRenderer = null;
             GetRenderer();
         }
 
