@@ -33,7 +33,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.4.0" />
+<PackageReference Include="Razor.Templating.Core" Version="1.4.0-rc.1" />
 ```
 
 ## Simple Usage:
@@ -54,7 +54,7 @@ var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", mo
 ```
 Before applying this code, follow this article for working implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
 
-## Dependency Injection [Since `v1.3.1`]
+## Dependency Injection [Since `v1.4.0-rc.1`]
 Dependencies can be injected directly into views using `@inject` in .csthml file. Refer [sample application here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Mvc)
 
 In ASP.NET Core, add dependency like below in `Startup.cs -> ConfigureServices`
