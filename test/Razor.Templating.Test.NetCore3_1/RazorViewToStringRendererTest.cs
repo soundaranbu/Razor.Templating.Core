@@ -130,5 +130,17 @@ namespace RazorRendererTest
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("Plain text: Lorem Ipsium"));
         }
+
+        [TestMethod]
+        public async Task RenderView_WithTagHelpers()
+        {
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>"));
+            Assert.IsTrue(html.Contains(@"<a href="""">All Speakers</a>"));
+        }
     }
 }

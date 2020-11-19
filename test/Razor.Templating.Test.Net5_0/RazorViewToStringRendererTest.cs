@@ -103,7 +103,7 @@ namespace Razor.Templating.Test.Net5_0
             services.AddTransient<ExampleService>();
             // Add after registering all dependencies
             // this is important for the razor template engine to find the injected services
-            services.AddRazorTemplating(); 
+            services.AddRazorTemplating();
 
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
@@ -130,6 +130,18 @@ namespace Razor.Templating.Test.Net5_0
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("Plain text: Lorem Ipsium"));
+        }
+
+        [TestMethod]
+        public async Task RenderView_WithTagHelpers()
+        {
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>"));
+            Assert.IsTrue(html.Contains(@"<a href="""">All Speakers</a>"));
         }
     }
 }
