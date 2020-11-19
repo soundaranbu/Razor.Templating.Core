@@ -100,7 +100,7 @@ namespace RazorRendererTest
 
             // Add dependencies to the service collection and add razor templating to the collection
             var services = new ServiceCollection();
-            services.AddTransient<ExampleConfigurationService>();
+            services.AddTransient<ExampleService>();
             // Add after registering all dependencies
             // this is important for the razor template engine to find the injected services
             services.AddRazorTemplating();
@@ -111,6 +111,24 @@ namespace RazorRendererTest
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("Injected Service Data: Some Random Value - "));
+        }
+
+        [TestMethod]
+        public async Task RenderView_WithModel_WithViewImport()
+        {
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
+
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains("Plain text: Lorem Ipsium"));
         }
     }
 }

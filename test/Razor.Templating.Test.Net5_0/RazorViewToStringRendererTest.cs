@@ -112,5 +112,24 @@ namespace Razor.Templating.Test.Net5_0
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("Injected Service Data: Some Random Value - "));
         }
+
+
+        [TestMethod]
+        public async Task RenderView_WithModel_WithViewImport()
+        {
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
+
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains("Plain text: Lorem Ipsium"));
+        }
     }
 }
