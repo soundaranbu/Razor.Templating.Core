@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +14,7 @@ using System.Linq;
 using System.Reflection;
 namespace Razor.Templating.Core
 {
-    internal static class RazorViewToStringRendererFactory
+    internal class RazorViewToStringRendererFactory
     {
         private static IServiceCollection? _serviceCollection;
 
@@ -39,11 +38,10 @@ namespace Razor.Templating.Core
             }
         }
         /// <summary>
-        /// Returns the instance of RazorViewToStringRenderer by resolving all the dependencies required to 
-        /// successfully render the razor views to string.
+        /// Returns the instance of IServiceScopeFactory
         /// </summary>
         /// <returns></returns>
-        public static RazorViewToStringRenderer CreateRenderer()
+        public IServiceScopeFactory CreateRendererServiceScopeFactory()
         {
             var services = ServiceCollection;
 
@@ -89,17 +87,16 @@ namespace Razor.Templating.Core
             {
                 o.FileProviders.Add(fileProvider);
             });
-            services.TryAddSingleton<RazorViewToStringRenderer>();
+            services.TryAddTransient<RazorViewToStringRenderer>();
 
-            var provider = services.BuildServiceProvider();
-            return provider.GetRequiredService<RazorViewToStringRenderer>();
+            return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
         }
 
         /// <summary>
         /// Returns the path of the main executable file using which the application is started
         /// </summary>
         /// <returns></returns>
-        private static string? GetMainExecutableDirectory()
+        private string? GetMainExecutableDirectory()
         {
             using var processModule = Process.GetCurrentProcess().MainModule;
             return Path.GetDirectoryName(processModule?.FileName);
@@ -110,7 +107,7 @@ namespace Razor.Templating.Core
         /// </summary>
         /// <param name="directory"></param>
         /// <returns>Absolute paths of the RCL assemblies</returns>
-        private static List<string> GetRazorClassLibraryAssemblyFilesPath(string directory)
+        private List<string> GetRazorClassLibraryAssemblyFilesPath(string directory)
         {
             return Directory.GetFiles(directory, "*.Views.dll").ToList();
         }
@@ -121,7 +118,7 @@ namespace Razor.Templating.Core
         /// <param name="assembliesBaseDirectory"></param>
         /// <param name="mainExecutableDirectory"></param>
         /// <returns></returns>
-        private static List<string> GetRazorClassLibraryAssemblyFilesPath(string assembliesBaseDirectory, string? mainExecutableDirectory)
+        private List<string> GetRazorClassLibraryAssemblyFilesPath(string assembliesBaseDirectory, string? mainExecutableDirectory)
         {
             Log("Finding razor assemblies from Assembly Base Directory");
             var viewAssemblyFiles = GetRazorClassLibraryAssemblyFilesPath(assembliesBaseDirectory);
@@ -144,7 +141,7 @@ namespace Razor.Templating.Core
         /// </summary>
         /// <param name="assembliesBaseDirectory"></param>
         /// <returns></returns>
-        private static string GetWebRootDirectory(string assembliesBaseDirectory)
+        private string GetWebRootDirectory(string assembliesBaseDirectory)
         {
             var webRootDirectory = Path.Combine(assembliesBaseDirectory, "wwwroot");
             if (!Directory.Exists(webRootDirectory))
@@ -155,24 +152,7 @@ namespace Razor.Templating.Core
             return webRootDirectory;
         }
 
-
-        /// <summary>
-        /// Loads the RCL assemblies to the application parts.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="viewAssemblyFiles"></param>
-        private static void AddViewAssemblyApplicationParts(this IMvcCoreBuilder builder, List<string> viewAssemblyFiles)
-        {
-            foreach (var assemblyFile in viewAssemblyFiles)
-            {
-                var viewAssembly = Assembly.LoadFile(assemblyFile);
-
-                builder.PartManager.ApplicationParts.Add(new CompiledRazorAssemblyPart(viewAssembly));
-            }
-        }
-
-
-        private static void Log(string message)
+        private void Log(string message)
         {
 #if DEBUG
             Console.ForegroundColor = ConsoleColor.Yellow;

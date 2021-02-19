@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,31 +8,31 @@ using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public static class RazorTemplateEngine
+    public class RazorTemplateEngine
     {
-        private static RazorViewToStringRenderer? _razorViewToStringRenderer;
+        private static IServiceScopeFactory? _rendererServiceScopeFactory;
 
         /// <summary>
         /// Creates the cache of RazorViewToStringRenderer. If already initialized, re-initializes.
         /// </summary>
         public static void Initialize()
         {
-            _razorViewToStringRenderer = null;
-            GetRenderer();
+            _rendererServiceScopeFactory = null;
+            GetRendererServiceScopeFactory();
         }
 
         /// <summary>
-        /// Get the RazorViewToStringRenderer object from cache if already exists else creates a new object.
+        /// Get the ServiceScopeFactory object from static property cache if already exists else creates a new object.
         /// </summary>
         /// <returns></returns>
-        private static RazorViewToStringRenderer GetRenderer()
+        private static IServiceScopeFactory GetRendererServiceScopeFactory()
         {
 
-            if (_razorViewToStringRenderer is null)
+            if (_rendererServiceScopeFactory is null)
             {
-                _razorViewToStringRenderer = RazorViewToStringRendererFactory.CreateRenderer();
+                _rendererServiceScopeFactory = new RazorViewToStringRendererFactory().CreateRendererServiceScopeFactory();
             }
-            return _razorViewToStringRenderer;
+            return _rendererServiceScopeFactory;
         }
 
         /// <summary>
@@ -41,7 +42,11 @@ namespace Razor.Templating.Core
         /// <returns>Rendered string from the view</returns>
         public static async Task<string> RenderAsync([DisallowNull] string viewName)
         {
-            return await GetRenderer().RenderViewToStringAsync<object>(viewName, default).ConfigureAwait(false);
+            using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
+            {
+                var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+                return await renderer.RenderViewToStringAsync<object>(viewName, default).ConfigureAwait(false);
+            }
         }
 
         /// <summary>
@@ -53,7 +58,11 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         public static async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
         {
-            return await GetRenderer().RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
+            using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
+            {
+                var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+                return await renderer.RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
+            }
         }
 
         /// <summary>
@@ -65,7 +74,7 @@ namespace Razor.Templating.Core
         /// <param name="viewData">ViewData</param>
         /// <returns></returns>
         public static async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
-        {
+        { 
             var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
             if (!(viewData is null))
             {
@@ -75,7 +84,11 @@ namespace Razor.Templating.Core
                 }
             }
 
-            return await GetRenderer().RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
+            using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
+            {
+                var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+                return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
+            }
         }
     }
 }
