@@ -41,6 +41,17 @@ namespace ExampleWebApp.Controllers
             return Ok(renderedString);
         }
 
+        /// <summary>
+        /// Add /Home/ViewComponent to the URL to view this page
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> ViewComponent()
+        {
+            //Render View From the Web Application with View Component
+            var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
+            return Ok(renderedString);
+        }
+
         public IActionResult Privacy()
         {
             return View();

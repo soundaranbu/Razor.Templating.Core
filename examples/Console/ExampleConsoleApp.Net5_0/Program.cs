@@ -12,6 +12,8 @@ namespace ExampleConsoleApp.Net5_0
         {
             try
             {
+                RazorTemplateEngine.Initialize();
+
                 System.Console.WriteLine(DateTime.Now);
                 var model = new ExampleModel()
                 {
@@ -26,6 +28,13 @@ namespace ExampleConsoleApp.Net5_0
                 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 System.Console.Write(html);
                 System.Console.WriteLine(DateTime.Now);
+
+
+                // Render View with View Component
+                html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
+                System.Console.Write(html);
+                System.Console.WriteLine(DateTime.Now);
+
             }
             catch (System.Exception e)
             {

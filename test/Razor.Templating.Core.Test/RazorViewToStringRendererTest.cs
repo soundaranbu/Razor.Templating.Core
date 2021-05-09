@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ExampleRazorTemplatesLibrary.Models;
 using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Razor.Templating.Core;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Razor.Templating.Test.Net5_0
 {
@@ -14,14 +14,15 @@ namespace Razor.Templating.Test.Net5_0
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            //Optionally call this to create cache of the renderer
-            //Otherwise, render time will be more than usual on first time only
-            RazorTemplateEngine.Initialize();
+
         }
 
         [TestMethod]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
+            //Optionally call this to create cache of the renderer
+            //Otherwise, render time will be more than usual on first time only
+            RazorTemplateEngine.Initialize();
             // Arrange
             var model = new ExampleModel()
             {
@@ -142,6 +143,17 @@ namespace Razor.Templating.Test.Net5_0
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>"));
             Assert.IsTrue(html.Contains(@"<a href="""">All Speakers</a>"));
+        }
+
+        [TestMethod]
+        public async Task RenderView_WithViewComponent()
+        {
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains(@"Example View Component!"));
         }
     }
 }
