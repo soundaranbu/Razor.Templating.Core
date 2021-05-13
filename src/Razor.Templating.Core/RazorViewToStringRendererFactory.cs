@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 namespace Razor.Templating.Core
 {
     internal class RazorViewToStringRendererFactory
@@ -78,10 +80,26 @@ namespace Razor.Templating.Core
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
 
-            var viewAssemblyFiles = GetRazorClassLibraryAssemblyFilesPath(assembliesBaseDirectory, mainExecutableDirectory);
             //ref: https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
             //load view assembly application parts to find the view from shared libraries
-            builder.AddViewAssemblyApplicationParts(viewAssemblyFiles);
+            builder.ConfigureApplicationPartManager(manager =>
+            {
+                var parts = GetApplicationParts();
+                Log($"Found {parts.Count} application parts");
+                foreach (var part in parts)
+                {
+                    // For MVC projects, application parts are already added by the framework
+                    if (!manager.ApplicationParts.Any(x => x.Name == part.Name))
+                    {
+                        manager.ApplicationParts.Add(part);
+                        Log($"Application part added {part.Name}");
+                    }
+                    else
+                    {
+                        Log($"Application part already added {part.Name}");
+                    }
+                }
+            });
 
             services.Configure<MvcRazorRuntimeCompilationOptions>(o =>
             {
@@ -113,26 +131,52 @@ namespace Razor.Templating.Core
         }
 
         /// <summary>
-        /// Get the all the RCL assembly file paths from all possible locations
+        /// Get all the application parts that are available in the published project
+        /// What is application part? https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/app-parts?view=aspnetcore-5.0
         /// </summary>
-        /// <param name="assembliesBaseDirectory"></param>
-        /// <param name="mainExecutableDirectory"></param>
         /// <returns></returns>
-        private List<string> GetRazorClassLibraryAssemblyFilesPath(string assembliesBaseDirectory, string? mainExecutableDirectory)
+        private static List<ApplicationPart> GetApplicationParts()
         {
-            Log("Finding razor assemblies from Assembly Base Directory");
-            var viewAssemblyFiles = GetRazorClassLibraryAssemblyFilesPath(assembliesBaseDirectory);
-
-            // if RCL assemblies are found at the main executable directory, add them as well.
-            if (mainExecutableDirectory?.Length > 0 && Directory.Exists(mainExecutableDirectory) && !mainExecutableDirectory.Equals(assembliesBaseDirectory))
+            // In ASP.NET Core MVC, the main entry assembly has ApplicationPartAttibute using which the RCL libraries
+            // are identified and their application parts are loaded. This attibute is added only when the project attibute
+            // is set to Microsoft.NET.Sdk.Web
+            // But for other types of projects whose sdk is generally Microsoft.NET.Sdk there won't be any ApplicationPartAttribute added
+            // Hence we need to look over all the assemblies and see if they are RCL assemblies
+            // Thanks to ASP.NET Core source code https://github.com/dotnet/aspnetcore/tree/v5.0.5/src/Mvc/Mvc.Core/src/ApplicationParts
+            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var applicationParts = new List<ApplicationPart>();
+            var seenAssemblies = new HashSet<Assembly>();
+            foreach (var assembly in allAssemblies)
             {
-                Log("Finding razor assemblies from Main Executable Directory");
-                viewAssemblyFiles.AddRange(GetRazorClassLibraryAssemblyFilesPath(mainExecutableDirectory));
+                if (!seenAssemblies.Add(assembly))
+                {
+                    continue;
+                }
+
+                // RCL libraries are decorated with RelatedAssemblyAttribute for the compiled Views assembly
+                // Example: ExampleRazorTemplatesLibrary.dll will contain [assembly: RelatedAssembly("ExampleRazorTemplatesLibrary.Views")]
+                var relatedAssemblies = RelatedAssemblyAttribute.GetRelatedAssemblies(assembly, false);
+                foreach (var relatedAssembly in relatedAssemblies)
+                {
+                    // we can safely say that this assembly is auto generated pre compiled RCL
+                    if (relatedAssembly.ManifestModule.Name?.EndsWith(".Views.dll") ?? false)
+                    {
+                        var applicationPartFactory = ApplicationPartFactory.GetApplicationPartFactory(relatedAssembly);
+                        var viewAssemblyApplicationParts = applicationPartFactory.GetApplicationParts(relatedAssembly);
+                        applicationParts.AddRange(viewAssemblyApplicationParts);
+                    }
+                }
+
+                if (relatedAssemblies.Any())
+                {
+                    // For View Component Feature and others to work, we need to add the application part of the main RCL assembly.
+                    var partFactory = ApplicationPartFactory.GetApplicationPartFactory(assembly);
+                    var mainViewAssemblyApplicationParts = partFactory.GetApplicationParts(assembly);
+                    applicationParts.AddRange(mainViewAssemblyApplicationParts);
+                }
             }
-            Log($"Found {viewAssemblyFiles.Count} RCL assemblies");
-            Log($"Found {viewAssemblyFiles.Distinct().Count()} distinct RCL assemblies");
-            Log($"Following RCL assemblies were found: {string.Join(Environment.NewLine, viewAssemblyFiles.Distinct())}");
-            return viewAssemblyFiles.Distinct().ToList();
+
+            return applicationParts;
         }
 
         /// <summary>
