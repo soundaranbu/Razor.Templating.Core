@@ -121,29 +121,26 @@ namespace Razor.Templating.Core
         }
 
         /// <summary>
-        /// Looks for Razor Class Library(RCL) assemblies at the given directory
-        /// </summary>
-        /// <param name="directory"></param>
-        /// <returns>Absolute paths of the RCL assemblies</returns>
-        private List<string> GetRazorClassLibraryAssemblyFilesPath(string directory)
-        {
-            return Directory.GetFiles(directory, "*.Views.dll").ToList();
-        }
-
-        /// <summary>
         /// Get all the application parts that are available in the published project
         /// What is application part? https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/app-parts?view=aspnetcore-5.0
         /// </summary>
         /// <returns></returns>
-        private static List<ApplicationPart> GetApplicationParts()
+        private List<ApplicationPart> GetApplicationParts()
         {
             // In ASP.NET Core MVC, the main entry assembly has ApplicationPartAttibute using which the RCL libraries
-            // are identified and their application parts are loaded. This attibute is added only when the project attibute
+            // are identified and their application parts are loaded. This attibute is added only when the project sdk
             // is set to Microsoft.NET.Sdk.Web
             // But for other types of projects whose sdk is generally Microsoft.NET.Sdk there won't be any ApplicationPartAttribute added
             // Hence we need to look over all the assemblies and see if they are RCL assemblies
             // Thanks to ASP.NET Core source code https://github.com/dotnet/aspnetcore/tree/v5.0.5/src/Mvc/Mvc.Core/src/ApplicationParts
-            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+
+            // To support Azure Functions
+            var binAssemblies = GetAllBinDirectoryAssemblies();
+            if (binAssemblies?.Any() ?? false)
+            {
+                allAssemblies.AddRange(binAssemblies);
+            }
             var applicationParts = new List<ApplicationPart>();
             var seenAssemblies = new HashSet<Assembly>();
             foreach (var assembly in allAssemblies)
@@ -158,25 +155,65 @@ namespace Razor.Templating.Core
                 var relatedAssemblies = RelatedAssemblyAttribute.GetRelatedAssemblies(assembly, false);
                 foreach (var relatedAssembly in relatedAssemblies)
                 {
+                    Log($"Adding ApplicationParts for pre-compiled view assembly {relatedAssembly.FullName}");
                     // we can safely say that this assembly is auto generated pre compiled RCL
-                    if (relatedAssembly.ManifestModule.Name?.EndsWith(".Views.dll") ?? false)
+                    if (relatedAssembly.FullName?.Contains(".Views,") ?? false)
                     {
-                        var applicationPartFactory = ApplicationPartFactory.GetApplicationPartFactory(relatedAssembly);
-                        var viewAssemblyApplicationParts = applicationPartFactory.GetApplicationParts(relatedAssembly);
-                        applicationParts.AddRange(viewAssemblyApplicationParts);
+                        AddApplicationParts(ref applicationParts, relatedAssembly);
                     }
                 }
 
-                if (relatedAssemblies.Any())
-                {
+                //if (relatedAssemblies.Any())
+                //{
+                    Log($"Adding ApplicationParts for main assembly {assembly.GetName()}");
                     // For View Component Feature and others to work, we need to add the application part of the main RCL assembly.
-                    var partFactory = ApplicationPartFactory.GetApplicationPartFactory(assembly);
-                    var mainViewAssemblyApplicationParts = partFactory.GetApplicationParts(assembly);
-                    applicationParts.AddRange(mainViewAssemblyApplicationParts);
-                }
+                    AddApplicationParts(ref applicationParts, assembly);
+                //}
             }
 
             return applicationParts;
+        }
+
+        private void AddApplicationParts(ref List<ApplicationPart> applicationParts, Assembly assembly)
+        {
+            var applicationPartFactory = ApplicationPartFactory.GetApplicationPartFactory(assembly);
+            var assemblyApplicationParts = applicationPartFactory.GetApplicationParts(assembly);
+            foreach (var assemblyApplicationPart in assemblyApplicationParts)
+            {
+                if (!applicationParts.Any(applicationPart => applicationPart.Name == assemblyApplicationPart.Name))
+                {
+                    applicationParts.Add(assemblyApplicationPart);
+                }
+                else
+                {
+                    Log($"ApplicationPart {assemblyApplicationPart.Name} already added");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get all assemblies in the bin directory.
+        /// This is specifically for Azure functions
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Assembly> GetAllBinDirectoryAssemblies()
+        {
+            // for single file apps, this returns null
+            var executingAssemblyLocation = Assembly.GetExecutingAssembly()?.Location;
+            Log($"Executing Assembly Bin Path: {executingAssemblyLocation}");
+            if (!string.IsNullOrEmpty(executingAssemblyLocation))
+            {
+                var binPath = Path.GetDirectoryName(executingAssemblyLocation);
+                var dllFiles = Directory.GetFiles(binPath, "*.dll", SearchOption.TopDirectoryOnly);
+                Log($"Found {dllFiles?.Count()} dll files in executing assembly path");
+                foreach (string dll in dllFiles ?? new string[] { })
+                {
+                    Assembly loadedAssembly = Assembly.LoadFile(dll);
+                    yield return loadedAssembly;
+                }
+            }
+
+            yield break;
         }
 
         /// <summary>
