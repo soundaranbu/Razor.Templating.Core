@@ -10,15 +10,25 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 ## Supported Application Types
 
+|                 | .NET Core 3.0 | .NET Core 3.1 | .NET 5  |
+|-----------------|---------------|---------------|---------|
+| Console         | &check;       | &check;       | &check; |
+| Api             | &check;       | &check;       | &check; |
+| Mvc             | &check;       | &check;       | &check; |
+| Worker Service  | &check;       | &check;       | &check; |
+| WPF             | &check;       | &check;       | &check; |
+| WinForms        | &check;       | &check;       | &check; |
+| Azure Functions | &check;       | &check;       | &check; | 
 
-|                | .NET Core 3.0 | .NET Core 3.1 | .NET 5  |
-|----------------|---------------|---------------|---------|
-| Console        | &check;       | &check;       | &check; |
-| Api            | &check;       | &check;       | &check; |
-| Mvc            | &check;       | &check;       | &check; |
-| Worker Service | &check;       | &check;       | &check; |
-| WPF            | &check;       | &check;       | &check; |
-| WinForms       | &check;       | &check;       | &check; |
+## Supported View Features
+| MVC Razor View Features           |               |
+|---------------------------------- |---------------|
+| ViewBag                           | &check;       |
+| ViewData                          | &check;       |
+| Partial Views                     | &check;       |
+| Tag Helpers                       | &check;       |
+| View Components                   | &check;       |
+| Dependency Injection into Views   | &check;       |
 
 ## Applications
 - Email Templating
@@ -33,7 +43,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.5.0" />
+<PackageReference Include="Razor.Templating.Core" Version="1.6.0-rc.2" />
 ```
 
 ## Simple Usage:
@@ -66,6 +76,8 @@ services.AddRazorTemplating();
 ```
 or in console or other applications, add as below
 ```csharp
+using Microsoft.Extensions.DependencyInjection;
+
 // Add dependencies to the service collection
 var services = new ServiceCollection();
 services.AddTransient<ExampleService>();
