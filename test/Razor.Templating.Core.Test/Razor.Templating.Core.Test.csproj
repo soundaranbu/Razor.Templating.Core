@@ -23,7 +23,8 @@
   <!--Test Coverage Report-->
   <Target Name="Coverage" AfterTargets="Build">
     <!-- EXE -->
-    <Exec Command="dotnet $(UserProfile)\.nuget\packages\reportgenerator\4.8.9\tools\net5.0\ReportGenerator.dll -reports:coverage.net5.0.cobertura.xml -targetdir:Reports -reporttypes:HtmlInline_AzurePipelines;Badges" />
+    <Exec Condition="$([MSBuild]::IsOSPlatform('Windows'))" Command="dotnet $(UserProfile)\.nuget\packages\reportgenerator\4.8.9\tools\net5.0\ReportGenerator.dll -reports:coverage.net5.0.cobertura.xml -targetdir:Reports -reporttypes:HtmlInline_AzurePipelines;Badges" />
+    <Exec Condition="$([MSBuild]::IsOSPlatform('Linux'))" Command="dotnet ~/.nuget/packages/reportgenerator/4.8.9/tools/net5.0/ReportGenerator.dll -reports:coverage.net5.0.cobertura.xml -targetdir:Reports -reporttypes:HtmlInline_AzurePipelines;Badges" />
   </Target>
 
 
