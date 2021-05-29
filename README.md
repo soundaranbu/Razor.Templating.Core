@@ -3,7 +3,7 @@
 # Razor Templating 
 
 ![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
-![Coverage](https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_branchcoverage_blue.svg)
+![Coverage](https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_linecoverage_green.svg)
 
 Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this. Render your .cshtml files into string easily using this library.
 
