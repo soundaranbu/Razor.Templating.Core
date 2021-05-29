@@ -1,270 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.8787999999999999" branch-rate="0.8194" version="1.9" timestamp="1622183061" lines-covered="254" lines-valid="289" branches-covered="59" branches-valid="72">
+<coverage line-rate="0.9459000000000001" branch-rate="0.8148000000000001" version="1.9" timestamp="1622282723" lines-covered="245" lines-valid="259" branches-covered="44" branches-valid="54">
   <sources>
-    <source>D:\Projects\MyProjects\RazorTemplating\</source>
+    <source>D:\Projects\MyProjects\RazorTemplating\src\Razor.Templating.Core\</source>
   </sources>
   <packages>
-    <package name="ExampleRazorTemplatesLibrary" line-rate="0.5333" branch-rate="1" complexity="6">
+    <package name="Razor.Templating.Core" line-rate="0.9459000000000001" branch-rate="0.8148000000000001" complexity="73">
       <classes>
-        <class name="ExampleRazorTemplatesLibrary.ExampleComponentViewComponent/&lt;InvokeAsync&gt;d__0" filename="examples\Templates\ExampleAppRazorTemplates\Views\Shared\Components\ExampleComponent\ExampleComponentViewComponent.cs" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="12" hits="1" branch="False" />
-                <line number="13" hits="1" branch="False" />
-                <line number="14" hits="1" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="12" hits="1" branch="False" />
-            <line number="13" hits="1" branch="False" />
-            <line number="14" hits="1" branch="False" />
-          </lines>
-        </class>
-        <class name="ExampleRazorTemplatesLibrary.Services.ExampleConfigurationService" filename="examples\Templates\ExampleAppRazorTemplates\Services\ExampleConfigurationService.cs" line-rate="0" branch-rate="1" complexity="2">
-          <methods>
-            <method name="GetConfigValue" signature="()" line-rate="0" branch-rate="1" complexity="1">
-              <lines>
-                <line number="16" hits="0" branch="False" />
-                <line number="17" hits="0" branch="False" />
-                <line number="18" hits="0" branch="False" />
-              </lines>
-            </method>
-            <method name=".ctor" signature="(Microsoft.Extensions.Configuration.IConfiguration)" line-rate="0" branch-rate="1" complexity="1">
-              <lines>
-                <line number="10" hits="0" branch="False" />
-                <line number="11" hits="0" branch="False" />
-                <line number="12" hits="0" branch="False" />
-                <line number="13" hits="0" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="16" hits="0" branch="False" />
-            <line number="17" hits="0" branch="False" />
-            <line number="18" hits="0" branch="False" />
-            <line number="10" hits="0" branch="False" />
-            <line number="11" hits="0" branch="False" />
-            <line number="12" hits="0" branch="False" />
-            <line number="13" hits="0" branch="False" />
-          </lines>
-        </class>
-        <class name="ExampleRazorTemplatesLibrary.Services.ExampleService" filename="examples\Templates\ExampleAppRazorTemplates\Services\ExampleService.cs" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="GetSomeValue" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="8" hits="1" branch="False" />
-                <line number="9" hits="1" branch="False" />
-                <line number="10" hits="1" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="8" hits="1" branch="False" />
-            <line number="9" hits="1" branch="False" />
-            <line number="10" hits="1" branch="False" />
-          </lines>
-        </class>
-        <class name="ExampleRazorTemplatesLibrary.Models.ExampleModel" filename="examples\Templates\ExampleAppRazorTemplates\Models\ExampleModel.cs" line-rate="1" branch-rate="1" complexity="2">
-          <methods>
-            <method name="get_PlainText" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="5" hits="6" branch="False" />
-              </lines>
-            </method>
-            <method name="get_HtmlContent" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="6" hits="6" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="5" hits="6" branch="False" />
-            <line number="6" hits="6" branch="False" />
-          </lines>
-        </class>
-      </classes>
-    </package>
-    <package name="ExampleRazorTemplatesLibrary.Views" line-rate="1" branch-rate="0.9444" complexity="24">
-      <classes>
-        <class name="AspNetCore.Views_ExamplePartialView/&lt;ExecuteAsync&gt;d__0" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExamplePartialView.cshtml" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="4" hits="2" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="4" hits="2" branch="False" />
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_ExampleView/&lt;&lt;ExecuteAsync&gt;b__8_1&gt;d" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExampleView.cshtml" line-rate="1" branch-rate="1" complexity="4">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="4">
-              <lines>
-                <line number="7" hits="1" branch="False" />
-                <line number="8" hits="1" branch="True" condition-coverage="100% (4/4)">
-                  <conditions>
-                    <condition number="75" type="jump" coverage="100%" />
-                    <condition number="167" type="jump" coverage="100%" />
-                  </conditions>
-                </line>
-                <line number="9" hits="1" branch="False" />
-                <line number="10" hits="1" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="7" hits="1" branch="False" />
-            <line number="8" hits="1" branch="True" condition-coverage="100% (4/4)">
-              <conditions>
-                <condition number="75" type="jump" coverage="100%" />
-                <condition number="167" type="jump" coverage="100%" />
-              </conditions>
-            </line>
-            <line number="9" hits="1" branch="False" />
-            <line number="10" hits="1" branch="False" />
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_ExampleViewServiceInjection/&lt;&lt;ExecuteAsync&gt;b__8_1&gt;d" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExampleViewServiceInjection.cshtml" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="6" hits="1" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="6" hits="1" branch="False" />
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_ExampleViewUsingViewImports/&lt;ExecuteAsync&gt;d__0" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExampleViewUsingViewImports.cshtml" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="4" hits="1" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="4" hits="1" branch="False" />
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_ExampleViewWithLayout/&lt;ExecuteAsync&gt;d__0" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExampleViewWithLayout.cshtml" line-rate="1" branch-rate="1" complexity="4">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="4">
-              <lines>
-                <line number="2" hits="2" branch="False" />
-                <line number="5" hits="2" branch="True" condition-coverage="100% (4/4)">
-                  <conditions>
-                    <condition number="30" type="jump" coverage="100%" />
-                    <condition number="122" type="jump" coverage="100%" />
-                  </conditions>
-                </line>
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="2" hits="2" branch="False" />
-            <line number="5" hits="2" branch="True" condition-coverage="100% (4/4)">
-              <conditions>
-                <condition number="30" type="jump" coverage="100%" />
-                <condition number="122" type="jump" coverage="100%" />
-              </conditions>
-            </line>
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_ExampleViewWithTagHelpers/&lt;ExecuteAsync&gt;d__17" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExampleViewWithTagHelpers.cshtml" line-rate="1" branch-rate="0.8332999999999999" complexity="6">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="0.8332999999999999" complexity="6">
-              <lines>
-                <line number="3" hits="1" branch="True" condition-coverage="83.33% (5/6)">
-                  <conditions>
-                    <condition number="418" type="jump" coverage="50%" />
-                    <condition number="760" type="jump" coverage="100%" />
-                    <condition number="1306" type="jump" coverage="100%" />
-                  </conditions>
-                </line>
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="3" hits="1" branch="True" condition-coverage="83.33% (5/6)">
-              <conditions>
-                <condition number="418" type="jump" coverage="50%" />
-                <condition number="760" type="jump" coverage="100%" />
-                <condition number="1306" type="jump" coverage="100%" />
-              </conditions>
-            </line>
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_ExampleViewWithViewComponent/&lt;ExecuteAsync&gt;d__0" filename="examples\Templates\ExampleAppRazorTemplates\Views\ExampleViewWithViewComponent.cshtml" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="2" hits="1" branch="False" />
-                <line number="5" hits="1" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="2" hits="1" branch="False" />
-            <line number="5" hits="1" branch="False" />
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_Shared__Layout1/&lt;&lt;ExecuteAsync&gt;b__8_0&gt;d" filename="examples\Templates\ExampleAppRazorTemplates\Views\Shared\_Layout1.cshtml" line-rate="1" branch-rate="1" complexity="4">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="4">
-              <lines>
-                <line number="6" hits="7" branch="True" condition-coverage="100% (4/4)">
-                  <conditions>
-                    <condition number="30" type="jump" coverage="100%" />
-                    <condition number="122" type="jump" coverage="100%" />
-                  </conditions>
-                </line>
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="6" hits="7" branch="True" condition-coverage="100% (4/4)">
-              <conditions>
-                <condition number="30" type="jump" coverage="100%" />
-                <condition number="122" type="jump" coverage="100%" />
-              </conditions>
-            </line>
-          </lines>
-        </class>
-        <class name="AspNetCore.Views_Shared__Layout1/&lt;&lt;ExecuteAsync&gt;b__8_1&gt;d" filename="examples\Templates\ExampleAppRazorTemplates\Views\Shared\_Layout1.cshtml" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="10" hits="7" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="10" hits="7" branch="False" />
-          </lines>
-        </class>
-        <class name="AspNetCore.Views__ViewStart/&lt;ExecuteAsync&gt;d__0" filename="examples\Templates\ExampleAppRazorTemplates\Views\_ViewStart.cshtml" line-rate="1" branch-rate="1" complexity="1">
-          <methods>
-            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
-              <lines>
-                <line number="2" hits="8" branch="False" />
-              </lines>
-            </method>
-          </methods>
-          <lines>
-            <line number="2" hits="8" branch="False" />
-          </lines>
-        </class>
-      </classes>
-    </package>
-    <package name="Razor.Templating.Core" line-rate="0.8918" branch-rate="0.7777" complexity="73">
-      <classes>
-        <class name="Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions" filename="src\Razor.Templating.Core\Infrastructure\ServiceCollectionExtensions.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions" filename="Infrastructure\ServiceCollectionExtensions.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
             <method name="AddRazorTemplating" signature="(Microsoft.Extensions.DependencyInjection.IServiceCollection)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
@@ -282,7 +24,7 @@
             <line number="11" hits="1" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorTemplateEngine" filename="src\Razor.Templating.Core\RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="3">
+        <class name="Razor.Templating.Core.RazorTemplateEngine" filename="RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="3">
           <methods>
             <method name="Initialize" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
@@ -294,8 +36,8 @@
             </method>
             <method name="GetRendererServiceScopeFactory" signature="()" line-rate="1" branch-rate="1" complexity="2">
               <lines>
-                <line number="29" hits="10" branch="False" />
-                <line number="31" hits="10" branch="True" condition-coverage="100% (2/2)">
+                <line number="29" hits="11" branch="False" />
+                <line number="31" hits="11" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="11" type="jump" coverage="100%" />
                   </conditions>
@@ -303,8 +45,8 @@
                 <line number="32" hits="2" branch="False" />
                 <line number="33" hits="2" branch="False" />
                 <line number="34" hits="2" branch="False" />
-                <line number="35" hits="10" branch="False" />
-                <line number="36" hits="10" branch="False" />
+                <line number="35" hits="11" branch="False" />
+                <line number="36" hits="11" branch="False" />
               </lines>
             </method>
           </methods>
@@ -313,8 +55,8 @@
             <line number="20" hits="2" branch="False" />
             <line number="21" hits="2" branch="False" />
             <line number="22" hits="2" branch="False" />
-            <line number="29" hits="10" branch="False" />
-            <line number="31" hits="10" branch="True" condition-coverage="100% (2/2)">
+            <line number="29" hits="11" branch="False" />
+            <line number="31" hits="11" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="11" type="jump" coverage="100%" />
               </conditions>
@@ -322,33 +64,33 @@
             <line number="32" hits="2" branch="False" />
             <line number="33" hits="2" branch="False" />
             <line number="34" hits="2" branch="False" />
-            <line number="35" hits="10" branch="False" />
-            <line number="36" hits="10" branch="False" />
+            <line number="35" hits="11" branch="False" />
+            <line number="36" hits="11" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorTemplateEngine/&lt;RenderAsync&gt;d__3" filename="src\Razor.Templating.Core\RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="Razor.Templating.Core.RazorTemplateEngine/&lt;RenderAsync&gt;d__3" filename="RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
             <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="44" hits="4" branch="False" />
-                <line number="45" hits="4" branch="False" />
-                <line number="46" hits="4" branch="False" />
-                <line number="47" hits="4" branch="False" />
-                <line number="48" hits="4" branch="False" />
+                <line number="44" hits="5" branch="False" />
+                <line number="45" hits="5" branch="False" />
+                <line number="46" hits="5" branch="False" />
+                <line number="47" hits="5" branch="False" />
+                <line number="48" hits="5" branch="False" />
                 <line number="50" hits="4" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="44" hits="4" branch="False" />
-            <line number="45" hits="4" branch="False" />
-            <line number="46" hits="4" branch="False" />
-            <line number="47" hits="4" branch="False" />
-            <line number="48" hits="4" branch="False" />
+            <line number="44" hits="5" branch="False" />
+            <line number="45" hits="5" branch="False" />
+            <line number="46" hits="5" branch="False" />
+            <line number="47" hits="5" branch="False" />
+            <line number="48" hits="5" branch="False" />
             <line number="50" hits="4" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorTemplateEngine/&lt;RenderAsync&gt;d__4`1" filename="src\Razor.Templating.Core\RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="Razor.Templating.Core.RazorTemplateEngine/&lt;RenderAsync&gt;d__4`1" filename="RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
             <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
@@ -370,7 +112,7 @@
             <line number="66" hits="2" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorTemplateEngine/&lt;RenderAsync&gt;d__5`1" filename="src\Razor.Templating.Core\RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="4">
+        <class name="Razor.Templating.Core.RazorTemplateEngine/&lt;RenderAsync&gt;d__5`1" filename="RazorTemplateEngine.cs" line-rate="1" branch-rate="1" complexity="4">
           <methods>
             <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="4">
               <lines>
@@ -424,143 +166,143 @@
             <line number="92" hits="2" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorViewToStringRenderer" filename="src\Razor.Templating.Core\RazorViewToStringRenderer.cs" line-rate="0.6" branch-rate="0.25" complexity="6">
+        <class name="Razor.Templating.Core.RazorViewToStringRenderer" filename="RazorViewToStringRenderer.cs" line-rate="0.95" branch-rate="0.75" complexity="6">
           <methods>
-            <method name="FindView" signature="(Microsoft.AspNetCore.Mvc.ActionContext,System.String)" line-rate="0.2727" branch-rate="0.25" complexity="4">
+            <method name="FindView" signature="(Microsoft.AspNetCore.Mvc.ActionContext,System.String)" line-rate="0.909" branch-rate="0.75" complexity="4">
               <lines>
-                <line number="66" hits="8" branch="False" />
-                <line number="67" hits="8" branch="False" />
-                <line number="68" hits="8" branch="True" condition-coverage="50% (1/2)">
+                <line number="66" hits="9" branch="False" />
+                <line number="67" hits="9" branch="False" />
+                <line number="68" hits="9" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
-                    <condition number="26" type="jump" coverage="50%" />
+                    <condition number="26" type="jump" coverage="100%" />
                   </conditions>
                 </line>
                 <line number="69" hits="8" branch="False" />
                 <line number="70" hits="8" branch="False" />
-                <line number="73" hits="0" branch="False" />
-                <line number="74" hits="0" branch="True" condition-coverage="0% (0/2)">
+                <line number="73" hits="1" branch="False" />
+                <line number="74" hits="1" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
-                    <condition number="67" type="jump" coverage="0%" />
+                    <condition number="67" type="jump" coverage="50%" />
                   </conditions>
                 </line>
                 <line number="75" hits="0" branch="False" />
                 <line number="76" hits="0" branch="False" />
-                <line number="79" hits="0" branch="False" />
-                <line number="80" hits="0" branch="False" />
-                <line number="81" hits="0" branch="False" />
-                <line number="82" hits="0" branch="False" />
-                <line number="83" hits="0" branch="False" />
-                <line number="84" hits="0" branch="False" />
-                <line number="85" hits="0" branch="False" />
-                <line number="86" hits="0" branch="False" />
-                <line number="87" hits="0" branch="False" />
-                <line number="88" hits="0" branch="False" />
-                <line number="89" hits="0" branch="False" />
-                <line number="91" hits="0" branch="False" />
+                <line number="79" hits="1" branch="False" />
+                <line number="80" hits="1" branch="False" />
+                <line number="81" hits="1" branch="False" />
+                <line number="82" hits="1" branch="False" />
+                <line number="83" hits="1" branch="False" />
+                <line number="84" hits="1" branch="False" />
+                <line number="85" hits="1" branch="False" />
+                <line number="86" hits="1" branch="False" />
+                <line number="87" hits="1" branch="False" />
+                <line number="88" hits="1" branch="False" />
+                <line number="89" hits="1" branch="False" />
+                <line number="91" hits="1" branch="False" />
                 <line number="92" hits="8" branch="False" />
               </lines>
             </method>
             <method name="GetActionContext" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="95" hits="8" branch="False" />
-                <line number="96" hits="8" branch="False" />
-                <line number="97" hits="8" branch="False" />
-                <line number="98" hits="8" branch="False" />
-                <line number="99" hits="8" branch="False" />
-                <line number="100" hits="8" branch="False" />
-                <line number="101" hits="8" branch="False" />
-                <line number="102" hits="8" branch="False" />
-                <line number="103" hits="8" branch="False" />
+                <line number="95" hits="9" branch="False" />
+                <line number="96" hits="9" branch="False" />
+                <line number="97" hits="9" branch="False" />
+                <line number="98" hits="9" branch="False" />
+                <line number="99" hits="9" branch="False" />
+                <line number="100" hits="9" branch="False" />
+                <line number="101" hits="9" branch="False" />
+                <line number="102" hits="9" branch="False" />
+                <line number="103" hits="9" branch="False" />
               </lines>
             </method>
             <method name=".ctor" signature="(Microsoft.AspNetCore.Mvc.Razor.IRazorViewEngine,Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider,System.IServiceProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.AspNetCore.Routing.LinkGenerator)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="27" hits="8" branch="False" />
-                <line number="28" hits="8" branch="False" />
-                <line number="29" hits="8" branch="False" />
-                <line number="30" hits="8" branch="False" />
-                <line number="31" hits="8" branch="False" />
-                <line number="32" hits="8" branch="False" />
-                <line number="33" hits="8" branch="False" />
-                <line number="34" hits="8" branch="False" />
-                <line number="35" hits="8" branch="False" />
+                <line number="27" hits="9" branch="False" />
+                <line number="28" hits="9" branch="False" />
+                <line number="29" hits="9" branch="False" />
+                <line number="30" hits="9" branch="False" />
+                <line number="31" hits="9" branch="False" />
+                <line number="32" hits="9" branch="False" />
+                <line number="33" hits="9" branch="False" />
+                <line number="34" hits="9" branch="False" />
+                <line number="35" hits="9" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="66" hits="8" branch="False" />
-            <line number="67" hits="8" branch="False" />
-            <line number="68" hits="8" branch="True" condition-coverage="50% (1/2)">
+            <line number="66" hits="9" branch="False" />
+            <line number="67" hits="9" branch="False" />
+            <line number="68" hits="9" branch="True" condition-coverage="100% (2/2)">
               <conditions>
-                <condition number="26" type="jump" coverage="50%" />
+                <condition number="26" type="jump" coverage="100%" />
               </conditions>
             </line>
             <line number="69" hits="8" branch="False" />
             <line number="70" hits="8" branch="False" />
-            <line number="73" hits="0" branch="False" />
-            <line number="74" hits="0" branch="True" condition-coverage="0% (0/2)">
+            <line number="73" hits="1" branch="False" />
+            <line number="74" hits="1" branch="True" condition-coverage="50% (1/2)">
               <conditions>
-                <condition number="67" type="jump" coverage="0%" />
+                <condition number="67" type="jump" coverage="50%" />
               </conditions>
             </line>
             <line number="75" hits="0" branch="False" />
             <line number="76" hits="0" branch="False" />
-            <line number="79" hits="0" branch="False" />
-            <line number="80" hits="0" branch="False" />
-            <line number="81" hits="0" branch="False" />
-            <line number="82" hits="0" branch="False" />
-            <line number="83" hits="0" branch="False" />
-            <line number="84" hits="0" branch="False" />
-            <line number="85" hits="0" branch="False" />
-            <line number="86" hits="0" branch="False" />
-            <line number="87" hits="0" branch="False" />
-            <line number="88" hits="0" branch="False" />
-            <line number="89" hits="0" branch="False" />
-            <line number="91" hits="0" branch="False" />
+            <line number="79" hits="1" branch="False" />
+            <line number="80" hits="1" branch="False" />
+            <line number="81" hits="1" branch="False" />
+            <line number="82" hits="1" branch="False" />
+            <line number="83" hits="1" branch="False" />
+            <line number="84" hits="1" branch="False" />
+            <line number="85" hits="1" branch="False" />
+            <line number="86" hits="1" branch="False" />
+            <line number="87" hits="1" branch="False" />
+            <line number="88" hits="1" branch="False" />
+            <line number="89" hits="1" branch="False" />
+            <line number="91" hits="1" branch="False" />
             <line number="92" hits="8" branch="False" />
-            <line number="95" hits="8" branch="False" />
-            <line number="96" hits="8" branch="False" />
-            <line number="97" hits="8" branch="False" />
-            <line number="98" hits="8" branch="False" />
-            <line number="99" hits="8" branch="False" />
-            <line number="100" hits="8" branch="False" />
-            <line number="101" hits="8" branch="False" />
-            <line number="102" hits="8" branch="False" />
-            <line number="103" hits="8" branch="False" />
-            <line number="27" hits="8" branch="False" />
-            <line number="28" hits="8" branch="False" />
-            <line number="29" hits="8" branch="False" />
-            <line number="30" hits="8" branch="False" />
-            <line number="31" hits="8" branch="False" />
-            <line number="32" hits="8" branch="False" />
-            <line number="33" hits="8" branch="False" />
-            <line number="34" hits="8" branch="False" />
-            <line number="35" hits="8" branch="False" />
+            <line number="95" hits="9" branch="False" />
+            <line number="96" hits="9" branch="False" />
+            <line number="97" hits="9" branch="False" />
+            <line number="98" hits="9" branch="False" />
+            <line number="99" hits="9" branch="False" />
+            <line number="100" hits="9" branch="False" />
+            <line number="101" hits="9" branch="False" />
+            <line number="102" hits="9" branch="False" />
+            <line number="103" hits="9" branch="False" />
+            <line number="27" hits="9" branch="False" />
+            <line number="28" hits="9" branch="False" />
+            <line number="29" hits="9" branch="False" />
+            <line number="30" hits="9" branch="False" />
+            <line number="31" hits="9" branch="False" />
+            <line number="32" hits="9" branch="False" />
+            <line number="33" hits="9" branch="False" />
+            <line number="34" hits="9" branch="False" />
+            <line number="35" hits="9" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorViewToStringRenderer/&lt;RenderViewToStringAsync&gt;d__4`1" filename="src\Razor.Templating.Core\RazorViewToStringRenderer.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="Razor.Templating.Core.RazorViewToStringRenderer/&lt;RenderViewToStringAsync&gt;d__4`1" filename="RazorViewToStringRenderer.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
             <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="38" hits="6" branch="False" />
-                <line number="39" hits="6" branch="False" />
+                <line number="38" hits="7" branch="False" />
+                <line number="39" hits="7" branch="False" />
                 <line number="40" hits="6" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="38" hits="6" branch="False" />
-            <line number="39" hits="6" branch="False" />
+            <line number="38" hits="7" branch="False" />
+            <line number="39" hits="7" branch="False" />
             <line number="40" hits="6" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorViewToStringRenderer/&lt;RenderViewToStringAsync&gt;d__5`1" filename="src\Razor.Templating.Core\RazorViewToStringRenderer.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="Razor.Templating.Core.RazorViewToStringRenderer/&lt;RenderViewToStringAsync&gt;d__5`1" filename="RazorViewToStringRenderer.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
             <method name="MoveNext" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="43" hits="8" branch="False" />
-                <line number="44" hits="8" branch="False" />
-                <line number="45" hits="8" branch="False" />
+                <line number="43" hits="9" branch="False" />
+                <line number="44" hits="9" branch="False" />
+                <line number="45" hits="9" branch="False" />
                 <line number="47" hits="8" branch="False" />
                 <line number="48" hits="8" branch="False" />
                 <line number="49" hits="8" branch="False" />
@@ -579,9 +321,9 @@
             </method>
           </methods>
           <lines>
-            <line number="43" hits="8" branch="False" />
-            <line number="44" hits="8" branch="False" />
-            <line number="45" hits="8" branch="False" />
+            <line number="43" hits="9" branch="False" />
+            <line number="44" hits="9" branch="False" />
+            <line number="45" hits="9" branch="False" />
             <line number="47" hits="8" branch="False" />
             <line number="48" hits="8" branch="False" />
             <line number="49" hits="8" branch="False" />
@@ -598,7 +340,7 @@
             <line number="63" hits="8" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.CustomRouter" filename="src\Razor.Templating.Core\RazorViewToStringRenderer.cs" line-rate="0.5" branch-rate="1" complexity="2">
+        <class name="Razor.Templating.Core.CustomRouter" filename="RazorViewToStringRenderer.cs" line-rate="0.5" branch-rate="1" complexity="2">
           <methods>
             <method name="GetVirtualPath" signature="(Microsoft.AspNetCore.Routing.VirtualPathContext)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
@@ -624,7 +366,7 @@
             <line number="116" hits="0" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.RazorViewToStringRendererFactory" filename="src\Razor.Templating.Core\RazorViewToStringRendererFactory.cs" line-rate="0.9285" branch-rate="0.7142000000000001" complexity="15">
+        <class name="Razor.Templating.Core.RazorViewToStringRendererFactory" filename="RazorViewToStringRendererFactory.cs" line-rate="0.9285" branch-rate="0.7142000000000001" complexity="15">
           <methods>
             <method name="get_ServiceCollection" signature="()" line-rate="1" branch-rate="1" complexity="2">
               <lines>
@@ -840,7 +582,7 @@
             <line number="136" hits="2" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.Infrastructure.ApplicationPartsManager" filename="src\Razor.Templating.Core\Infrastructure\ApplicationPartsManager.cs" line-rate="0.9411" branch-rate="0.8332999999999999" complexity="30">
+        <class name="Razor.Templating.Core.Infrastructure.ApplicationPartsManager" filename="Infrastructure\ApplicationPartsManager.cs" line-rate="0.9411" branch-rate="0.8332999999999999" complexity="30">
           <methods>
             <method name="GetApplicationParts" signature="()" line-rate="1" branch-rate="0.875" complexity="16">
               <lines>
@@ -1096,7 +838,7 @@
             <line number="115" hits="2" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.Infrastructure.HostingEnvironment" filename="src\Razor.Templating.Core\Infrastructure\HostingEnvironment.cs" line-rate="1" branch-rate="1" complexity="7">
+        <class name="Razor.Templating.Core.Infrastructure.HostingEnvironment" filename="Infrastructure\HostingEnvironment.cs" line-rate="1" branch-rate="1" complexity="7">
           <methods>
             <method name="get_EnvironmentName" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
@@ -1148,7 +890,7 @@
             <line number="10" hits="2" branch="False" />
           </lines>
         </class>
-        <class name="Razor.Templating.Core.Infrastructure.Logger" filename="src\Razor.Templating.Core\Infrastructure\Logger.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="Razor.Templating.Core.Infrastructure.Logger" filename="Infrastructure\Logger.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
             <method name="Log" signature="(System.String)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
