@@ -3,10 +3,11 @@ using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Razor.Templating.Core;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Razor.Templating.Test.Net5_0
+namespace Razor.Templating.Test
 {
     [TestClass]
     public class RazorViewToStringRendererTest
@@ -154,6 +155,20 @@ namespace Razor.Templating.Test.Net5_0
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains(@"Example View Component!"));
+        }
+
+        [TestMethod]
+        public async Task RenderInvalidView_Should_ThrowError()
+        {
+            try
+            {
+                var html = await RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml");
+            }
+            catch (System.Exception e)
+            {
+                Assert.IsTrue(e is InvalidOperationException);
+                Assert.IsTrue(e.Message.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'."));
+            }
         }
     }
 }
