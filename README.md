@@ -2,7 +2,8 @@
 
 # Razor Templating 
 
-![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core)
+![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
+![Coverage](https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_branchcoverage_blue.svg)
 
 Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this. Render your .cshtml files into string easily using this library.
 
@@ -23,11 +24,15 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 ## Supported View Features
 | MVC Razor View Features           |               |
 |---------------------------------- |---------------|
+| ViewModel                         | &check;       |
 | ViewBag                           | &check;       |
 | ViewData                          | &check;       |
+| Layouts                           | &check;       |
+| ViewStarts                        | &check;       |
+| ViewImports                       | &check;       |
 | Partial Views                     | &check;       |
 | Tag Helpers                       | &check;       |
-| View Components                   | &check;       |
+| View Components (.NET 5 +)        | &check;       |
 | Dependency Injection into Views   | &check;       |
 
 ## Applications
