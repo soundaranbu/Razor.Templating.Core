@@ -3,9 +3,6 @@ using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Razor.Templating.Core;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Razor.Templating.Test
 {
@@ -69,6 +66,17 @@ namespace Razor.Templating.Test
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("This is the view content"));
+        }
+
+        [TestMethod]
+        public async Task RenderView_Without_ViewModel()
+        {
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains("<div>Hi I'm example view without any viewmodel or view data</div>"));
         }
 
         [TestMethod]

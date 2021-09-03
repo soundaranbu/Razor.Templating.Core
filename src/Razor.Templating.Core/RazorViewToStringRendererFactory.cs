@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,6 +75,7 @@ namespace Razor.Templating.Core
             services.TryAddSingleton<DiagnosticSource>(new DiagnosticListener(Constants.LibraryIdentifier));
             services.TryAddSingleton<DiagnosticListener>(new DiagnosticListener(Constants.LibraryIdentifier));
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<ConsolidatedAssemblyApplicationPartFactory>();
             services.AddLogging();
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
@@ -105,6 +107,7 @@ namespace Razor.Templating.Core
             });
             services.TryAddTransient<RazorViewToStringRenderer>();
 
+            
             return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
         }
 
