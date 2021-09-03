@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.181
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor.Templating.Core", "src\Razor.Templating.Core\Razor.Templating.Core.csproj", "{9072E376-CDB8-42E8-81A3-807E91F75B32}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureFunctions", "AzureFunctions", "{D301739A-C3C1-4BC7-A595-B9E5E33006E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAzureFunction.NetCore3_1", "examples\AzureFunction\ExampleAzureFunction.NetCore3_1\ExampleAzureFunction.NetCore3_1.csproj", "{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWebApiApp.Net6_0", "examples\Api\ExampleWebApiApp.Net6_0\ExampleWebApiApp.Net6_0.csproj", "{A3D90CD7-2F86-4025-895A-6274F551BD10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D90CD7-2F86-4025-895A-6274F551BD10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D90CD7-2F86-4025-895A-6274F551BD10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D90CD7-2F86-4025-895A-6274F551BD10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D90CD7-2F86-4025-895A-6274F551BD10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{A03A1B62-0037-4EAF-8E6C-B9B6FFFA831C} = {3802C5CE-A5DE-47F1-8942-63B275CF7B10}
 		{D301739A-C3C1-4BC7-A595-B9E5E33006E7} = {AD88CAC8-F022-4702-8073-8E6EF62AADD7}
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3} = {D301739A-C3C1-4BC7-A595-B9E5E33006E7}
+		{A3D90CD7-2F86-4025-895A-6274F551BD10} = {08B94DF1-05A5-436C-9383-D9867A294733}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73728C09-FCFE-43D7-BEF4-B24DF6A38562}
