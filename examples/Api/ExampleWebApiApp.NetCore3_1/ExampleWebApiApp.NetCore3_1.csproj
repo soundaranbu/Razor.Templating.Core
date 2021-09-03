@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
+    <PackageReference Include="Razor.Templating.Core" Version="1.5.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
   </ItemGroup>
 
