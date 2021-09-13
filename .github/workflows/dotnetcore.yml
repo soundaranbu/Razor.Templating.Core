@@ -18,14 +18,6 @@ jobs:
       with:
         dotnet-version: '6.0.x'
         include-prerelease: true
-    - name: Setup .NET 5
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.404
     - name: Install dependencies
       run: dotnet restore
     - name: Build
