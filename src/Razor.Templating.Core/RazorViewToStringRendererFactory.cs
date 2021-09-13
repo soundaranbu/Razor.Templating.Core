@@ -7,10 +7,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
 using Razor.Templating.Core.Infrastructure;
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace Razor.Templating.Core
@@ -79,7 +76,6 @@ namespace Razor.Templating.Core
             services.AddLogging();
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
-
             //ref: https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
             //load view assembly application parts to find the view from shared libraries
             builder.ConfigureApplicationPartManager(manager =>
@@ -89,14 +85,14 @@ namespace Razor.Templating.Core
                 foreach (var part in parts)
                 {
                     // For MVC projects, application parts are already added by the framework
-                    if (!manager.ApplicationParts.Any(x => x.Name == part.Name))
+                    if (!manager.ApplicationParts.Any(x => x.GetType() == part.GetType() && x.Name == part.Name))
                     {
                         manager.ApplicationParts.Add(part);
-                        Logger.Log($"Application part added {part.Name}");
+                        Logger.Log($"Application part added {part.Name} {part.GetType().Name}");
                     }
                     else
                     {
-                        Logger.Log($"Application part already added {part.Name}");
+                        Logger.Log($"Application part already added {part.Name} {part.GetType().Name}");
                     }
                 }
             });
@@ -107,7 +103,7 @@ namespace Razor.Templating.Core
             });
             services.TryAddTransient<RazorViewToStringRenderer>();
 
-            
+
             return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
         }
 

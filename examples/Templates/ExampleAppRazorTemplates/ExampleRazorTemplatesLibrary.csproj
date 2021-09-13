@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <!-- To revert to the old behaviour to produce separate Views assembly in .NET 6 https://github.com/dotnet/aspnetcore/issues/32172#issuecomment-859712936 -->
+    <!--<UseRazorSourceGenerator>false</UseRazorSourceGenerator>-->
   </PropertyGroup>
 
   <ItemGroup>

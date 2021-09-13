@@ -32,18 +32,7 @@ namespace Razor.Templating.Core.Infrastructure
         {
             var applicationPartFactory = ConsolidatedAssemblyApplicationPartFactory.GetApplicationPartFactory(assembly);
             var assemblyApplicationParts = applicationPartFactory.GetApplicationParts(assembly);
-
-            foreach (var assemblyApplicationPart in assemblyApplicationParts)
-            {
-                if (!applicationParts.Any(applicationPart => applicationPart.Name == assemblyApplicationPart.Name))
-                {
-                    applicationParts.Add(assemblyApplicationPart);
-                }
-                else
-                {
-                    Logger.Log($"ApplicationPart {assemblyApplicationPart.Name} already added");
-                }
-            }
+            applicationParts.AddRange(assemblyApplicationParts);
         }
 
         /// <summary>

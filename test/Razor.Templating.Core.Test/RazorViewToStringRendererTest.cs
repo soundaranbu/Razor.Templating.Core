@@ -37,8 +37,7 @@ namespace Razor.Templating.Test
 
             // Assert
             Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("Lorem Ipsium"));
-            Assert.IsTrue(html.Contains("<em>Lorem Ipsium</em>"));
+            Assert.IsTrue(html.Contains("<div>Hello, I'm example view without any model and view data</div>"));
         }
 
         [TestMethod]
