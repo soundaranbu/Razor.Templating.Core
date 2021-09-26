@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+//using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
 using Razor.Templating.Core.Infrastructure;
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Razor.Templating.Core
@@ -97,10 +100,10 @@ namespace Razor.Templating.Core
                 }
             });
 
-            services.Configure<MvcRazorRuntimeCompilationOptions>(o =>
-            {
-                o.FileProviders.Add(fileProvider);
-            });
+            //services.Configure<MvcRazorRuntimeCompilationOptions>(o =>
+            //{
+            //    o.FileProviders.Add(fileProvider);
+            //});
             services.TryAddTransient<RazorViewToStringRenderer>();
 
 

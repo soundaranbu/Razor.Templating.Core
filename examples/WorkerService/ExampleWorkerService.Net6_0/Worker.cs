@@ -1,5 +1,7 @@
 
 using ExampleRazorTemplatesLibrary.Models;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Razor.Templating.Core;
 
 namespace ExampleWorkerService.Net6_0;

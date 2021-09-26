@@ -8,7 +8,7 @@ namespace ExampleRazorTemplatesLibrary
 {
     public class ExampleComponentViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             return View();
         }

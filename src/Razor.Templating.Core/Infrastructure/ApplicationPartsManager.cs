@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Razor.Templating.Core.Infrastructure
@@ -49,7 +53,7 @@ namespace Razor.Templating.Core.Infrastructure
             if (!string.IsNullOrEmpty(executingAssemblyLocation))
             {
                 var binPath = Path.GetDirectoryName(executingAssemblyLocation);
-                var dllFiles = Directory.GetFiles(binPath, "*.dll", SearchOption.TopDirectoryOnly);
+                var dllFiles = Directory.GetFiles(binPath!, "*.dll", SearchOption.TopDirectoryOnly);
                 Logger.Log($"Found {dllFiles?.Count()} dll files in executing assembly path");
                 foreach (string dll in dllFiles ?? new string[] { })
                 {
@@ -60,7 +64,7 @@ namespace Razor.Templating.Core.Infrastructure
                     }
                     catch (Exception e)
                     {
-                        Logger.Log($"Error while loading dll {dll}");
+                        Logger.Log($"Error while loading dll {dll}. Error {e.Message}");
                     }
                 }
             }

@@ -3,6 +3,9 @@ using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Razor.Templating.Core;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Razor.Templating.Test
 {

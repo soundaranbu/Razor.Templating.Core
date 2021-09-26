@@ -45,7 +45,7 @@ namespace Razor.Templating.Core
             using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
             {
                 var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-                return await renderer.RenderViewToStringAsync<object>(viewName, default).ConfigureAwait(false);
+                return await renderer.RenderViewToStringAsync<object>(viewName, default!).ConfigureAwait(false);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Razor.Templating.Core
             {
                 foreach (var keyValuePair in viewData.ToList())
                 {
-                    viewDataDictionary.Add(keyValuePair);
+                    viewDataDictionary.Add(keyValuePair!);
                 }
             }
 

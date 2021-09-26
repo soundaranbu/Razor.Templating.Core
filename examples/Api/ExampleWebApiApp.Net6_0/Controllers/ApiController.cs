@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.Logging;
 using Razor.Templating.Core;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ExampleWebApiApp.Net6_0.Controllers;
 [ApiController]
