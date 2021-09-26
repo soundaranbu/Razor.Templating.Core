@@ -11,16 +11,17 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 ## Supported Application Types
 
-|                 | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | .NET 6  |
-|                 |                   v1.6.0                | v1.7.0-x|
-|-----------------|---------------|---------------|---------|---------|
-| Console         | &check;       | &check;       | &check; | &check; |
-| Api             | &check;       | &check;       | &check; | &check; |
-| Mvc             | &check;       | &check;       | &check; | &check; |
-| Worker Service  | &check;       | &check;       | &check; | &check; |
-| WPF             | &check;       | &check;       | &check; | &check; |
-| WinForms        | &check;       | &check;       | &check; | &check; |
-| Azure Functions | &check;       | &check;       | &check; | &check; |
+|                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | .NET 6  |
+|------------------|---------------|---------------|---------|---------|
+| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | v1.7.0-x| 
+| Console          | &check;       | &check;       | &check; | &check; |
+| Api              | &check;       | &check;       | &check; | &check; |
+| Mvc              | &check;       | &check;       | &check; | &check; |
+| Worker Service   | &check;       | &check;       | &check; | &check; |
+| WPF              | &check;       | &check;       | &check; | &check; |
+| WinForms         | &check;       | &check;       | &check; | &check; |
+| Azure Functions  | &check;       | &check;       | &check; | &check; |
+
 
 ## Supported View Features
 | MVC Razor View Features           |               |
