@@ -107,7 +107,7 @@ namespace Razor.Templating.Core
     {
         public VirtualPathData GetVirtualPath(VirtualPathContext context)
         {
-            return null;
+            return null!;
         }
 
         public Task RouteAsync(RouteContext context)

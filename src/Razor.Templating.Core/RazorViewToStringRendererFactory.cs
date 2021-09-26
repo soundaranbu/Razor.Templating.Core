@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,10 +75,10 @@ namespace Razor.Templating.Core
             services.TryAddSingleton<DiagnosticSource>(new DiagnosticListener(Constants.LibraryIdentifier));
             services.TryAddSingleton<DiagnosticListener>(new DiagnosticListener(Constants.LibraryIdentifier));
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<ConsolidatedAssemblyApplicationPartFactory>();
             services.AddLogging();
             services.AddHttpContextAccessor();
             var builder = services.AddMvcCore().AddRazorViewEngine();
-
             //ref: https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
             //load view assembly application parts to find the view from shared libraries
             builder.ConfigureApplicationPartManager(manager =>
@@ -87,14 +88,14 @@ namespace Razor.Templating.Core
                 foreach (var part in parts)
                 {
                     // For MVC projects, application parts are already added by the framework
-                    if (!manager.ApplicationParts.Any(x => x.Name == part.Name))
+                    if (!manager.ApplicationParts.Any(x => x.GetType() == part.GetType() && x.Name == part.Name))
                     {
                         manager.ApplicationParts.Add(part);
-                        Logger.Log($"Application part added {part.Name}");
+                        Logger.Log($"Application part added {part.Name} {part.GetType().Name}");
                     }
                     else
                     {
-                        Logger.Log($"Application part already added {part.Name}");
+                        Logger.Log($"Application part already added {part.Name} {part.GetType().Name}");
                     }
                 }
             });
@@ -104,6 +105,7 @@ namespace Razor.Templating.Core
                 o.FileProviders.Add(fileProvider);
             });
             services.TryAddTransient<RazorViewToStringRenderer>();
+
 
             return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
         }

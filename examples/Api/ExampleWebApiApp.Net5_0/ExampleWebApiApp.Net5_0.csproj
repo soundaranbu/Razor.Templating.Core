@@ -8,10 +8,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Razor.Templating.Core" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
     <ProjectReference Include="..\..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
   </ItemGroup>
 

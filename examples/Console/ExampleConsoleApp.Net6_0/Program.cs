@@ -1,7 +1,5 @@
 ﻿using ExampleRazorTemplatesLibrary.Models;
 using Razor.Templating.Core;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ExampleConsoleApp.Net6_0

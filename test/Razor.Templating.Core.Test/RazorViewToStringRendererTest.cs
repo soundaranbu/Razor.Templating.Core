@@ -40,8 +40,7 @@ namespace Razor.Templating.Test
 
             // Assert
             Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("Lorem Ipsium"));
-            Assert.IsTrue(html.Contains("<em>Lorem Ipsium</em>"));
+            Assert.IsTrue(html.Contains("<div>Hello, I'm example view without any model and view data</div>"));
         }
 
         [TestMethod]
@@ -69,6 +68,17 @@ namespace Razor.Templating.Test
             // Assert
             Assert.IsNotNull(html);
             Assert.IsTrue(html.Contains("This is the view content"));
+        }
+
+        [TestMethod]
+        public async Task RenderView_Without_ViewModel()
+        {
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+
+            // Assert
+            Assert.IsNotNull(html);
+            Assert.IsTrue(html.Contains("<div>Hi I'm example view without any viewmodel or view data</div>"));
         }
 
         [TestMethod]
