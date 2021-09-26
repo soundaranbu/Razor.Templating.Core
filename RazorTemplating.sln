@@ -36,9 +36,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureFunctions", "AzureFunc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWebApiApp.Net6_0", "examples\Api\ExampleWebApiApp.Net6_0\ExampleWebApiApp.Net6_0.csproj", "{A3D90CD7-2F86-4025-895A-6274F551BD10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWorkerService.Net6_0", "examples\WorkerService\ExampleWorkerService.Net6_0\ExampleWorkerService.Net6_0.csproj", "{6904C2FE-5FCB-4270-8436-9992BA3EA5C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWorkerService.Net6_0", "examples\WorkerService\ExampleWorkerService.Net6_0\ExampleWorkerService.Net6_0.csproj", "{6904C2FE-5FCB-4270-8436-9992BA3EA5C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleConsoleApp.Net6_0", "examples\Console\ExampleConsoleApp.Net6_0\ExampleConsoleApp.Net6_0.csproj", "{4A350F05-7C4A-487D-BACF-CB2E28B30878}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAzureFunction.Net6.0", "examples\AzureFunction\ExampleAzureFunction.Net6.0\ExampleAzureFunction.Net6.0.csproj", "{A9262317-1042-45FF-B2C0-997D48FB450E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,10 @@ Global
 		{4A350F05-7C4A-487D-BACF-CB2E28B30878}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A350F05-7C4A-487D-BACF-CB2E28B30878}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A350F05-7C4A-487D-BACF-CB2E28B30878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9262317-1042-45FF-B2C0-997D48FB450E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9262317-1042-45FF-B2C0-997D48FB450E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9262317-1042-45FF-B2C0-997D48FB450E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9262317-1042-45FF-B2C0-997D48FB450E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{A3D90CD7-2F86-4025-895A-6274F551BD10} = {08B94DF1-05A5-436C-9383-D9867A294733}
 		{6904C2FE-5FCB-4270-8436-9992BA3EA5C4} = {3802C5CE-A5DE-47F1-8942-63B275CF7B10}
 		{4A350F05-7C4A-487D-BACF-CB2E28B30878} = {EC3ABEC2-EAEA-4832-852E-2A0993BEAB6B}
+		{A9262317-1042-45FF-B2C0-997D48FB450E} = {D301739A-C3C1-4BC7-A595-B9E5E33006E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73728C09-FCFE-43D7-BEF4-B24DF6A38562}
