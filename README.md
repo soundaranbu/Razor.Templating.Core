@@ -94,7 +94,7 @@ services.AddRazorTemplating();
 var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
 ```
 ## Razor Views in Library
- Razor view files(.cshtml) can be organized in a separate shared Razor Class Libary(RCL). Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/ExampleAppRazorTemplates)
+ Razor view files(.cshtml) can be organized in a separate shared Razor Class Libary(RCL). Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Templates/ExampleAppRazorTemplates)
  
 ## Sample Applications
  Please find the sample applications [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples) 
