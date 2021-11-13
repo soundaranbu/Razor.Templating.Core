@@ -1,24 +1,16 @@
 using ExampleRazorTemplatesLibrary.Models;
 using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Razor.Templating.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace Razor.Templating.Test
+namespace Razor.Templating.Core.Test
 {
-    [TestClass]
     public class RazorViewToStringRendererTest
     {
-        [ClassInitialize]
-        public static void Setup(TestContext context)
-        {
-
-        }
-
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
             //Optionally call this to create cache of the renderer
@@ -39,11 +31,11 @@ namespace Razor.Templating.Test
             var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("<div>Hello, I'm example view without any model and view data</div>"));
+            Assert.NotNull(html);
+            Assert.Contains("<div>Hello, I'm example view without any model and view data</div>", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithLayout_WithViewData()
         {
             // Arrange
@@ -54,35 +46,35 @@ namespace Razor.Templating.Test
             var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("This is the view content"));
-            Assert.IsTrue(html.Contains("This is Title"));
+            Assert.NotNull(html);
+            Assert.Contains("This is the view content", html);
+            Assert.Contains("This is Title", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithLayout_WithoutData()
         {
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("This is the view content"));
+            Assert.NotNull(html);
+            Assert.Contains("This is the view content", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_Without_ViewModel()
         {
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("<div>Hi I'm example view without any viewmodel or view data</div>"));
+            Assert.NotNull(html);
+            Assert.Contains("<div>Hi I'm example view without any viewmodel or view data</div>", html);
         }
 
-        [TestMethod]
-        public async Task RenderParitialView_WithModel()
+        [Fact]
+        public async Task RenderPartialView_WithModel()
         {
             // Arrange
             var model = new ExampleModel()
@@ -95,12 +87,12 @@ namespace Razor.Templating.Test
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("Partial view"));
-            Assert.IsTrue(html.Contains("Html content: <em>Lorem Ipsium</em>"));
+            Assert.NotNull(html);
+            Assert.Contains("Partial view", html);
+            Assert.Contains("Html content: <em>Lorem Ipsium</em>", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithServiceInjection()
         {
             // Arrange
@@ -118,15 +110,15 @@ namespace Razor.Templating.Test
             services.AddRazorTemplating();
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("Injected Service Data: Some Random Value - "));
+            Assert.NotNull(html);
+            Assert.Contains("Injected Service Data: Some Random Value - ", html);
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithModel_WithViewImport()
         {
             // Arrange
@@ -140,34 +132,34 @@ namespace Razor.Templating.Test
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains("Plain text: Lorem Ipsium"));
+            Assert.NotNull(html);
+            Assert.Contains("Plain text: Lorem Ipsium", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithTagHelpers()
         {
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>"));
-            Assert.IsTrue(html.Contains(@"<a href="""">All Speakers</a>"));
+            Assert.NotNull(html);
+            Assert.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>", html);
+            Assert.Contains(@"<a href="""">All Speakers</a>", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderView_WithViewComponent()
         {
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
 
             // Assert
-            Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains(@"Example View Component!"));
+            Assert.NotNull(html);
+            Assert.Contains(@"Example View Component!", html);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RenderInvalidView_Should_ThrowError()
         {
             try
@@ -176,8 +168,8 @@ namespace Razor.Templating.Test
             }
             catch (System.Exception e)
             {
-                Assert.IsTrue(e is InvalidOperationException);
-                Assert.IsTrue(e.Message.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'."));
+                Assert.True(e is InvalidOperationException);
+                Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", e.Message);
             }
         }
     }

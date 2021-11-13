@@ -13,7 +13,7 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 |                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | .NET 6           |
 |------------------|---------------|---------------|---------|------------------|
-| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | v1.7.0-preview.1 | 
+| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | v1.7.0 | 
 | Console          | &check;       | &check;       | &check; | &check;          |
 | Api              | &check;       | &check;       | &check; | &check;          |
 | Mvc              | &check;       | &check;       | &check; | &check;          |
@@ -50,7 +50,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.6.0" />
+<PackageReference Include="Razor.Templating.Core" Version="1.7.0" />
 ```
 
 ## Simple Usage:

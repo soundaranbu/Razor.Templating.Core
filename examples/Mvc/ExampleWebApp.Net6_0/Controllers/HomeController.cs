@@ -1,37 +1,41 @@
-﻿using ExampleWebApp.Net6_0.Models;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using ExampleWebApp.Net6_0.Models;
+using Razor.Templating.Core;
 
-namespace ExampleWebApp.Net6_0.Controllers
+namespace ExampleWebApp.Net6_0.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
     {
-        private readonly ILogger<HomeController> _logger;
+        _logger = logger;
+    }
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+    public async Task<IActionResult> Index()
+    {
+        //var html = await RazorTemplateEngine.RenderAsync("~/Views/Home/Index.cshtml");
+        //return Content(html);
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+    public async Task<IActionResult> RenderRcl()
+    {
+        var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml");
+        return Content(html);
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 }

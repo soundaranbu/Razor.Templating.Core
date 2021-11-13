@@ -6,7 +6,7 @@ namespace ExampleConsoleApp.Net6_0
 {
     class Program
     {
-        static async Task Main(string[] args)
+        async static Task Main(string[] args)
         {
             try
             {

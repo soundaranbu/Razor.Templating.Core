@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.ObjectPool;
 using Razor.Templating.Core.Infrastructure;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -20,23 +18,12 @@ namespace Razor.Templating.Core
         private static IServiceCollection? _serviceCollection;
 
         /// <summary>
-        /// Get's the new instance of ServiceCollection class, if doesn't exists
+        /// Gets the new instance of ServiceCollection class, if doesn't exists
         /// </summary>
         public static IServiceCollection ServiceCollection
         {
-            get
-            {
-                if (_serviceCollection is null)
-                {
-                    return new ServiceCollection();
-                }
-
-                return _serviceCollection;
-            }
-            set
-            {
-                _serviceCollection = value;
-            }
+            get => _serviceCollection ?? new ServiceCollection();
+            set => _serviceCollection = value;
         }
         /// <summary>
         /// Returns the instance of IServiceScopeFactory
@@ -52,10 +39,10 @@ namespace Razor.Templating.Core
             //in .net 5, RCL assemblies are located next the main executable even if /p:IncludeAllContentForSelfExtract=true is provided while publishing
             //also when .net core 3.1 project is published using .net 5 sdk, above scenario happens
             //so, additionally look for RCL assemblies at the main executable directory as well
-            var mainExecutableDirectory = GetMainExecutableDirectory();
+            var mainExecutableDirectory = DirectoryHelper.GetMainExecutableDirectory();
 
             //To add support for MVC application
-            var webRootDirectory = GetWebRootDirectory(assembliesBaseDirectory);
+            var webRootDirectory = DirectoryHelper.GetWebRootDirectory(assembliesBaseDirectory);
 
             Logger.Log($"Assemblies Base Directory: {assembliesBaseDirectory}");
             Logger.Log($"Main Executable Directory: {mainExecutableDirectory}");
@@ -100,41 +87,10 @@ namespace Razor.Templating.Core
                 }
             });
 
-            services.Configure<MvcRazorRuntimeCompilationOptions>(o =>
-            {
-                o.FileProviders.Add(fileProvider);
-            });
             services.TryAddTransient<RazorViewToStringRenderer>();
 
 
             return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
-        }
-
-        /// <summary>
-        /// Returns the path of the main executable file using which the application is started
-        /// </summary>
-        /// <returns></returns>
-        private string? GetMainExecutableDirectory()
-        {
-            using var processModule = Process.GetCurrentProcess().MainModule;
-            return Path.GetDirectoryName(processModule?.FileName);
-        }
-
-        /// <summary>
-        /// Get the web root directory where the static content resides. This is to add support for MVC applications
-        /// If the webroot directory doesn't exist, set the path to assembly base directory.
-        /// </summary>
-        /// <param name="assembliesBaseDirectory"></param>
-        /// <returns></returns>
-        private string GetWebRootDirectory(string assembliesBaseDirectory)
-        {
-            var webRootDirectory = Path.Combine(assembliesBaseDirectory, "wwwroot");
-            if (!Directory.Exists(webRootDirectory))
-            {
-                webRootDirectory = assembliesBaseDirectory;
-            }
-
-            return webRootDirectory;
         }
     }
 }

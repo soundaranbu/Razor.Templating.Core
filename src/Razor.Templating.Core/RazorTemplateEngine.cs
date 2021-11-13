@@ -27,12 +27,7 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         private static IServiceScopeFactory GetRendererServiceScopeFactory()
         {
-
-            if (_rendererServiceScopeFactory is null)
-            {
-                _rendererServiceScopeFactory = new RazorViewToStringRendererFactory().CreateRendererServiceScopeFactory();
-            }
-            return _rendererServiceScopeFactory;
+            return _rendererServiceScopeFactory ??= new RazorViewToStringRendererFactory().CreateRendererServiceScopeFactory();
         }
 
         /// <summary>
@@ -40,13 +35,11 @@ namespace Razor.Templating.Core
         /// </summary>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <returns>Rendered string from the view</returns>
-        public static async Task<string> RenderAsync([DisallowNull] string viewName)
+        public async static Task<string> RenderAsync([DisallowNull] string viewName)
         {
-            using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
-            {
-                var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-                return await renderer.RenderViewToStringAsync<object>(viewName, default!).ConfigureAwait(false);
-            }
+            using var serviceScope = GetRendererServiceScopeFactory().CreateScope();
+            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+            return await renderer.RenderViewToStringAsync<object>(viewName, default!).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -56,13 +49,11 @@ namespace Razor.Templating.Core
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <param name="model">Strongly typed object </param>
         /// <returns></returns>
-        public static async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
+        public async static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
         {
-            using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
-            {
-                var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-                return await renderer.RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
-            }
+            using var serviceScope = GetRendererServiceScopeFactory().CreateScope();
+            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+            return await renderer.RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -73,22 +64,17 @@ namespace Razor.Templating.Core
         /// <param name="model">Strongly typed object</param>
         /// <param name="viewData">ViewData</param>
         /// <returns></returns>
-        public static async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
+        public async static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
         { 
             var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
-            if (!(viewData is null))
+            foreach (var keyValuePair in viewData.ToList())
             {
-                foreach (var keyValuePair in viewData.ToList())
-                {
-                    viewDataDictionary.Add(keyValuePair!);
-                }
+                viewDataDictionary.Add(keyValuePair!);
             }
 
-            using (var serviceScope = GetRendererServiceScopeFactory().CreateScope())
-            {
-                var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-                return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
-            }
+            using var serviceScope = GetRendererServiceScopeFactory().CreateScope();
+            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+            return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
         }
     }
 }

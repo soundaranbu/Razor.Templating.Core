@@ -22,9 +22,9 @@ if (builder.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
 app.UseRouting();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {

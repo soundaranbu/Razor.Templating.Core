@@ -44,22 +44,20 @@ namespace Razor.Templating.Core
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName);
 
-            using (var output = new StringWriter())
-            {
-                var viewContext = new ViewContext(
-                    actionContext,
-                    view,
-                    new ViewDataDictionary<TModel>(viewDataDictionary, model),
-                    new TempDataDictionary(
-                        actionContext.HttpContext,
-                        _tempDataProvider),
-                    output,
-                    new HtmlHelperOptions());
+            await using var output = new StringWriter();
+            var viewContext = new ViewContext(
+                actionContext,
+                view,
+                new ViewDataDictionary<TModel>(viewDataDictionary, model),
+                new TempDataDictionary(
+                    actionContext.HttpContext,
+                    _tempDataProvider),
+                output,
+                new HtmlHelperOptions());
 
-                await view.RenderAsync(viewContext);
+            await view.RenderAsync(viewContext);
 
-                return output.ToString();
-            }
+            return output.ToString();
         }
 
         private IView FindView(ActionContext actionContext, string viewName)
@@ -86,7 +84,7 @@ namespace Razor.Templating.Core
                 "Hint:",
                 "- Check whether you have added reference to the Razor Class Library that contains the view files.",
                 "- Check whether the view file name is correct or exists at the given path.",
-                "- Refer documentation here: https://github.com/soundaranbu/RazorTemplating"}));
+                "- Refer documentation or file issue here: https://github.com/soundaranbu/RazorTemplating"}));
 
             throw new InvalidOperationException(errorMessage);
         }

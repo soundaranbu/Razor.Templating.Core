@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Razor.Templating.Core.Infrastructure
 {
-    internal class ApplicationPartsManager
+    internal static class ApplicationPartsManager
     {
         /// <summary>
         /// Get all the application parts that are available in the published project
@@ -16,22 +16,21 @@ namespace Razor.Templating.Core.Infrastructure
         /// <returns></returns>
         public static List<ApplicationPart> GetApplicationParts()
         {
-            var rclAssemblies = GetRCLAssemblies();
+            var rclAssemblies = GetRclAssemblies();
             var applicationParts = new List<ApplicationPart>();
-            var seenAssemblies = new HashSet<Assembly>();
-            foreach (var assembly in rclAssemblies)
+            foreach (var assembly in rclAssemblies.Distinct())
             {
-                if (!seenAssemblies.Add(assembly))
-                {
-                    continue;
-                }
-
                 AddApplicationParts(ref applicationParts, assembly);
             }
 
             return applicationParts;
         }
 
+        /// <summary>
+        /// To get the consolidated application parts for an assembly
+        /// </summary>
+        /// <param name="applicationParts"></param>
+        /// <param name="assembly"></param>
         private static void AddApplicationParts(ref List<ApplicationPart> applicationParts, Assembly assembly)
         {
             var applicationPartFactory = ConsolidatedAssemblyApplicationPartFactory.GetApplicationPartFactory(assembly);
@@ -50,57 +49,69 @@ namespace Razor.Templating.Core.Infrastructure
             var executingAssemblyLocation = Assembly.GetExecutingAssembly()?.Location;
             var assemblies = new List<Assembly>();
             Logger.Log($"Executing Assembly Bin Path: {executingAssemblyLocation}");
-            if (!string.IsNullOrEmpty(executingAssemblyLocation))
+            if (string.IsNullOrEmpty(executingAssemblyLocation))
             {
-                var binPath = Path.GetDirectoryName(executingAssemblyLocation);
-                var dllFiles = Directory.GetFiles(binPath!, "*.dll", SearchOption.TopDirectoryOnly);
-                Logger.Log($"Found {dllFiles?.Count()} dll files in executing assembly path");
-                foreach (string dll in dllFiles ?? new string[] { })
+                return assemblies;
+            }
+
+            var binPath = Path.GetDirectoryName(executingAssemblyLocation);
+            var dllFiles = Directory.GetFiles(binPath!, "*.dll", SearchOption.TopDirectoryOnly);
+            Logger.Log($"Found {dllFiles?.Length} dll files in executing assembly path");
+            foreach (var dll in dllFiles ?? Array.Empty<string>())
+            {
+                try
                 {
-                    try
-                    {
-                        Assembly loadedAssembly = Assembly.LoadFile(dll);
-                        assemblies.Add(loadedAssembly);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Log($"Error while loading dll {dll}. Error {e.Message}");
-                    }
+                    var loadedAssembly = Assembly.LoadFile(dll);
+                    assemblies.Add(loadedAssembly);
+                }
+                catch (Exception e)
+                {
+                    Logger.Log($"Error while loading dll {dll}. Error {e.Message}");
                 }
             }
 
             return assemblies;
         }
 
+        /// <summary>
+        /// Get all assemblies used in the project to filter out the Razor Class Library
+        /// Background: In ASP.NET Core MVC, the main entry assembly has ApplicationPartAttribute using which the RCL libraries
+        /// are identified and their application parts are loaded. This attribute is added only when the project sdk
+        /// is set to Microsoft.NET.Sdk.Web
+        /// But for other types of projects whose sdk is generally Microsoft.NET.Sdk there won't be any ApplicationPartAttribute added
+        /// Hence we need to look over all the assemblies and see if they are RCL assemblies
+        /// Thanks to ASP.NET Core source code https://github.com/dotnet/aspnetcore/tree/v5.0.5/src/Mvc/Mvc.Core/src/ApplicationParts
+        /// In .NET 6, there won't be any separate view assembly produced
+        /// </summary>
+        /// <returns></returns>
         private static List<Assembly> GetAllAssemblies()
         {
-            // In ASP.NET Core MVC, the main entry assembly has ApplicationPartAttibute using which the RCL libraries
-            // are identified and their application parts are loaded. This attibute is added only when the project sdk
-            // is set to Microsoft.NET.Sdk.Web
-            // But for other types of projects whose sdk is generally Microsoft.NET.Sdk there won't be any ApplicationPartAttribute added
-            // Hence we need to look over all the assemblies and see if they are RCL assemblies
-            // Thanks to ASP.NET Core source code https://github.com/dotnet/aspnetcore/tree/v5.0.5/src/Mvc/Mvc.Core/src/ApplicationParts
+
             var allAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
 
             // To support Azure Functions
             var binAssemblies = GetAllBinDirectoryAssemblies();
-            if (binAssemblies?.Any() ?? false)
+            var assemblies = binAssemblies.ToList();
+            if (assemblies?.Any() ?? false)
             {
-                allAssemblies.AddRange(binAssemblies);
+                allAssemblies.AddRange(assemblies);
             }
 
             return allAssemblies;
         }
 
-        private static List<Assembly> GetRCLAssemblies()
+        /// <summary>
+        /// Get the list of all razor class libraries excluding non-RCL libraries
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerable<Assembly> GetRclAssemblies()
         {
             var rclAssemblies = new List<Assembly>();
             var allAssemblies = GetAllAssemblies();
 
-            //foreach (var assembly in allAssemblies.Where(x => x.FullName?.Contains("ExampleRazorTemplatesLibrary") is true))
             foreach (var assembly in allAssemblies)
             {
-                var hasAnyMvcReference = assembly.GetReferencedAssemblies().Select(x => x.Name).Intersect(RCLReferences).Any();
+                var hasAnyMvcReference = assembly.GetReferencedAssemblies().Select(x => x.Name).Intersect(RclReferences).Any();
                 if (hasAnyMvcReference)
                 {
                     rclAssemblies.Add(assembly);
@@ -109,9 +120,11 @@ namespace Razor.Templating.Core.Infrastructure
 
             return rclAssemblies;
         }
-
-
-        private static List<string> RCLReferences = new()
+        
+        /// <summary>
+        /// If any of the following references are added to library, then the library is said to RCL library
+        /// </summary>
+        private static readonly List<string> RclReferences = new()
         {
             "Microsoft.AspNetCore.Mvc",
             "Microsoft.AspNetCore.Mvc.Abstractions",

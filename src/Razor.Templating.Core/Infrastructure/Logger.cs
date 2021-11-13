@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Razor.Templating.Core.Infrastructure
 {
-    internal class Logger
+    internal static class Logger
     {
         public static void Log(string message)
         {
