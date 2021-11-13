@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Render your .cshtml files to string. Works out of the box for Web, Console, Worker Service, Desktop Apps in .NET Core.</Description>
