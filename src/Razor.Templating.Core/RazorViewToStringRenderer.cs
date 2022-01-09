@@ -1,6 +1,7 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -77,8 +78,8 @@ namespace Razor.Templating.Core
             var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
             var errorMessage = string.Join(
                 Environment.NewLine,
-                new string[] { 
-                    $"Unable to find view '{viewName}'. The following locations were searched:" 
+                new string[] {
+                    $"Unable to find view '{viewName}'. The following locations were searched:"
                 }.Concat(searchedLocations)
                 .Concat(new string[]{
                 "Hint:",
@@ -95,17 +96,28 @@ namespace Razor.Templating.Core
             {
                 RequestServices = _serviceProvider
             };
-            var routeData = new RouteData();
-            routeData.Routers.Add(new CustomRouter());
-            return new ActionContext(httpContext, routeData, new ActionDescriptor());
+            var app = new ApplicationBuilder(_serviceProvider);
+            var routeBuilder = new RouteBuilder(app)
+            {
+                DefaultHandler = new CustomRouter()
+            };
+
+            routeBuilder.MapRoute(
+                string.Empty,
+                "{controller}/{action}/{id}",
+                new RouteValueDictionary(new { id = "defaultid" }));
+
+            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+            actionContext.RouteData.Routers.Add(routeBuilder.Build());
+            return actionContext;
         }
     }
 
     internal class CustomRouter : IRouter
     {
-        public VirtualPathData GetVirtualPath(VirtualPathContext context)
+        public VirtualPathData? GetVirtualPath(VirtualPathContext context)
         {
-            return null!;
+            return null;
         }
 
         public Task RouteAsync(RouteContext context)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ExampleWebApp.Net6_0.Models;
 using Razor.Templating.Core;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ExampleWebApp.Net6_0.Controllers;
 
@@ -9,7 +10,8 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+
+    public HomeController(ILogger<HomeController> logger, IActionContextAccessor actionContext)
     {
         _logger = logger;
     }
@@ -24,7 +26,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> RenderRcl()
     {
-        var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml");
+        var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
         return Content(html);
     }
 

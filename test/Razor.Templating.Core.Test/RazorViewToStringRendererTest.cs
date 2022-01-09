@@ -145,7 +145,8 @@ namespace Razor.Templating.Core.Test
             // Assert
             Assert.NotNull(html);
             Assert.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>", html);
-            Assert.Contains(@"<a href="""">All Speakers</a>", html);
+            Assert.Contains("<form method=\"post\" class=\"form-horizontal\" role=\"form\" action=\"/Account/Login\">", html);
+            Assert.Contains("<a href=\"/Speaker/Index\">All Speakers</a>", html);
         }
 
         [Fact]
