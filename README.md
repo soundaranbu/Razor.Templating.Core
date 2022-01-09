@@ -71,7 +71,7 @@ viewDataOrViewBag["Value1"] = "1";
 // ViewBag.Value2 can be written as below. There's no change on how it's accessed in .cshtml file
 viewDataOrViewBag["Value2"] = "2";
 
-var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewDataOrViewBag);
 ```
 Before applying this code, follow this article for working implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
 
