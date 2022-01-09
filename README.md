@@ -63,9 +63,13 @@ var model = new ExampleModel()
     HtmlContent = "<em>You can use it to generate email content, report generation and so on</em>"
 };
 
-var viewData = new Dictionary<string, object>();
-viewData["Value1"] = "1";
-viewData["Value2"] = "2";
+// Both ViewBag and ViewData should be added to the same dictionary. 
+var viewDataOrViewBag = new Dictionary<string, object>();
+// ViewData is same as mvc
+viewDataOrViewBag["Value1"] = "1";
+
+// ViewBag.Value2 can be written as below. There's no change on how it's accessed in .cshtml file
+viewDataOrViewBag["Value2"] = "2";
 
 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 ```
