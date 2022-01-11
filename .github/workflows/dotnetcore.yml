@@ -2,7 +2,9 @@ name: Build+Test
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
+      - release/1.6.x
   pull_request:
     branches: [ master ]
 
