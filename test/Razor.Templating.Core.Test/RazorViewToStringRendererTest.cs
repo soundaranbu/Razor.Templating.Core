@@ -142,8 +142,8 @@ namespace Razor.Templating.Test
 
             // Assert
             Assert.IsNotNull(html);
-            Assert.IsTrue(html.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>"));
-            Assert.IsTrue(html.Contains(@"<a href="""">All Speakers</a>"));
+            Assert.IsTrue(html.Contains("<form method=\"post\" class=\"form-horizontal\" role=\"form\" action=\"/Account/Login\">"));
+            Assert.IsTrue(html.Contains("<a href=\"/Speaker/Index\">All Speakers</a>"));
         }
 
         [TestMethod]
