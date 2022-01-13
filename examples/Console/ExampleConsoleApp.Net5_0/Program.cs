@@ -35,6 +35,11 @@ namespace ExampleConsoleApp.Net5_0
                 System.Console.Write(html);
                 System.Console.WriteLine(DateTime.Now);
 
+                // Render View with Tag Helpers
+                html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithTagHelpers.cshtml");
+                System.Console.Write(html);
+                System.Console.WriteLine(DateTime.Now);
+
             }
             catch (System.Exception e)
             {

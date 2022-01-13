@@ -22,5 +22,12 @@ namespace ExampleWebApiApp.Controllers
             var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
             return Ok(renderedString);
         }
+
+        [HttpGet("/TagHelpers")]
+        public async Task<IActionResult> TagHelpers()
+        {
+            var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+            return Ok(renderedString);
+        }
     }
 }

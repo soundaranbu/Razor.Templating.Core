@@ -48,7 +48,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.6.0" />
+<PackageReference Include="Razor.Templating.Core" Version="1.6.0-rc.1" />
 ```
 
 ## Simple Usage:

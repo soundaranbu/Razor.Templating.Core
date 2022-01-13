@@ -26,6 +26,15 @@ namespace ExampleConsoleApp.NetCore3_1
 
                 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 System.Console.Write(html);
+
+                // Render View with View Component
+                html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
+                System.Console.Write(html);
+
+                // tag helpers
+                html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithTagHelpers.cshtml", model, viewData);
+                System.Console.Write(html);
+
                 System.Console.WriteLine(DateTime.Now);
             }
             catch (System.Exception e)
