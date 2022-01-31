@@ -62,5 +62,11 @@ namespace ExampleWebApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public async Task<IActionResult> TagHelpers()
+        {
+            var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+            return Ok(renderedString);
+        }
     }
 }
