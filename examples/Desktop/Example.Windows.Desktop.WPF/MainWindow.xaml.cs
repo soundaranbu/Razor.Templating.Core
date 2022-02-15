@@ -46,9 +46,6 @@ namespace Example.Windows.Desktop.WPF
 
                 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 textBlock.Text = html;
-
-                // after a template has been rendered, XAML view can no longer be resolved
-                var view = new MainWindow();
             }
             catch (System.Exception exception)
             {
