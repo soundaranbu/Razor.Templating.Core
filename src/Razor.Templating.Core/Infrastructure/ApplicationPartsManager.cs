@@ -57,11 +57,12 @@ namespace Razor.Templating.Core.Infrastructure
             var binPath = Path.GetDirectoryName(executingAssemblyLocation);
             var dllFiles = Directory.GetFiles(binPath!, "*.dll", SearchOption.TopDirectoryOnly);
             Logger.Log($"Found {dllFiles?.Length} dll files in executing assembly path");
+
             foreach (var dll in dllFiles ?? Array.Empty<string>())
             {
                 try
                 {
-                    var loadedAssembly = Assembly.LoadFile(dll);
+                    var loadedAssembly = Assembly.LoadFrom(dll);
                     assemblies.Add(loadedAssembly);
                 }
                 catch (Exception e)
