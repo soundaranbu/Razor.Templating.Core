@@ -18,7 +18,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Added support for .NET 6
+      - Fixed assembly loading issue for WPF applications
     </PackageReleaseNotes>
     <Nullable>Enable</Nullable>
   </PropertyGroup>
@@ -33,8 +33,8 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
