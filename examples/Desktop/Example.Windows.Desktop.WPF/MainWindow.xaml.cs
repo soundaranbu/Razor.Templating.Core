@@ -46,6 +46,8 @@ namespace Example.Windows.Desktop.WPF
 
                 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 textBlock.Text = html;
+
+                browser.NavigateToString(html);
             }
             catch (System.Exception exception)
             {
