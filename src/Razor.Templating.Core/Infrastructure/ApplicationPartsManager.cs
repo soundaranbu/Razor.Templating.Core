@@ -101,7 +101,7 @@ namespace Razor.Templating.Core.Infrastructure
                 {
                     try
                     {
-                        Assembly loadedAssembly = Assembly.LoadFile(dll);
+                        Assembly loadedAssembly = Assembly.LoadFrom(dll);
                         assemblies.Add(loadedAssembly);
                     }
                     catch (Exception e)

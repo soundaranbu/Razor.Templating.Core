@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EBFC0DA-02BB-4759-B246-8FF9C11179BE}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -53,6 +54,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureFunctions", "AzureFunctions", "{D301739A-C3C1-4BC7-A595-B9E5E33006E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAzureFunction.NetCore3_1", "examples\AzureFunction\ExampleAzureFunction.NetCore3_1\ExampleAzureFunction.NetCore3_1.csproj", "{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Windows.Desktop.WPF", "..\..\Experimental\RazorTemplating\examples\Desktop\Example.Windows.Desktop.WPF\Example.Windows.Desktop.WPF.csproj", "{4307FBFD-7828-49B6-81B7-18076AE5E717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{7FCB9ADC-0C71-4887-AA61-3713E636DB74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +117,10 @@ Global
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4307FBFD-7828-49B6-81B7-18076AE5E717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4307FBFD-7828-49B6-81B7-18076AE5E717}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4307FBFD-7828-49B6-81B7-18076AE5E717}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4307FBFD-7828-49B6-81B7-18076AE5E717}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +145,8 @@ Global
 		{A03A1B62-0037-4EAF-8E6C-B9B6FFFA831C} = {3802C5CE-A5DE-47F1-8942-63B275CF7B10}
 		{D301739A-C3C1-4BC7-A595-B9E5E33006E7} = {AD88CAC8-F022-4702-8073-8E6EF62AADD7}
 		{B963EA83-CC84-4800-8F2C-FA0DACF8AED3} = {D301739A-C3C1-4BC7-A595-B9E5E33006E7}
+		{4307FBFD-7828-49B6-81B7-18076AE5E717} = {7FCB9ADC-0C71-4887-AA61-3713E636DB74}
+		{7FCB9ADC-0C71-4887-AA61-3713E636DB74} = {AD88CAC8-F022-4702-8073-8E6EF62AADD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73728C09-FCFE-43D7-BEF4-B24DF6A38562}
