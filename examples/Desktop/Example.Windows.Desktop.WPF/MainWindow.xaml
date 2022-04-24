@@ -6,8 +6,24 @@
         xmlns:local="clr-namespace:Example.Windows.Desktop.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
-        <Button x:Name="renderButton" Padding="5" Content="Render Razor View To String" HorizontalAlignment="Left" Margin="39,42,0,0" VerticalAlignment="Top"/>
-        <TextBlock Name="textBlock"  Margin="39,10,0,0"></TextBlock>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter ResizeDirection="Columns" Grid.Column="0" Grid.Row="1" Width="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0"/>
+        <Button Grid.Row="0" x:Name="renderButton" Padding="5" Content="Render Razor View To String" HorizontalAlignment="Left" Margin="39,42,0,0" VerticalAlignment="Top"/>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Label Content="Rendered Html String" FontWeight="Bold"/>
+            <TextBlock Name="textBlock" ></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="Rendered Html Browser Output" FontWeight="Bold"/>
+            <WebBrowser x:Name="browser"/>
+        </StackPanel>
+    </Grid>
 </Window>
