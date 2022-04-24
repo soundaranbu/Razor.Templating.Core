@@ -1,12 +1,52 @@
 ﻿using ExampleRazorTemplatesLibrary.Models;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ExampleConsoleApp.Net6_0
 {
     class Program
     {
         async static Task Main(string[] args)
+        {
+
+            await Test2();
+            System.Console.ReadLine();
+        }
+
+        static async Task Test2()
+        {
+            var services = new ServiceCollection();
+            services.AddTransient<BlobRazorViewSource>();
+            services.AddTransient<DbRazorViewProvider>();
+            services.AddDbContext<TestDatabaseContext>(opt => opt.UseInMemoryDatabase("test"));
+
+            services.AddOptions<MvcRazorRuntimeCompilationOptions>()
+                .Configure<DbRazorViewProvider>((option, source) =>
+                {
+                    option.FileProviders.Add(source);
+                });
+
+            //services.Configure<MvcRazorRuntimeCompilationOptions>(option =>
+            //{
+            //    option.FileProviders.Add(new BlobRazorViewSource(""));
+            //});
+
+            services.AddRazorTemplating();
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+            //var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
+            var html = await RazorTemplateEngine.RenderAsync("mysampleview.cshtml");
+            watch.Stop();
+            Console.WriteLine(html);
+            Console.WriteLine(watch.ElapsedMilliseconds);
+        }
+
+        static async Task Test1()
         {
             try
             {
@@ -39,8 +79,8 @@ namespace ExampleConsoleApp.Net6_0
 
                 System.Console.WriteLine("{0}", e);
             }
-
-            System.Console.ReadLine();
         }
     }
+
+
 }

@@ -65,7 +65,10 @@ namespace Razor.Templating.Core
             services.TryAddSingleton<ConsolidatedAssemblyApplicationPartFactory>();
             services.AddLogging();
             services.AddHttpContextAccessor();
-            var builder = services.AddMvcCore().AddRazorViewEngine();
+            var builder = services.AddMvcCore()
+                                    .AddRazorRuntimeCompilation()
+                                    .AddRazorViewEngine();
+
             //ref: https://stackoverflow.com/questions/52041011/aspnet-core-2-1-correct-way-to-load-precompiled-views
             //load view assembly application parts to find the view from shared libraries
             builder.ConfigureApplicationPartManager(manager =>
