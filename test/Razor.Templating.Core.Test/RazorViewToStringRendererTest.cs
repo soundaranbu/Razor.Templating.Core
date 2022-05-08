@@ -43,7 +43,7 @@ namespace Razor.Templating.Core.Test
             viewData["Title"] = "This is Title";
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
             Assert.NotNull(html);
