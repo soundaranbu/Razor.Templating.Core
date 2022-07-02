@@ -31,8 +31,10 @@ namespace Razor.Templating.Core.Test
             var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 
             // Assert
-            Assert.NotNull(html);
-            Assert.Contains("<div>Hello, I'm example view without any model and view data</div>", html);
+            Assert.Contains("<div>Plain text: Lorem Ipsium</div>", html);
+            Assert.Contains("<div>ViewBag data: 1</div>", html);
+            Assert.Contains("<div>ViewData data: 2</div>", html);
+            Assert.Contains("<div>Html content: <em>Lorem Ipsium</em></div>", html);
         }
 
         [Fact]
