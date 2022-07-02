@@ -1,4 +1,5 @@
-﻿using Razor.Templating.Core;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using Razor.Templating.Core;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -8,6 +9,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             RazorViewToStringRendererFactory.ServiceCollection = services;
             RazorTemplateEngine.Initialize();
+
+            services.TryAddTransient<IRazorTemplateEngine, RazorTemplateEngineInstance>();
         }
     }
 }

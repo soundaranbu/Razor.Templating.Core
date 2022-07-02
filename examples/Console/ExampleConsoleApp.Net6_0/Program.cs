@@ -44,6 +44,13 @@ namespace ExampleConsoleApp.Net6_0
             watch.Stop();
             Console.WriteLine(html);
             Console.WriteLine(watch.ElapsedMilliseconds);
+
+            watch.Reset();
+            watch.Start();
+            html = await RazorTemplateEngine.RenderAsync("mysampleview.cshtml");
+            watch.Stop();
+            Console.WriteLine(html);
+            Console.WriteLine(watch.ElapsedMilliseconds);
         }
 
         static async Task Test1()
