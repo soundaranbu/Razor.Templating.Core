@@ -147,6 +147,10 @@ Please note this may become slightly better in the future versions of our librar
 ## Sample Applications
  Please find the sample applications [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples) 
  
+## Support
+If you find this helpful, consider supporting the development of this library by sponsoring one or more coffee ;) Thanks!
+
+[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/soundaranbu)
 ## Note:
 - Please ensure that the views path is always unique among all the shared template projects.
 
