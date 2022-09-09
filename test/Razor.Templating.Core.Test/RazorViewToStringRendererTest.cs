@@ -56,7 +56,7 @@ namespace Razor.Templating.Core.Test
 
             // Act
             IRazorTemplateEngine engine = GetRazorTemplateEngine();
-            var html = await engine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
+            var html = await engine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
             Assert.NotNull(html);

@@ -26,36 +26,14 @@ namespace Razor.Templating.Core
         /// <summary>
         /// Renders View(.cshtml) To String
         /// </summary>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <returns>Rendered string from the view</returns>
-        public static Task<string> RenderAsync([DisallowNull] string viewName)
-        {
-            return _instance.Value.RenderAsync(viewName);
-        }
-
-        /// <summary>
-        /// Renders View(.cshtml) To String
-        /// </summary>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="model">Strongly typed object </param>
+        /// <param name="model">Optional model data</param>
+        /// <param name="viewData">Optional view data</param>
         /// <returns></returns>
-        public static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
+        public async static Task<string> RenderAsync([DisallowNull] string viewName, object? model = null, Dictionary<string, object>? viewData = null)
         {
-            return _instance.Value.RenderAsync(viewName, model);
-        }
-
-        /// <summary>
-        /// Renders View(.cshtml) To String
-        /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="model">Strongly typed object</param>
-        /// <param name="viewData">ViewData</param>
-        /// <returns></returns>
-        public static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
-        {
-            return _instance.Value.RenderAsync(viewName, model, viewData);
+            return await _instance.Value.RenderAsync(viewName, model, viewData).ConfigureAwait(false);
         }
     }
 }

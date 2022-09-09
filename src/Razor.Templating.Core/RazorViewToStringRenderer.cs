@@ -28,19 +28,14 @@ namespace Razor.Templating.Core
         public RazorViewToStringRenderer(
             IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider, IHttpContextAccessor contextAccessor, LinkGenerator linkGenerator)
+            IServiceProvider serviceProvider)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
-        {
-            return await RenderViewToStringAsync(viewName, model, new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()));
-        }
-
-        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] ViewDataDictionary viewDataDictionary)
+        public async Task<string> RenderViewToStringAsync([DisallowNull] string viewName, object? model, [DisallowNull] ViewDataDictionary viewDataDictionary)
         {
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName);
@@ -49,7 +44,7 @@ namespace Razor.Templating.Core
             var viewContext = new ViewContext(
                 actionContext,
                 view,
-                new ViewDataDictionary<TModel>(viewDataDictionary, model),
+                new ViewDataDictionary<object>(viewDataDictionary, model),
                 new TempDataDictionary(
                     actionContext.HttpContext,
                     _tempDataProvider),
