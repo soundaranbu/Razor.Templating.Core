@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddRazorTemplating();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,10 +18,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/render", async () =>
+app.MapGet("/render", async (RazorTemplateEngine engine) =>
 {
     //Render View From the RCL
-    var renderedString = await RazorTemplateEngine.RenderAsync("/Views/Home/Index.cshtml");
+    var renderedString = await engine.RenderAsync("/Views/Home/Index.cshtml");
     return renderedString;
 })
 .WithName("render");

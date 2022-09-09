@@ -2,19 +2,7 @@
 using Razor.Templating.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml;
 
 namespace Example.Windows.Desktop.WPF
 {
@@ -23,8 +11,12 @@ namespace Example.Windows.Desktop.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly RazorTemplateEngine _razorTemplateEngine;
+
+        public MainWindow(RazorTemplateEngine razorTemplateEngine)
         {
+            _razorTemplateEngine = razorTemplateEngine ?? throw new ArgumentNullException(nameof(razorTemplateEngine));
+
             InitializeComponent();
 
             renderButton.Click += renderButton_Click;
@@ -44,7 +36,7 @@ namespace Example.Windows.Desktop.WPF
                 viewData["Value1"] = "1";
                 viewData["Value2"] = "2";
 
-                var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+                var html = await _razorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 textBlock.Text = html;
 
                 browser.NavigateToString(html);

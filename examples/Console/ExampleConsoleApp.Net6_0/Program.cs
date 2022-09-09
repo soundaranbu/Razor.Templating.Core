@@ -1,4 +1,5 @@
 ﻿using ExampleRazorTemplatesLibrary.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core;
 using System.Threading.Tasks;
 
@@ -10,7 +11,11 @@ namespace ExampleConsoleApp.Net6_0
         {
             try
             {
-                RazorTemplateEngine.Initialize();
+                ServiceCollection services = new ServiceCollection();
+                services.AddRazorTemplating();
+                var serviceProvider = services.BuildServiceProvider();
+                
+                RazorTemplateEngine engine = serviceProvider.GetRequiredService<RazorTemplateEngine>();
 
                 System.Console.WriteLine(DateTime.Now);
                 var model = new ExampleModel()
@@ -23,13 +28,13 @@ namespace ExampleConsoleApp.Net6_0
                 viewData["Value1"] = "1";
                 viewData["Value2"] = "2";
 
-                var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+                var html = await engine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 System.Console.Write(html);
                 System.Console.WriteLine(DateTime.Now);
 
 
                 // Render View with View Component
-                html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
+                html = await engine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
                 System.Console.Write(html);
                 System.Console.WriteLine(DateTime.Now);
 

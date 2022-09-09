@@ -12,11 +12,13 @@ public class HomeController : Controller
 
     private readonly ILogger<ApiController> _logger;
     private readonly ApplicationPartManager _applicationPartManager;
+    private readonly RazorTemplateEngine engine;
 
-    public HomeController(ILogger<ApiController> logger, ApplicationPartManager applicationPartManager)
+    public HomeController(ILogger<ApiController> logger, ApplicationPartManager applicationPartManager, RazorTemplateEngine engine)
     {
         _logger = logger;
         _applicationPartManager = applicationPartManager;
+        this.engine = engine;
     }
 
     public object GetApplicationParts()
@@ -38,14 +40,14 @@ public class HomeController : Controller
     public async Task<IActionResult> Render()
     {
         //Render View From the Web Application
-        var renderedString = await RazorTemplateEngine.RenderAsync("/Views/Home/Index.cshtml");
+        var renderedString = await engine.RenderAsync("/Views/Home/Index.cshtml");
         return Ok(renderedString);
     }
 
     public async Task<IActionResult> Render1()
     {
         //Render View From the Web Application
-        var renderedString = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+        var renderedString = await engine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
         return Ok(renderedString);
     }
 
