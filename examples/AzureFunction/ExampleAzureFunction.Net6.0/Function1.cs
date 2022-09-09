@@ -13,7 +13,7 @@ namespace ExampleAzureFunction.Net6._0
     public class Function1
     {
         [FunctionName("Function1")]
-        public async Task<IActionResult> Run(
+        public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
