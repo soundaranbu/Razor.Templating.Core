@@ -10,7 +10,7 @@ using Razor.Templating.Core;
 
 namespace ExampleAzureFunction.Net6._0
 {
-    public class Function1
+    public static class Function1
     {
         [FunctionName("Function1")]
         public static async Task<IActionResult> Run(
