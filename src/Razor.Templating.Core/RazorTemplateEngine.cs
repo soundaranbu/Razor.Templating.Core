@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -8,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public class RazorTemplateEngine
+    public static class RazorTemplateEngine
     {
-        private readonly IServiceProvider _serviceProvider;
+        private static readonly Lazy<IRazorTemplateEngine> _instance = new(CreateInstance, true);
 
-        public RazorTemplateEngine(IServiceProvider serviceProvider)
+        /// <summary>
+        /// Creates an instance of <see cref="RazorTemplateEngine"/> using an internal <see cref="ServiceCollection"/>.
+        /// </summary>
+        /// <returns></returns>
+        private static IRazorTemplateEngine CreateInstance()
         {
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            ServiceCollection services = new();
+            services.AddRazorTemplating();
+
+            RazorTemplateEngineImpl instance = new (services.BuildServiceProvider());
+            return instance;
         }
 
         /// <summary>
@@ -22,11 +28,9 @@ namespace Razor.Templating.Core
         /// </summary>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <returns>Rendered string from the view</returns>
-        public async Task<string> RenderAsync([DisallowNull] string viewName)
+        public static Task<string> RenderAsync([DisallowNull] string viewName)
         {
-            using var serviceScope = _serviceProvider.CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync<object>(viewName, default!).ConfigureAwait(false);
+            return _instance.Value.RenderAsync(viewName);
         }
 
         /// <summary>
@@ -36,11 +40,9 @@ namespace Razor.Templating.Core
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <param name="model">Strongly typed object </param>
         /// <returns></returns>
-        public async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
+        public static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
         {
-            using var serviceScope = _serviceProvider.CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
+            return _instance.Value.RenderAsync(viewName, model);
         }
 
         /// <summary>
@@ -51,17 +53,9 @@ namespace Razor.Templating.Core
         /// <param name="model">Strongly typed object</param>
         /// <param name="viewData">ViewData</param>
         /// <returns></returns>
-        public async Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
-        { 
-            var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
-            foreach (var keyValuePair in viewData)
-            {
-                viewDataDictionary.Add(keyValuePair!);
-            }
-
-            using var serviceScope = _serviceProvider.CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
+        public static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
+        {
+            return _instance.Value.RenderAsync(viewName, model, viewData);
         }
     }
 }

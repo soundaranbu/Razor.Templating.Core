@@ -9,9 +9,9 @@ namespace ExampleWebApp.Net6_0.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly RazorTemplateEngine _engine;
+    private readonly IRazorTemplateEngine _engine;
 
-    public HomeController(ILogger<HomeController> logger, IActionContextAccessor actionContext, RazorTemplateEngine engine)
+    public HomeController(ILogger<HomeController> logger, IActionContextAccessor actionContext, IRazorTemplateEngine engine)
     {
         _logger = logger;
         _engine = engine;

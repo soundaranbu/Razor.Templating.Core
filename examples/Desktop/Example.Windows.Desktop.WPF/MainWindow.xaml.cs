@@ -11,12 +11,8 @@ namespace Example.Windows.Desktop.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly RazorTemplateEngine _razorTemplateEngine;
-
-        public MainWindow(RazorTemplateEngine razorTemplateEngine)
+        public MainWindow()
         {
-            _razorTemplateEngine = razorTemplateEngine ?? throw new ArgumentNullException(nameof(razorTemplateEngine));
-
             InitializeComponent();
 
             renderButton.Click += renderButton_Click;
@@ -36,14 +32,14 @@ namespace Example.Windows.Desktop.WPF
                 viewData["Value1"] = "1";
                 viewData["Value2"] = "2";
 
-                var html = await _razorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+                var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 textBlock.Text = html;
 
                 browser.NavigateToString(html);
             }
             catch (System.Exception exception)
             {
-                throw exception;
+                throw;
             }
         }
     }

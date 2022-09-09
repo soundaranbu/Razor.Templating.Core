@@ -13,9 +13,9 @@ public class ApiController : ControllerBase
 
     private readonly ILogger<ApiController> _logger;
     private readonly ApplicationPartManager _applicationPartManager;
-    private readonly RazorTemplateEngine _engine;
+    private readonly IRazorTemplateEngine _engine;
 
-    public ApiController(ILogger<ApiController> logger, ApplicationPartManager applicationPartManager, RazorTemplateEngine engine)
+    public ApiController(ILogger<ApiController> logger, ApplicationPartManager applicationPartManager, IRazorTemplateEngine engine)
     {
         _logger = logger;
         _applicationPartManager = applicationPartManager;

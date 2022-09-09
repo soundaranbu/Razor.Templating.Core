@@ -6,12 +6,12 @@ namespace ExampleWorkerService.Net6_0;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
-    private readonly RazorTemplateEngine engine;
+    private readonly IRazorTemplateEngine _engine;
 
-    public Worker(ILogger<Worker> logger, RazorTemplateEngine engine)
+    public Worker(ILogger<Worker> logger, IRazorTemplateEngine engine)
     {
         _logger = logger;
-        this.engine = engine;
+        _engine = engine;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -29,7 +29,7 @@ public class Worker : BackgroundService
             viewData["Value1"] = "1";
             viewData["Value2"] = "2";
 
-            var html = await engine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+            var html = await _engine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
             System.Console.Write(html);
             System.Console.WriteLine(DateTime.Now);
         }
