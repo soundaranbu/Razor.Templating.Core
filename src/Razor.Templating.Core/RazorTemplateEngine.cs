@@ -8,7 +8,7 @@ namespace Razor.Templating.Core
 {
     public static class RazorTemplateEngine
     {
-        private static readonly Lazy<IRazorTemplateEngine> _instance = new(CreateInstance, true);
+        private static readonly Lazy<IRazorTemplateEngine> Instance = new(CreateInstance, true);
         private static IServiceCollection? _services;
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         public async static Task<string> RenderAsync([DisallowNull] string viewName, object? model = null, Dictionary<string, object>? viewData = null)
         {
-            return await _instance.Value.RenderAsync(viewName, model, viewData).ConfigureAwait(false);
+            return await Instance.Value.RenderAsync(viewName, model, viewData).ConfigureAwait(false);
         }
     }
 }
