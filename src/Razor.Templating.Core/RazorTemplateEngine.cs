@@ -9,6 +9,17 @@ namespace Razor.Templating.Core
     public static class RazorTemplateEngine
     {
         private static readonly Lazy<IRazorTemplateEngine> _instance = new(CreateInstance, true);
+        private static IServiceCollection? _services;
+
+        /// <summary>
+        /// Sets the internal <see cref="IServiceCollection"/> used to resolve our static instance of
+        /// <see cref="IRazorTemplateEngine"/>.
+        /// </summary>
+        /// <param name="services"></param>
+        internal static void UseServiceCollection(IServiceCollection services)
+        {
+            _services = services;
+        }
 
         /// <summary>
         /// Creates an instance of <see cref="RazorTemplateEngine"/> using an internal <see cref="ServiceCollection"/>.
@@ -16,10 +27,18 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         private static IRazorTemplateEngine CreateInstance()
         {
-            ServiceCollection services = new();
-            services.AddRazorTemplating();
+            IServiceCollection? services = _services;
 
-            RazorTemplateEngineImpl instance = new (services.BuildServiceProvider());
+            // was AddRazorTemplating UseServiceCollection called?
+            if (services is null)
+            {
+                // caller may not be using DI directly like in Azure Functions or WPF, 
+                // create our own service collection and register everything required.
+                services = new ServiceCollection();
+                services.AddRazorTemplating();
+            }
+
+            var instance = new RazorTemplateEngineImpl(services.BuildServiceProvider());
             return instance;
         }
 

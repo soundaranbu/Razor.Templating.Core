@@ -17,6 +17,11 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddRazorTemplating(this IServiceCollection services)
         {
+            ArgumentNullException.ThrowIfNull(services);
+
+            // ensure the static class uses the same service collection for building the IRazorTemplateEngine
+            RazorTemplateEngine.UseServiceCollection(services);
+
             //ref: https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
             var assembliesBaseDirectory = AppContext.BaseDirectory;
 
