@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
@@ -25,12 +24,11 @@ namespace Razor.Templating.Core
         /// <summary>
         /// Renders View(.cshtml) To String
         /// </summary>
-        /// <typeparam name="TModel"></typeparam>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <param name="model">Strongly typed object</param>
         /// <param name="viewData">ViewData</param>
         /// <returns></returns>
-        public async Task<string> RenderAsync([DisallowNull] string viewName, object? model = null, Dictionary<string, object>? viewData = null)
+        public async Task<string> RenderAsync(string viewName, object? model = null, Dictionary<string, object>? viewData = null)
         {
             if (string.IsNullOrWhiteSpace(viewName))
             {
@@ -50,6 +48,5 @@ namespace Razor.Templating.Core
             var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
             return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
         }
-
     }
 }

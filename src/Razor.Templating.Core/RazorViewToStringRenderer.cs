@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +33,7 @@ namespace Razor.Templating.Core
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync([DisallowNull] string viewName, object? model, [DisallowNull] ViewDataDictionary viewDataDictionary)
+        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary)
         {
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName);

@@ -12,7 +12,7 @@ namespace Razor.Templating.Core.Test
     {
         private IRazorTemplateEngine GetRazorTemplateEngine()
         {
-            ServiceCollection services = new ServiceCollection();
+            var services = new ServiceCollection();
             services.AddRazorTemplating();
             var serviceProvider = services.BuildServiceProvider();
 
@@ -37,7 +37,7 @@ namespace Razor.Templating.Core.Test
             viewData["Value2"] = "2";
 
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 
             // Assert
@@ -55,7 +55,7 @@ namespace Razor.Templating.Core.Test
             viewData["Title"] = "This is Title";
 
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
@@ -68,7 +68,7 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_WithLayout_WithoutData()
         {
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
 
             // Assert
@@ -80,7 +80,7 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_Without_ViewModel()
         {
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
 
             // Assert
@@ -99,7 +99,7 @@ namespace Razor.Templating.Core.Test
             };
 
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
 
             // Assert
@@ -128,14 +128,13 @@ namespace Razor.Templating.Core.Test
             var serviceProvider = services.BuildServiceProvider();
 
             // Act
-            IRazorTemplateEngine engine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+            var engine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
             var html = await engine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
             // Assert
             Assert.NotNull(html);
             Assert.Contains("Injected Service Data: Some Random Value - ", html);
         }
-
 
         [Fact]
         public async Task RenderView_WithModel_WithViewImport()
@@ -148,7 +147,7 @@ namespace Razor.Templating.Core.Test
             };
 
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
 
             // Assert
@@ -160,7 +159,7 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_WithTagHelpers()
         {
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
 
             // Assert
@@ -174,7 +173,7 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_WithViewComponent()
         {
             // Act
-            IRazorTemplateEngine engine = GetRazorTemplateEngine();
+            var engine = GetRazorTemplateEngine();
             var html = await engine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
 
             // Assert
@@ -187,7 +186,7 @@ namespace Razor.Templating.Core.Test
         {
             try
             {
-                IRazorTemplateEngine engine = GetRazorTemplateEngine();
+                var engine = GetRazorTemplateEngine();
                 var html = await engine.RenderAsync("/Views/SomeInvalidView.cshtml");
             }
             catch (System.Exception e)
