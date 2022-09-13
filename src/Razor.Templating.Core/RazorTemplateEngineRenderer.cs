@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public class RazorTemplateEngineImpl : IRazorTemplateEngine
+    public class RazorTemplateEngineRenderer : IRazorTemplateEngine
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -16,7 +16,7 @@ namespace Razor.Templating.Core
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is null.</exception>
-        public RazorTemplateEngineImpl(IServiceProvider serviceProvider)
+        public RazorTemplateEngineRenderer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }

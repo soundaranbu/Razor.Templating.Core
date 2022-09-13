@@ -38,7 +38,7 @@ namespace Razor.Templating.Core
                 services.AddRazorTemplating();
             }
 
-            var instance = new RazorTemplateEngineImpl(services.BuildServiceProvider());
+            var instance = new RazorTemplateEngineRenderer(services.BuildServiceProvider());
             return instance;
         }
 

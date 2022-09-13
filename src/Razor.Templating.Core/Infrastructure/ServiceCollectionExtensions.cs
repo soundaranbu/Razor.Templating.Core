@@ -77,7 +77,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.TryAddTransient<RazorViewToStringRenderer>();
-            services.TryAddSingleton<IRazorTemplateEngine, RazorTemplateEngineImpl>();
+            services.TryAddSingleton<IRazorTemplateEngine, RazorTemplateEngineRenderer>();
         }
     }
 }
