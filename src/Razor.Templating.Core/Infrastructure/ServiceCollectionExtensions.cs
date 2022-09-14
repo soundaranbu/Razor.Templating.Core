@@ -19,9 +19,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             ArgumentNullException.ThrowIfNull(services);
 
-            // ensure the static class uses the same service collection for building the IRazorTemplateEngine
-            RazorTemplateEngine.UseServiceCollection(services);
-
             //ref: https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
             var assembliesBaseDirectory = AppContext.BaseDirectory;
 
@@ -77,7 +74,13 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.TryAddTransient<RazorViewToStringRenderer>();
-            services.TryAddSingleton<IRazorTemplateEngine, RazorTemplateEngineRenderer>();
+            services.TryAddTransient<IRazorTemplateEngine, RazorTemplateEngineRenderer>();
+
+            // ensure the static class uses the same service collection for building the IRazorTemplateEngine
+            // perform at end so no race condition with service registration
+            RazorTemplateEngine.UseServiceCollection(services);
+
+
         }
     }
 }

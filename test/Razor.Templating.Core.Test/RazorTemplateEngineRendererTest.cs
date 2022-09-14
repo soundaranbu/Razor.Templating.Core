@@ -1,34 +1,57 @@
-﻿using AutoFixture;
-using ExampleRazorTemplatesLibrary.Models;
+﻿using ExampleRazorTemplatesLibrary.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using AutoFixture;
 
 namespace Razor.Templating.Core.Test
 {
-    public class RazorTemplateEngineTest
+    public class RazorTemplateEngineRendererTest
     {
+        /// <summary>
+        /// Subject Under Test
+        /// </summary>
+        private readonly RazorTemplateEngineRenderer _sut;
         private readonly Fixture _fixture = new Fixture();
+
+        public RazorTemplateEngineRendererTest()
+        {
+            var services = new ServiceCollection();
+            services.AddRazorTemplating();
+            var serviceProvider = services.BuildServiceProvider();
+
+            _sut = new RazorTemplateEngineRenderer(serviceProvider);
+        }
+
+        [Fact]
+        public void throws_ArgumentNullException_if_serviceProvider_is_null()
+        {
+            var actual = Assert.Throws<ArgumentNullException>(() => new RazorTemplateEngineRenderer(null!));
+            Assert.Equal("serviceProvider", actual.ParamName);
+        }
 
         [Fact]
         public async Task throws_ArgumentNullException_if_RenderAsync_when_viewname_is_null()
         {
-            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(null!));
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.RenderAsync(null!));
             Assert.Equal("viewName", actual.ParamName);
         }
 
         [Fact]
         public async Task throws_ArgumentNullException_if_RenderAsync_when_viewname_is_empty()
         {
-            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(string.Empty));
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.RenderAsync(string.Empty));
             Assert.Equal("viewName", actual.ParamName);
         }
 
         [Fact]
         public async Task throws_ArgumentNullException_if_RenderAsync_when_viewname_is_whitespace()
         {
-            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(" "));
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.RenderAsync(" "));
             Assert.Equal("viewName", actual.ParamName);
         }
 
@@ -38,7 +61,7 @@ namespace Razor.Templating.Core.Test
             // Arrange
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml");
+            var html = await _sut.RenderAsync("~/Views/ExampleView.cshtml");
 
             // Assert
 
@@ -56,7 +79,7 @@ namespace Razor.Templating.Core.Test
             var model = _fixture.Create<ExampleModel>();
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml", model);
+            var html = await _sut.RenderAsync("~/Views/ExampleView.cshtml", model);
 
             // Assert
             Assert.Contains($"<div>Plain text: {model.PlainText}</div>", html);
@@ -78,7 +101,7 @@ namespace Razor.Templating.Core.Test
             viewData["Value2"] = _fixture.Create<string>();
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml", model, viewData);
+            var html = await _sut.RenderAsync("~/Views/ExampleView.cshtml", model, viewData);
 
             // Assert
             Assert.Contains($"<div>Plain text: {model.PlainText}</div>", html);

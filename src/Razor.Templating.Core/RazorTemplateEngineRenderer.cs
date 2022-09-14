@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public class RazorTemplateEngineRenderer : IRazorTemplateEngine
+    public sealed class RazorTemplateEngineRenderer : IRazorTemplateEngine
     {
         private readonly IServiceProvider _serviceProvider;
 
