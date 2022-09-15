@@ -26,6 +26,6 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build RazorTemplating.sln --configuration Release --no-restore
+      run: dotnet build Razor.Templating.Core.sln --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
