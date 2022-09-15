@@ -1,15 +1,24 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("Razor.Templating.Core.Test")]
 
 namespace Razor.Templating.Core
 {
     public static class RazorTemplateEngine
     {
-        private static readonly Lazy<IRazorTemplateEngine> Instance = new(CreateInstance, true);
+        private static Lazy<IRazorTemplateEngine> Instance = new(CreateInstance, true);
         private static IServiceCollection? _services;
 
+        internal static void Reset()
+        {
+            _services = null;
+            Instance = new(CreateInstance, true);
+        }
+        
         /// <summary>
         /// Sets the internal <see cref="IServiceCollection"/> used to resolve our static instance of
         /// <see cref="IRazorTemplateEngine"/>.
