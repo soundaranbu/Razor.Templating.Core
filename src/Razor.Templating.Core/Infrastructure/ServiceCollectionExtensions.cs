@@ -6,10 +6,10 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
 using Razor.Templating.Core;
 using Razor.Templating.Core.Infrastructure;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -79,7 +79,6 @@ namespace Microsoft.Extensions.DependencyInjection
             // ensure the static class uses the same service collection for building the IRazorTemplateEngine
             // perform at end so no race condition with service registration
             RazorTemplateEngine.UseServiceCollection(services);
-
 
         }
     }

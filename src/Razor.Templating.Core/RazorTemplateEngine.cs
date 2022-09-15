@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
@@ -22,12 +21,21 @@ namespace Razor.Templating.Core
         }
 
         /// <summary>
+        /// Creates the cache of RazorViewToStringRenderer. If already initialized, re-initializes.
+        /// </summary>
+        [Obsolete("This method is now marked as obsolete and no longer used. It will be removed in the upcoming versions. You can safely remove it and it doesn't affect any functionality.")]
+        public static void Initialize()
+        {
+
+        }
+
+        /// <summary>
         /// Creates an instance of <see cref="RazorTemplateEngine"/> using an internal <see cref="ServiceCollection"/>.
         /// </summary>
         /// <returns></returns>
         private static IRazorTemplateEngine CreateInstance()
         {
-            IServiceCollection? services = _services;
+            var services = _services;
 
             // was AddRazorTemplating UseServiceCollection called?
             if (services is null)
@@ -45,14 +53,27 @@ namespace Razor.Templating.Core
         /// <summary>
         /// Renders View(.cshtml) To String
         /// </summary>
+        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view data</param>
+        /// <returns></returns>
+        public async static Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        {
+            return await Instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Renders View(.cshtml) To String
+        /// </summary>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="model">Optional model data</param>
-        /// <param name="viewData">Optional view data</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view data</param>
         /// <returns></returns>
-        public async static Task<string> RenderAsync([DisallowNull] string viewName, object? model = null, Dictionary<string, object>? viewData = null)
+        [Obsolete("This method with generic type param is now obsolete and it will be removed in the upcoming versions. Please use the overload method without generic parameter instead.")]
+        public async static Task<string> RenderAsync<TModel>(string viewName, object viewModel, Dictionary<string, object> viewBagOrViewData)
         {
-            return await Instance.Value.RenderAsync(viewName, model, viewData).ConfigureAwait(false);
+            return await Instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
     }
 }

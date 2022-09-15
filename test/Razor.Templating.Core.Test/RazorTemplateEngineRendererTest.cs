@@ -1,12 +1,10 @@
-﻿using ExampleRazorTemplatesLibrary.Models;
+﻿using AutoFixture;
+using ExampleRazorTemplatesLibrary.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using AutoFixture;
 
 namespace Razor.Templating.Core.Test
 {
@@ -28,35 +26,35 @@ namespace Razor.Templating.Core.Test
         }
 
         [Fact]
-        public void throws_ArgumentNullException_if_serviceProvider_is_null()
+        public void Throws_ArgumentNullException_If_ServiceProvider_Is_Null()
         {
             var actual = Assert.Throws<ArgumentNullException>(() => new RazorTemplateEngineRenderer(null!));
             Assert.Equal("serviceProvider", actual.ParamName);
         }
 
         [Fact]
-        public async Task throws_ArgumentNullException_if_RenderAsync_when_viewname_is_null()
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
         {
             var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.RenderAsync(null!));
             Assert.Equal("viewName", actual.ParamName);
         }
 
         [Fact]
-        public async Task throws_ArgumentNullException_if_RenderAsync_when_viewname_is_empty()
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Empty()
         {
             var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.RenderAsync(string.Empty));
             Assert.Equal("viewName", actual.ParamName);
         }
 
         [Fact]
-        public async Task throws_ArgumentNullException_if_RenderAsync_when_viewname_is_whitespace()
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Whitespace()
         {
             var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.RenderAsync(" "));
             Assert.Equal("viewName", actual.ParamName);
         }
 
         [Fact]
-        public async Task can_render_example_view_with_no_model()
+        public async Task Can_Render_Example_View_With_No_Model()
         {
             // Arrange
 
@@ -73,7 +71,7 @@ namespace Razor.Templating.Core.Test
         }
 
         [Fact]
-        public async Task can_render_example_view_with_model_only()
+        public async Task Can_Render_Example_View_With_Model_Only()
         {
             // Arrange
             var model = _fixture.Create<ExampleModel>();
@@ -91,7 +89,7 @@ namespace Razor.Templating.Core.Test
 
 
         [Fact]
-        public async Task can_render_example_view_with_model_and_view_data()
+        public async Task Can_Render_Example_View_With_Model_And_View_Data()
         {
             // Arrange
             var model = _fixture.Create<ExampleModel>();

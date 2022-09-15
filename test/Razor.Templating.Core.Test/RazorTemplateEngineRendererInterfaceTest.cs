@@ -8,14 +8,23 @@ using Xunit;
 
 namespace Razor.Templating.Core.Test
 {
-    public class RazorViewToStringRendererTest
+    public class RazorTemplateEngineRendererInterfaceTest
     {
+        private IRazorTemplateEngine GetRazorTemplateEngine()
+        {
+            var services = new ServiceCollection();
+            services.AddRazorTemplating();
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+        }
+
         [Fact]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
             //Optionally call this to create cache of the renderer
             //Otherwise, render time will be more than usual on first time only
-            RazorTemplateEngine.Initialize();
+
             // Arrange
             var model = new ExampleModel()
             {
@@ -28,7 +37,8 @@ namespace Razor.Templating.Core.Test
             viewData["Value2"] = "2";
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 
             // Assert
             Assert.Contains("<div>Plain text: Lorem Ipsium</div>", html);
@@ -45,7 +55,8 @@ namespace Razor.Templating.Core.Test
             viewData["Title"] = "This is Title";
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
             Assert.NotNull(html);
@@ -57,7 +68,8 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_WithLayout_WithoutData()
         {
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
 
             // Assert
             Assert.NotNull(html);
@@ -68,7 +80,8 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_Without_ViewModel()
         {
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
 
             // Assert
             Assert.NotNull(html);
@@ -86,7 +99,8 @@ namespace Razor.Templating.Core.Test
             };
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
 
             // Assert
             Assert.NotNull(html);
@@ -110,8 +124,12 @@ namespace Razor.Templating.Core.Test
             // Add after registering all dependencies
             // this is important for the razor template engine to find the injected services
             services.AddRazorTemplating();
+
+            var serviceProvider = services.BuildServiceProvider();
+
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
+            var engine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+            var html = await engine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
             // Assert
             Assert.NotNull(html);
@@ -129,7 +147,8 @@ namespace Razor.Templating.Core.Test
             };
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
 
             // Assert
             Assert.NotNull(html);
@@ -140,7 +159,8 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_WithTagHelpers()
         {
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
 
             // Assert
             Assert.NotNull(html);
@@ -153,7 +173,8 @@ namespace Razor.Templating.Core.Test
         public async Task RenderView_WithViewComponent()
         {
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
+            var engine = GetRazorTemplateEngine();
+            var html = await engine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
 
             // Assert
             Assert.NotNull(html);
@@ -165,7 +186,8 @@ namespace Razor.Templating.Core.Test
         {
             try
             {
-                var html = await RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml");
+                var engine = GetRazorTemplateEngine();
+                var html = await engine.RenderAsync("/Views/SomeInvalidView.cshtml");
             }
             catch (System.Exception e)
             {

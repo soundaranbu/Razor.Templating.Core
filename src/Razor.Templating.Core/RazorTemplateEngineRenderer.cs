@@ -25,10 +25,11 @@ namespace Razor.Templating.Core
         /// Renders View(.cshtml) To String
         /// </summary>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="model">Strongly typed object</param>
-        /// <param name="viewData">ViewData</param>
+        /// <param name="viewModel">Strongly typed object</param>
+        /// <param name="viewBagOrViewData">ViewData</param>
         /// <returns></returns>
-        public async Task<string> RenderAsync(string viewName, object? model = null, Dictionary<string, object>? viewData = null)
+        public async Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData
+            = null)
         {
             if (string.IsNullOrWhiteSpace(viewName))
             {
@@ -36,9 +37,9 @@ namespace Razor.Templating.Core
             }
 
             var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
-            if (viewData is not null)
+            if (viewBagOrViewData is not null)
             {
-                foreach (var keyValuePair in viewData)
+                foreach (var keyValuePair in viewBagOrViewData)
                 {
                     viewDataDictionary.Add(keyValuePair!);
                 }
@@ -46,7 +47,7 @@ namespace Razor.Templating.Core
 
             using var serviceScope = _serviceProvider.CreateScope();
             var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
+            return await renderer.RenderViewToStringAsync(viewName, viewModel, viewDataDictionary).ConfigureAwait(false);
         }
     }
 }
