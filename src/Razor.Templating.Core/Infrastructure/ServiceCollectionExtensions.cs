@@ -15,9 +15,20 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddRazorTemplating(this IServiceCollection services)
+        /// <summary>
+        /// Adds the required Razor templating services to the service collection.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configure"></param>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> is null</exception>
+        /// <exception cref="InvalidOperationException">
+        /// This has been called again after the <see cref="RazorTemplateEngine"/> has already been initialized.</exception>
+        public static void AddRazorTemplating(this IServiceCollection services, Action<RazorTemplatingOptions>? configure = null)
         {
             ArgumentNullException.ThrowIfNull(services);
+
+            var options = new RazorTemplatingOptions();
+            configure?.Invoke(options);
 
             //ref: https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
             var assembliesBaseDirectory = AppContext.BaseDirectory;
@@ -76,10 +87,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddTransient<RazorViewToStringRenderer>();
             services.TryAddTransient<IRazorTemplateEngine, RazorTemplateEngineRenderer>();
 
-            // ensure the static class uses the same service collection for building the IRazorTemplateEngine
-            // perform at end so no race condition with service registration
-            RazorTemplateEngine.UseServiceCollection(services);
-
+            if (options.UseStaticRazorTemplateEngine)
+            {
+                // ensure the static class uses the same service collection for building the IRazorTemplateEngine
+                // perform at end so no race condition with service registration
+                RazorTemplateEngine.UseServiceCollection(services);
+            }
         }
     }
 }

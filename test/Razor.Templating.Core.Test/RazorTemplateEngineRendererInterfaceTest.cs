@@ -10,15 +10,6 @@ namespace Razor.Templating.Core.Test
 {
     public class RazorTemplateEngineRendererInterfaceTest
     {
-        private IRazorTemplateEngine GetRazorTemplateEngine()
-        {
-            var services = new ServiceCollection();
-            services.AddRazorTemplating();
-            var serviceProvider = services.BuildServiceProvider();
-
-            return serviceProvider.GetRequiredService<IRazorTemplateEngine>();
-        }
-
         [Fact]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
@@ -119,16 +110,12 @@ namespace Razor.Templating.Core.Test
             };
 
             // Add dependencies to the service collection and add razor templating to the collection
-            var services = new ServiceCollection();
-            services.AddTransient<ExampleService>();
-            // Add after registering all dependencies
-            // this is important for the razor template engine to find the injected services
-            services.AddRazorTemplating();
-
-            var serviceProvider = services.BuildServiceProvider();
+            var engine = GetRazorTemplateEngine(services =>
+            {
+                services.AddTransient<ExampleService>();
+            });
 
             // Act
-            var engine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
             var html = await engine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
             // Assert
@@ -195,5 +182,21 @@ namespace Razor.Templating.Core.Test
                 Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", e.Message);
             }
         }
+
+        /// <summary>
+        /// Gets an instance of <see cref="IRazorTemplateEngine"/>.
+        /// </summary>
+        /// <param name="configure">Optional parameter to configure more services before creating instance.</param>
+        private IRazorTemplateEngine GetRazorTemplateEngine(Action<IServiceCollection> configure = null)
+        {
+            var services = new ServiceCollection();
+            // these tests are not use the static class
+            services.AddRazorTemplating(opt => opt.UseStaticRazorTemplateEngine = false);
+            configure?.Invoke(services);
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace Razor.Templating.Core.Test
         public RazorTemplateEngineRendererTest()
         {
             var services = new ServiceCollection();
-            services.AddRazorTemplating();
+            services.AddRazorTemplating(opts => opts.UseStaticRazorTemplateEngine = false);
             var serviceProvider = services.BuildServiceProvider();
 
             _sut = new RazorTemplateEngineRenderer(serviceProvider);

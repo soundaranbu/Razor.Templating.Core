@@ -15,17 +15,23 @@ namespace Razor.Templating.Core
 
         internal static void Reset()
         {
-            _services = null;
             _instance = new(CreateInstance, true);
+            _services = null;
         }
-        
+
         /// <summary>
         /// Sets the internal <see cref="IServiceCollection"/> used to resolve our static instance of
         /// <see cref="IRazorTemplateEngine"/>.
         /// </summary>
         /// <param name="services"></param>
+        /// <exception cref="InvalidOperationException">The service has already been initiaized.</exception>
         internal static void UseServiceCollection(IServiceCollection services)
         {
+            if (_instance.IsValueCreated)
+            {
+                throw new InvalidOperationException("Cannot set service collection, RazorTemplateEngine has already been initialized.");
+            }
+
             _services = services;
         }
 
@@ -52,7 +58,7 @@ namespace Razor.Templating.Core
                 // caller may not be using DI directly like in Azure Functions or WPF, 
                 // create our own service collection and register everything required.
                 services = new ServiceCollection();
-                services.AddRazorTemplating();
+                services.AddRazorTemplating(opts => opts.UseStaticRazorTemplateEngine = false);
             }
 
             var instance = new RazorTemplateEngineRenderer(services.BuildServiceProvider());
@@ -68,6 +74,11 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         public async static Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
             return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
 
@@ -82,6 +93,11 @@ namespace Razor.Templating.Core
         [Obsolete("This method with generic type param is now obsolete and it will be removed in the upcoming versions. Please use the overload method without generic parameter instead.")]
         public async static Task<string> RenderAsync<TModel>(string viewName, object viewModel, Dictionary<string, object> viewBagOrViewData)
         {
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
             return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
     }
