@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/src/Razor.Templating.Core/assets/icon.png" width="70" height="70" /> 
 
-# Razor Templating 
+# Razor.Templating.Core
 
 ![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
 ![Coverage](https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_linecoverage_green.svg)

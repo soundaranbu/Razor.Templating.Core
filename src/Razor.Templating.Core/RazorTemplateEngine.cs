@@ -10,13 +10,13 @@ namespace Razor.Templating.Core
 {
     public static class RazorTemplateEngine
     {
-        private static Lazy<IRazorTemplateEngine> Instance = new(CreateInstance, true);
+        private static Lazy<IRazorTemplateEngine> _instance = new(CreateInstance, true);
         private static IServiceCollection? _services;
 
         internal static void Reset()
         {
             _services = null;
-            Instance = new(CreateInstance, true);
+            _instance = new(CreateInstance, true);
         }
         
         /// <summary>
@@ -68,7 +68,7 @@ namespace Razor.Templating.Core
         /// <returns></returns>
         public async static Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
-            return await Instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
+            return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Razor.Templating.Core
         [Obsolete("This method with generic type param is now obsolete and it will be removed in the upcoming versions. Please use the overload method without generic parameter instead.")]
         public async static Task<string> RenderAsync<TModel>(string viewName, object viewModel, Dictionary<string, object> viewBagOrViewData)
         {
-            return await Instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
+            return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
     }
 }
