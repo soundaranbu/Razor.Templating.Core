@@ -11,16 +11,16 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 ## Supported Application Types
 
-|                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | .NET 6  |
-|------------------|---------------|---------------|---------|---------|
-| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | v1.7.1  | 
-| Console          | &check;       | &check;       | &check; | &check; |
-| Api              | &check;       | &check;       | &check; | &check; |
-| Mvc              | &check;       | &check;       | &check; | &check; |
-| Worker Service   | &check;       | &check;       | &check; | &check; |
-| WPF              | &check;       | &check;       | &check; | &check; |
-| WinForms         | &check;       | &check;       | &check; | &check; |
-| Azure Functions  | &check;       | &check;       | &check; | &check; |
+|                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | .NET 6       |
+|------------------|---------------|---------------|---------|--------------|
+| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | 1.8.0-rc.1   | 
+| Console          | &check;       | &check;       | &check; | &check;      |
+| Api              | &check;       | &check;       | &check; | &check;      |
+| Mvc              | &check;       | &check;       | &check; | &check;      |
+| Worker Service   | &check;       | &check;       | &check; | &check;      |
+| WPF              | &check;       | &check;       | &check; | &check;      |
+| WinForms         | &check;       | &check;       | &check; | &check;      |
+| Azure Functions  | &check;       | &check;       | &check; | &check;      |
 
 
 ## Supported View Features
@@ -54,7 +54,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.7.1" />
+<PackageReference Include="Razor.Templating.Core" Version="1.8.0-rc.1" />
 ```
 
 ## Simple Usage:
@@ -98,7 +98,7 @@ Before applying this code, follow this article for sample implementation: https:
 </Project>
 ```
 
-## Dependency Injection [Since `v1.4.0`]
+## Dependency Injection
 Dependencies can be injected directly into views using `@inject` in .csthml file. Refer [sample application here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Mvc)
 
 In ASP.NET Core, add dependency like below in `Startup.cs -> ConfigureServices`
@@ -118,7 +118,33 @@ services.AddTransient<ExampleService>();
 // Add RazorTemplating after registering all dependencies
 // this is important for the razor template engine to find the injected services
 services.AddRazorTemplating(); 
+```
+
+Once the dependencies are registered, we can use either one of these ways:
+
+#### Using `RazorTemplateEngine` static class
+```cs
 var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
+```
+
+#### Using `IRazorTemplateEngine`
+- Instead of using the `RazorTemplateEngine` static class, it's also possible to use the `IRazorTemplateEngine` interface to inject dependency directly into the constructor.
+
+```cs
+public class MyService {
+    private readonly IRazorTemplateEngine _razorTemplateEngine;
+
+    public MyService (IRazorTemplateEngine razorTemplateEngine)
+    {
+        _razorTemplateEngine = razorTemplateEngine;
+    }
+
+    public async Task Index()
+    {
+        var renderedView = await _razorTemplateEngine.RenderAsync("/Views/Home/Index.cshtml");
+        // do something with renderedView
+    }
+}
 ```
  
 ## How to render razor views from absolute path
