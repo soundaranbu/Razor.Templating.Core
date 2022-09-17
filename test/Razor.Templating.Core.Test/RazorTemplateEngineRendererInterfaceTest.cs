@@ -183,20 +183,40 @@ namespace Razor.Templating.Core.Test
             }
         }
 
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => GetRazorTemplateEngine().RenderAsync(null!));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Empty()
+        {
+            var actual =
+                await Assert.ThrowsAsync<ArgumentNullException>(() => GetRazorTemplateEngine().RenderAsync(string.Empty));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Whitespace()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => GetRazorTemplateEngine().RenderAsync(" "));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
         /// <summary>
         /// Gets an instance of <see cref="IRazorTemplateEngine"/>.
         /// </summary>
         /// <param name="configure">Optional parameter to configure more services before creating instance.</param>
-        private IRazorTemplateEngine GetRazorTemplateEngine(Action<IServiceCollection> configure = null)
+        private static IRazorTemplateEngine GetRazorTemplateEngine(Action<IServiceCollection> configure = null)
         {
             var services = new ServiceCollection();
-            // these tests are not use the static class
-            services.AddRazorTemplating(opt => opt.UseStaticRazorTemplateEngine = false);
+            services.AddRazorTemplating();
             configure?.Invoke(services);
             var serviceProvider = services.BuildServiceProvider();
 
             return serviceProvider.GetRequiredService<IRazorTemplateEngine>();
         }
-
     }
 }

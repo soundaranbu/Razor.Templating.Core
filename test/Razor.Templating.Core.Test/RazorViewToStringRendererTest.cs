@@ -8,15 +8,8 @@ using Xunit;
 
 namespace Razor.Templating.Core.Test
 {
-    [Collection("Razor Template Engine collection")]
-    public class RazorViewToStringRendererTest : IClassFixture<RazorTemplateEngineFixture>
+    public class RazorViewToStringRendererTest
     {
-        private readonly RazorTemplateEngineFixture _fixture;
-        public RazorViewToStringRendererTest(RazorTemplateEngineFixture fixture)
-        {
-            _fixture = fixture;
-        }
-
         [Fact]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
@@ -24,185 +17,176 @@ namespace Razor.Templating.Core.Test
             //Otherwise, render time will be more than usual on first time only
             RazorTemplateEngine.Initialize();
 
-            using (_fixture.BeginTest())
+            // Arrange
+            var model = new ExampleModel()
             {
-                // Arrange
-                var model = new ExampleModel()
-                {
-                    PlainText = "Lorem Ipsium",
-                    HtmlContent = "<em>Lorem Ipsium</em>"
-                };
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
 
-                var viewData = new Dictionary<string, object>();
-                viewData["Value1"] = "1";
-                viewData["Value2"] = "2";
+            var viewData = new Dictionary<string, object>();
+            viewData["Value1"] = "1";
+            viewData["Value2"] = "2";
 
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 
-                // Assert
-                Assert.Contains("<div>Plain text: Lorem Ipsium</div>", html);
-                Assert.Contains("<div>ViewBag data: 1</div>", html);
-                Assert.Contains("<div>ViewData data: 2</div>", html);
-                Assert.Contains("<div>Html content: <em>Lorem Ipsium</em></div>", html);
-            }
+            // Assert
+            Assert.Contains("<div>Plain text: Lorem Ipsium</div>", html);
+            Assert.Contains("<div>ViewBag data: 1</div>", html);
+            Assert.Contains("<div>ViewData data: 2</div>", html);
+            Assert.Contains("<div>Html content: <em>Lorem Ipsium</em></div>", html);
         }
 
         [Fact]
         public async Task RenderView_WithLayout_WithViewData()
         {
-            using (_fixture.BeginTest())
-            {
-                // Arrange
-                var viewData = new Dictionary<string, object>();
-                viewData["Title"] = "This is Title";
+            // Arrange
+            var viewData = new Dictionary<string, object>();
+            viewData["Title"] = "This is Title";
 
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains("This is the view content", html);
-                Assert.Contains("This is Title", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("This is the view content", html);
+            Assert.Contains("This is Title", html);
         }
 
         [Fact]
         public async Task RenderView_WithLayout_WithoutData()
         {
-            using (_fixture.BeginTest())
-            {
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml");
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains("This is the view content", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("This is the view content", html);
         }
 
         [Fact]
         public async Task RenderView_Without_ViewModel()
         {
-            using (_fixture.BeginTest())
-            {
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains("<div>Hi I'm example view without any viewmodel or view data</div>", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("<div>Hi I'm example view without any viewmodel or view data</div>", html);
         }
 
         [Fact]
         public async Task RenderPartialView_WithModel()
         {
-            using (_fixture.BeginTest())
+            // Arrange
+            var model = new ExampleModel()
             {
-                // Arrange
-                var model = new ExampleModel()
-                {
-                    PlainText = "Lorem Ipsium",
-                    HtmlContent = "<em>Lorem Ipsium</em>"
-                };
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
 
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains("Partial view", html);
-                Assert.Contains("Html content: <em>Lorem Ipsium</em>", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("Partial view", html);
+            Assert.Contains("Html content: <em>Lorem Ipsium</em>", html);
         }
 
         [Fact]
         public async Task RenderView_WithServiceInjection()
         {
-            using (_fixture.BeginTest())
+            // Arrange
+            var model = new ExampleModel()
             {
-                // Arrange
-                var model = new ExampleModel()
-                {
-                    PlainText = "Lorem Ipsium",
-                    HtmlContent = "<em>Lorem Ipsium</em>"
-                };
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
 
-                // Add dependencies to the service collection and add razor templating to the collection
-                var services = new ServiceCollection();
-                services.AddTransient<ExampleService>();
-                // Add after registering all dependencies
-                // this is important for the razor template engine to find the injected services
-                services.AddRazorTemplating();
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
+            // Add dependencies to the service collection and add razor templating to the collection
+            var services = new ServiceCollection();
+            services.AddTransient<ExampleService>();
+            // Add after registering all dependencies
+            // this is important for the razor template engine to find the injected services
+            services.AddRazorTemplating();
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains("Injected Service Data: Some Random Value - ", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("Injected Service Data: Some Random Value - ", html);
         }
 
         [Fact]
         public async Task RenderView_WithModel_WithViewImport()
         {
-            using (_fixture.BeginTest())
+            // Arrange
+            var model = new ExampleModel()
             {
-                // Arrange
-                var model = new ExampleModel()
-                {
-                    PlainText = "Lorem Ipsium",
-                    HtmlContent = "<em>Lorem Ipsium</em>"
-                };
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
 
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewUsingViewImports.cshtml", model);
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains("Plain text: Lorem Ipsium", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("Plain text: Lorem Ipsium", html);
         }
 
         [Fact]
         public async Task RenderView_WithTagHelpers()
         {
-            using (_fixture.BeginTest())
-            {
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>", html);
-                Assert.Contains("<form method=\"post\" class=\"form-horizontal\" role=\"form\" action=\"/Account/Login\">", html);
-                Assert.Contains("<a href=\"/Speaker/Index\">All Speakers</a>", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains(@"<label class=""caption"" for=""FirstName"">First Name:</label>", html);
+            Assert.Contains("<form method=\"post\" class=\"form-horizontal\" role=\"form\" action=\"/Account/Login\">", html);
+            Assert.Contains("<a href=\"/Speaker/Index\">All Speakers</a>", html);
         }
 
         [Fact]
         public async Task RenderView_WithViewComponent()
         {
-            using (_fixture.BeginTest())
-            {
-                // Act
-                var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
+            // Act
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithViewComponent.cshtml");
 
-                // Assert
-                Assert.NotNull(html);
-                Assert.Contains(@"Example View Component!", html);
-            }
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains(@"Example View Component!", html);
         }
 
         [Fact]
         public async Task RenderInvalidView_Should_ThrowError()
         {
-            using (_fixture.BeginTest())
-            {
-                var actual = await Assert.ThrowsAsync<InvalidOperationException>(() => RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml"));
-                Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", actual.Message);
-            }
+            var actual = await Assert.ThrowsAsync<InvalidOperationException>(() => RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml"));
+            Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", actual.Message);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(null!));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Empty()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(string.Empty));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Whitespace()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(" "));
+            Assert.Equal("viewName", actual.ParamName);
         }
     }
 }

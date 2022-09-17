@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public sealed class RazorTemplateEngineRenderer : IRazorTemplateEngine
+    internal sealed class RazorTemplateEngineRenderer : IRazorTemplateEngine
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -28,8 +28,7 @@ namespace Razor.Templating.Core
         /// <param name="viewModel">Strongly typed object</param>
         /// <param name="viewBagOrViewData">ViewData</param>
         /// <returns></returns>
-        public async Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData
-            = null)
+        public async Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
             if (string.IsNullOrWhiteSpace(viewName))
             {
@@ -37,12 +36,10 @@ namespace Razor.Templating.Core
             }
 
             var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
-            if (viewBagOrViewData is not null)
+
+            foreach (var keyValuePair in viewBagOrViewData ?? new())
             {
-                foreach (var keyValuePair in viewBagOrViewData)
-                {
-                    viewDataDictionary.Add(keyValuePair!);
-                }
+                viewDataDictionary.Add(keyValuePair!);
             }
 
             using var serviceScope = _serviceProvider.CreateScope();
