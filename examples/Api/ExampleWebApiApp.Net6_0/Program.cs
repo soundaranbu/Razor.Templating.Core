@@ -10,6 +10,8 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "ExampleWebApiApp.Net6_0", Version = "v1" });
 });
 
+builder.Services.AddRazorTemplating();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,80 +1,93 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    public class RazorTemplateEngine
+    public static class RazorTemplateEngine
     {
-        private static IServiceScopeFactory? _rendererServiceScopeFactory;
+        private static Lazy<IRazorTemplateEngine> _instance = new(CreateInstance, true);
+        private static IServiceCollection? _services;
+
+        /// <summary>
+        /// Sets the internal <see cref="IServiceCollection"/> used to resolve our static instance of
+        /// <see cref="IRazorTemplateEngine"/>.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <exception cref="InvalidOperationException">The service has already been initiaized.</exception>
+        internal static void UseServiceCollection(IServiceCollection services)
+        {
+            _services = services;
+
+            // Whenever a new service collection is set, rebuild the IRazorTemplateEngine instance
+            // This is expected to be called only once during the application startup
+            _instance = new(CreateInstance, true);
+        }
 
         /// <summary>
         /// Creates the cache of RazorViewToStringRenderer. If already initialized, re-initializes.
         /// </summary>
+        [Obsolete("This method is now marked as obsolete and no longer used. It will be removed in the upcoming versions. You can safely remove it and it doesn't affect any functionality.")]
         public static void Initialize()
         {
-            _rendererServiceScopeFactory = null;
-            GetRendererServiceScopeFactory();
+            // TODO: Remove this method in v2.0.0
         }
 
         /// <summary>
-        /// Get the ServiceScopeFactory object from static property cache if already exists else creates a new object.
+        /// Creates an instance of <see cref="RazorTemplateEngine"/> using an internal <see cref="ServiceCollection"/>.
         /// </summary>
         /// <returns></returns>
-        private static IServiceScopeFactory GetRendererServiceScopeFactory()
+        private static IRazorTemplateEngine CreateInstance()
         {
-            return _rendererServiceScopeFactory ??= new RazorViewToStringRendererFactory().CreateRendererServiceScopeFactory();
-        }
-
-        /// <summary>
-        /// Renders View(.cshtml) To String
-        /// </summary>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <returns>Rendered string from the view</returns>
-        public async static Task<string> RenderAsync([DisallowNull] string viewName)
-        {
-            using var serviceScope = GetRendererServiceScopeFactory().CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync<object>(viewName, default!).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Renders View(.cshtml) To String
-        /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="model">Strongly typed object </param>
-        /// <returns></returns>
-        public async static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
-        {
-            using var serviceScope = GetRendererServiceScopeFactory().CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync(viewName, model).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Renders View(.cshtml) To String
-        /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="model">Strongly typed object</param>
-        /// <param name="viewData">ViewData</param>
-        /// <returns></returns>
-        public async static Task<string> RenderAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] Dictionary<string, object> viewData)
-        { 
-            var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
-            foreach (var keyValuePair in viewData.ToList())
+            // was AddRazorTemplating UseServiceCollection called?
+            if (_services is null)
             {
-                viewDataDictionary.Add(keyValuePair!);
+                // caller may not be using DI directly like in Azure Functions or WPF, 
+                // create our own service collection and register everything required.
+                _services = new ServiceCollection();
+                _services.AddRazorTemplating();
             }
 
-            using var serviceScope = GetRendererServiceScopeFactory().CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync(viewName, model, viewDataDictionary).ConfigureAwait(false);
+            return _services.BuildServiceProvider().GetRequiredService<IRazorTemplateEngine>();
+        }
+
+        /// <summary>
+        /// Renders View(.cshtml) To String
+        /// </summary>
+        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view data</param>
+        /// <returns></returns>
+        public async static Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        {
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
+            return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Renders View(.cshtml) To String
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view data</param>
+        /// <returns></returns>
+        [Obsolete("This method with generic type param is now obsolete and it will be removed in the upcoming versions. Please use the overload method without generic parameter instead.")]
+        public async static Task<string> RenderAsync<TModel>(string viewName, object viewModel, Dictionary<string, object> viewBagOrViewData)
+        {
+            // TODO: Remove this method in v2.0.0
+
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
+            return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
     }
 }

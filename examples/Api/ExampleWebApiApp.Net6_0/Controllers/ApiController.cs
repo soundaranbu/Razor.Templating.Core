@@ -13,11 +13,13 @@ public class ApiController : ControllerBase
 
     private readonly ILogger<ApiController> _logger;
     private readonly ApplicationPartManager _applicationPartManager;
+    private readonly IRazorTemplateEngine _engine;
 
-    public ApiController(ILogger<ApiController> logger, ApplicationPartManager applicationPartManager)
+    public ApiController(ILogger<ApiController> logger, ApplicationPartManager applicationPartManager, IRazorTemplateEngine engine)
     {
         _logger = logger;
         _applicationPartManager = applicationPartManager;
+        _engine = engine;
     }
 
     [HttpGet("application-parts")]
@@ -35,7 +37,7 @@ public class ApiController : ControllerBase
     public async Task<IActionResult> Index()
     {
         //Render View From the Web Application
-        var renderedString = await RazorTemplateEngine.RenderAsync("/Views/Home/Index.cshtml");
+        var renderedString = await _engine.RenderAsync("/Views/Home/Index.cshtml");
         return Ok(renderedString);
     }
 }

@@ -9,16 +9,17 @@ namespace ExampleWebApp.Net6_0.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IRazorTemplateEngine _engine;
 
-
-    public HomeController(ILogger<HomeController> logger, IActionContextAccessor actionContext)
+    public HomeController(ILogger<HomeController> logger, IActionContextAccessor actionContext, IRazorTemplateEngine engine)
     {
         _logger = logger;
+        _engine = engine;
     }
 
     public async Task<IActionResult> Index()
     {
-        //var html = await RazorTemplateEngine.RenderAsync("~/Views/Home/Index.cshtml");
+        //var html = await _engine.RenderAsync("~/Views/Home/Index.cshtml");
         //return Content(html);
 
         return View();
@@ -26,7 +27,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> RenderRcl()
     {
-        var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
+        var html = await _engine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
         return Content(html);
     }
 

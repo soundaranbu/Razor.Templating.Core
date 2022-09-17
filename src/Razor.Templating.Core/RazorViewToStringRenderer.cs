@@ -5,21 +5,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    internal class RazorViewToStringRenderer
+    internal sealed class RazorViewToStringRenderer
     {
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
@@ -28,19 +26,14 @@ namespace Razor.Templating.Core
         public RazorViewToStringRenderer(
             IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider, IHttpContextAccessor contextAccessor, LinkGenerator linkGenerator)
+            IServiceProvider serviceProvider)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
-        {
-            return await RenderViewToStringAsync(viewName, model, new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()));
-        }
-
-        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] ViewDataDictionary viewDataDictionary)
+        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary)
         {
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName);
@@ -49,7 +42,7 @@ namespace Razor.Templating.Core
             var viewContext = new ViewContext(
                 actionContext,
                 view,
-                new ViewDataDictionary<TModel>(viewDataDictionary, model),
+                new ViewDataDictionary<object>(viewDataDictionary, model),
                 new TempDataDictionary(
                     actionContext.HttpContext,
                     _tempDataProvider),

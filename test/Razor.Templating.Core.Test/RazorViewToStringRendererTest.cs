@@ -16,6 +16,7 @@ namespace Razor.Templating.Core.Test
             //Optionally call this to create cache of the renderer
             //Otherwise, render time will be more than usual on first time only
             RazorTemplateEngine.Initialize();
+
             // Arrange
             var model = new ExampleModel()
             {
@@ -110,7 +111,6 @@ namespace Razor.Templating.Core.Test
             // Add after registering all dependencies
             // this is important for the razor template engine to find the injected services
             services.AddRazorTemplating();
-
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
@@ -118,7 +118,6 @@ namespace Razor.Templating.Core.Test
             Assert.NotNull(html);
             Assert.Contains("Injected Service Data: Some Random Value - ", html);
         }
-
 
         [Fact]
         public async Task RenderView_WithModel_WithViewImport()
@@ -165,15 +164,29 @@ namespace Razor.Templating.Core.Test
         [Fact]
         public async Task RenderInvalidView_Should_ThrowError()
         {
-            try
-            {
-                var html = await RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml");
-            }
-            catch (System.Exception e)
-            {
-                Assert.True(e is InvalidOperationException);
-                Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", e.Message);
-            }
+            var actual = await Assert.ThrowsAsync<InvalidOperationException>(() => RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml"));
+            Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", actual.Message);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(null!));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Empty()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(string.Empty));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Whitespace()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(" "));
+            Assert.Equal("viewName", actual.ParamName);
         }
     }
 }

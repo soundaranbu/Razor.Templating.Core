@@ -1,0 +1,4 @@
+﻿@using System.Text.Json
+@inject ExampleBlazorServerApp.Models.AppState State
+
+State within view: @JsonSerializer.Serialize(State)
