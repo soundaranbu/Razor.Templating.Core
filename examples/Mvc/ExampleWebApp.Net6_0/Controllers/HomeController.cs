@@ -30,6 +30,12 @@ public class HomeController : Controller
         var html = await _engine.RenderAsync("~/Views/ExampleViewWithTagHelpers.cshtml");
         return Content(html);
     }
+    public async Task<IActionResult> RenderPartialTest()
+    {
+        var testval = "This will get added to the partial view";
+        var html = await _engine.RenderPartialAsync("~/Views/Home/_partialTest.cshtml", testval);
+        return Content(html);
+    }
 
     public IActionResult Privacy()
     {

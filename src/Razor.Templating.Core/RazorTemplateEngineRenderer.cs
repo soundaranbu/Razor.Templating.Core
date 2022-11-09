@@ -46,5 +46,25 @@ namespace Razor.Templating.Core
             var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
             return await renderer.RenderViewToStringAsync(viewName, viewModel, viewDataDictionary).ConfigureAwait(false);
         }
+
+        public async Task<string> RenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        {
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
+            var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
+
+            foreach (var keyValuePair in viewBagOrViewData ?? new())
+            {
+                viewDataDictionary.Add(keyValuePair!);
+            }
+
+            using var serviceScope = _serviceProvider.CreateScope();
+            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+            return await renderer.RenderPartialViewToStringAsync(viewName, viewModel, viewDataDictionary).ConfigureAwait(false);
+        }
+
     }
 }

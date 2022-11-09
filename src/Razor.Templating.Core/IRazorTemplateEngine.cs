@@ -13,5 +13,6 @@ namespace Razor.Templating.Core
         /// <param name="viewBagOrViewData">Optional view bag or view data</param>
         /// <returns></returns>
         Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null);
+        Task<string> RenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null);
     }
 }

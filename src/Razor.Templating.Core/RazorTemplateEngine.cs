@@ -70,6 +70,23 @@ namespace Razor.Templating.Core
         }
 
         /// <summary>
+        /// Renders Partial View(.cshtml) To String
+        /// </summary>
+        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view data</param>
+        /// <returns></returns>
+        public async static Task<string> RenderPartialAsync(string viewName, object viewModel = null, Dictionary<string, object> viewBagOrViewData = null)
+        {
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
+            return await _instance.Value.RenderPartialAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Renders View(.cshtml) To String
         /// </summary>
         /// <typeparam name="TModel"></typeparam>
