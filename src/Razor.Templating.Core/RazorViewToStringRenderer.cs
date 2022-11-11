@@ -33,10 +33,10 @@ namespace Razor.Templating.Core
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary)
+        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage=true)
         {
             var actionContext = GetActionContext();
-            var view = FindView(actionContext, viewName);
+            var view = FindView(actionContext, viewName, isMainPage);
 
             await using var output = new StringWriter();
             var viewContext = new ViewContext(
@@ -54,28 +54,7 @@ namespace Razor.Templating.Core
             return output.ToString();
         }
 
-        public async Task<string> RenderPartialViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary)
-        {
-            var actionContext = GetActionContext();
-            var view = FindView(actionContext, viewName, isMainPage:false);
-
-            await using var output = new StringWriter();
-            var viewContext = new ViewContext(
-                actionContext,
-                view,
-                new ViewDataDictionary<object>(viewDataDictionary, model),
-                new TempDataDictionary(
-                    actionContext.HttpContext,
-                    _tempDataProvider),
-                output,
-                new HtmlHelperOptions());
-
-            await view.RenderAsync(viewContext);
-
-            return output.ToString();
-        }
-
-        private IView FindView(ActionContext actionContext, string viewName, bool isMainPage=true)
+        private IView FindView(ActionContext actionContext, string viewName, bool isMainPage)
         {
             var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
             if (getViewResult.Success)
