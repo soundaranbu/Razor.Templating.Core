@@ -13,7 +13,7 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 |                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | .NET 6       |
 |------------------|---------------|---------------|---------|--------------|
-| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | 1.8.0   | 
+| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | 1.9.0-rc.1   | 
 | Console          | &check;       | &check;       | &check; | &check;      |
 | Api              | &check;       | &check;       | &check; | &check;      |
 | Mvc              | &check;       | &check;       | &check; | &check;      |
@@ -54,7 +54,7 @@ dotnet add package Razor.Templating.Core
 ```
 ##### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.8.0" />
+<PackageReference Include="Razor.Templating.Core" Version="1.9.0-rc.1" />
 ```
 
 ## Simple Usage:
@@ -79,6 +79,12 @@ var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", mo
 ```
 Before applying this code, follow this article for sample implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
 
+
+## Render View Without Layout
+In case if there's a need to render a view without layout, use `RenderParitalAsync()` method.
+```cs
+var html = await RazorTemplateEngine.RenderPartialAsync("/Views/ExampleView.cshtml", model, viewDataOrViewBag);
+```
 ## Razor Views in Library
  Razor view files(.cshtml) can be organized in a separate shared Razor Class Libary(RCL). Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Templates/ExampleAppRazorTemplates)
 
