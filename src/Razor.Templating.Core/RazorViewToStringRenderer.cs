@@ -33,10 +33,10 @@ namespace Razor.Templating.Core
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary)
+        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
         {
             var actionContext = GetActionContext();
-            var view = FindView(actionContext, viewName);
+            var view = FindView(actionContext, viewName, isMainPage);
 
             await using var output = new StringWriter();
             var viewContext = new ViewContext(
@@ -54,15 +54,15 @@ namespace Razor.Templating.Core
             return output.ToString();
         }
 
-        private IView FindView(ActionContext actionContext, string viewName)
+        private IView FindView(ActionContext actionContext, string viewName, bool isMainPage)
         {
-            var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: true);
+            var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
             if (getViewResult.Success)
             {
                 return getViewResult.View;
             }
 
-            var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage: true);
+            var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage);
             if (findViewResult.Success)
             {
                 return findViewResult.View;

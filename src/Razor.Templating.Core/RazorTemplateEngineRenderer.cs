@@ -22,12 +22,12 @@ namespace Razor.Templating.Core
         }
 
         /// <summary>
-        /// Renders View(.cshtml) To String
+        /// Renders the Razor View(.cshtml) To String
         /// </summary>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="viewModel">Strongly typed object</param>
-        /// <param name="viewBagOrViewData">ViewData</param>
-        /// <returns></returns>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view bag or view data</param>
+        /// <returns>Rendered HTML string of the view</returns>
         public async Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
             if (string.IsNullOrWhiteSpace(viewName))
@@ -35,16 +35,43 @@ namespace Razor.Templating.Core
                 throw new ArgumentNullException(nameof(viewName));
             }
 
+            var viewDataDictionary = GetViewDataDictionaryFromViewBagOrViewData(viewBagOrViewData);
+
+            using var serviceScope = _serviceProvider.CreateScope();
+            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+            return await renderer.RenderViewToStringAsync(viewName, viewModel, viewDataDictionary, isMainPage: true).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Renders the Razor View(.cshtml) Without Layout to String
+        /// </summary>
+        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view bag or view data</param>
+        /// <returns>Rendered HTML string of the view</returns>
+        public async Task<string> RenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        {
+            if (string.IsNullOrWhiteSpace(viewName))
+            {
+                throw new ArgumentNullException(nameof(viewName));
+            }
+
+            var viewDataDictionary = GetViewDataDictionaryFromViewBagOrViewData(viewBagOrViewData);
+
+            using var serviceScope = _serviceProvider.CreateScope();
+            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
+            return await renderer.RenderViewToStringAsync(viewName, viewModel, viewDataDictionary, isMainPage: false).ConfigureAwait(false);
+        }
+
+        private static ViewDataDictionary GetViewDataDictionaryFromViewBagOrViewData(Dictionary<string, object>? viewBagOrViewData)
+        {
             var viewDataDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
 
             foreach (var keyValuePair in viewBagOrViewData ?? new())
             {
                 viewDataDictionary.Add(keyValuePair!);
             }
-
-            using var serviceScope = _serviceProvider.CreateScope();
-            var renderer = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRenderer>();
-            return await renderer.RenderViewToStringAsync(viewName, viewModel, viewDataDictionary).ConfigureAwait(false);
+            return viewDataDictionary;
         }
     }
 }
