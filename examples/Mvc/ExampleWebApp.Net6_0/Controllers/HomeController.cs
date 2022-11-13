@@ -1,19 +1,16 @@
-﻿using System.Diagnostics;
+﻿using ExampleWebApp.Net6_0.Models;
 using Microsoft.AspNetCore.Mvc;
-using ExampleWebApp.Net6_0.Models;
 using Razor.Templating.Core;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Diagnostics;
 
 namespace ExampleWebApp.Net6_0.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IRazorTemplateEngine _engine;
 
-    public HomeController(ILogger<HomeController> logger, IActionContextAccessor actionContext, IRazorTemplateEngine engine)
+    public HomeController(IRazorTemplateEngine engine)
     {
-        _logger = logger;
         _engine = engine;
     }
 
@@ -33,7 +30,7 @@ public class HomeController : Controller
     public async Task<IActionResult> RenderPartialTest()
     {
         var testval = "This will get added to the partial view";
-        var html = await _engine.RenderPartialAsync("~/Views/Home/_partialTest.cshtml", testval);
+        var html = await _engine.RenderPartialAsync("~/Views/Home/_PartialTest.cshtml", testval);
         return Content(html);
     }
 
@@ -45,6 +42,6 @@ public class HomeController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

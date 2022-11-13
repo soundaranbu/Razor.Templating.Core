@@ -58,52 +58,36 @@ namespace Razor.Templating.Core
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <param name="viewModel">Optional model data</param>
         /// <param name="viewBagOrViewData">Optional view data</param>
-        /// <returns>HTML string</returns>
+        /// <returns>Rendered HTML string of the view</returns>
         public async static Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
-            if (string.IsNullOrWhiteSpace(viewName))
-            {
-                throw new ArgumentNullException(nameof(viewName));
-            }
-
             return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Renders Partial View(.cshtml) To String
+        /// Renders the Razor View(.cshtml) Without Layout to String
         /// </summary>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/_yourView.cshtml or ~/Views/_yourView.cshtml</param>
-        /// <param name="viewModel">Strongly typed object</param>
-        /// <param name="viewBagOrViewData">ViewData</param>
-        /// <returns>HTML string</returns>
-        public async static Task<string> RenderPartialAsync(string viewName, object viewModel = null, Dictionary<string, object> viewBagOrViewData = null)
+        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
+        /// <param name="viewModel">Optional model data</param>
+        /// <param name="viewBagOrViewData">Optional view bag or view data</param>
+        /// <returns>Rendered HTML string of the view</returns>
+        public async static Task<string> RenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
-            if (string.IsNullOrWhiteSpace(viewName))
-            {
-                throw new ArgumentNullException(nameof(viewName));
-            }
-
             return await _instance.Value.RenderPartialAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Renders View(.cshtml) To String
+        /// Renders the Razor View(.cshtml) To String
         /// </summary>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
         /// <param name="viewModel">Optional model data</param>
         /// <param name="viewBagOrViewData">Optional view data</param>
-        /// <returns></returns>
+        /// <returns>Rendered HTML string of the view</returns>
         [Obsolete("This method with generic type param is now obsolete and it will be removed in the upcoming versions. Please use the overload method without generic parameter instead.")]
         public async static Task<string> RenderAsync<TModel>(string viewName, object viewModel, Dictionary<string, object> viewBagOrViewData)
         {
             // TODO: Remove this method in v2.0.0
-
-            if (string.IsNullOrWhiteSpace(viewName))
-            {
-                throw new ArgumentNullException(nameof(viewName));
-            }
-
             return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
     }

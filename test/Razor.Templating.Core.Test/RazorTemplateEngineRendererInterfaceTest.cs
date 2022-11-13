@@ -91,12 +91,13 @@ namespace Razor.Templating.Core.Test
 
             // Act
             var engine = GetRazorTemplateEngine();
-            var html = await engine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
+            var html = await engine.RenderPartialAsync("~/Views/_ExamplePartialView.cshtml", model);
 
             // Assert
             Assert.NotNull(html);
-            Assert.Contains("Partial view", html);
-            Assert.Contains("Html content: <em>Lorem Ipsium</em>", html);
+
+            var expected = "\r\n<div>Partial view</div>\r\n<div>Html content: <em>Lorem Ipsium</em></div>\r\n";
+            Assert.Equal(expected, html);
         }
 
         [Fact]

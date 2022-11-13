@@ -33,7 +33,7 @@ namespace Razor.Templating.Core
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage=true)
+        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
         {
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName, isMainPage);
