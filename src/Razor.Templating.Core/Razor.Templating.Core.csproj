@@ -12,13 +12,13 @@
     <Copyright />
     <PackageProjectUrl>https://github.com/soundaranbu/RazorTemplating</PackageProjectUrl>
     <Authors>Soundar Anbalagan</Authors>
-    <Version>1.9.0-rc.1</Version>
+    <Version>1.9.0-rc.2</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Added `RenderPartialAsync` method to render views without layout
+      - Fixed overriding default IWebHostEnvironment object
     </PackageReleaseNotes>
     <Nullable>Enable</Nullable>
   </PropertyGroup>
