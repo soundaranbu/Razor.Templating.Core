@@ -43,14 +43,19 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var fileProvider = new PhysicalFileProvider(assembliesBaseDirectory);
 
-            services.TryAddSingleton<IWebHostEnvironment>(new HostingEnvironment
+            // MVC, API applications will have this object already.
+            if (!services.Any(x => x.ServiceType == typeof(IWebHostEnvironment)))
             {
-                ApplicationName = Assembly.GetEntryAssembly()?.GetName().Name ?? Constants.LibraryIdentifier,
-                ContentRootPath = assembliesBaseDirectory,
-                ContentRootFileProvider = fileProvider,
-                WebRootPath = webRootDirectory,
-                WebRootFileProvider = new PhysicalFileProvider(webRootDirectory)
-            });
+                services.TryAddSingleton<IWebHostEnvironment>(new HostingEnvironment
+                {
+                    ApplicationName = Assembly.GetEntryAssembly()?.GetName().Name ?? Constants.LibraryIdentifier,
+                    ContentRootPath = assembliesBaseDirectory,
+                    ContentRootFileProvider = fileProvider,
+                    WebRootPath = webRootDirectory,
+                    WebRootFileProvider = new PhysicalFileProvider(webRootDirectory)
+                });
+            }
+
             services.TryAddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             services.TryAddSingleton<DiagnosticSource>(new DiagnosticListener(Constants.LibraryIdentifier));
             services.TryAddSingleton<DiagnosticListener>(new DiagnosticListener(Constants.LibraryIdentifier));
