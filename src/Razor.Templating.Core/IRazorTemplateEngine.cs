@@ -14,6 +14,8 @@ namespace Razor.Templating.Core
         /// <returns>Rendered HTML string of the view</returns>
         Task<string> RenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null);
 
+        Task<(bool ViewExists, string RenderedView)> TryRenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null);
+
         /// <summary>
         /// Renders the Razor View(.cshtml) Without Layout to String
         /// </summary>
@@ -22,5 +24,7 @@ namespace Razor.Templating.Core
         /// <param name="viewBagOrViewData">Optional view bag or view data</param>
         /// <returns>Rendered HTML string of the view</returns>
         Task<string> RenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null);
+
+        Task<(bool ViewExists, string RenderedView)> TryRenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null);
     }
 }

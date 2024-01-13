@@ -219,5 +219,20 @@ namespace Razor.Templating.Core.Test
 
             return serviceProvider.GetRequiredService<IRazorTemplateEngine>();
         }
+
+        [Fact]
+        public async Task TryRenderViewAsync_Should_Return_False_For_InvalidPaths()
+        {
+            var engine = GetRazorTemplateEngine();
+            var result = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
+
+            Assert.False(result.ViewExists);
+            Assert.Empty(result.RenderedView);
+
+            result = await engine.TryRenderPartialAsync("/Views/SomeInvalidView.cshtml");
+
+            Assert.False(result.ViewExists);
+            Assert.Empty(result.RenderedView);
+        }
     }
 }

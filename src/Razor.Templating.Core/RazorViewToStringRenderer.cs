@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Razor.Templating.Core.Exceptions;
 using System;
 using System.IO;
 using System.Linq;
@@ -80,7 +81,7 @@ namespace Razor.Templating.Core
                 "- Check whether the view file name is correct or exists at the given path.",
                 "- Refer documentation or file issue here: https://github.com/soundaranbu/RazorTemplating"}));
 
-            throw new InvalidOperationException(errorMessage);
+            throw new ViewNotFoundException(errorMessage);
         }
 
         private ActionContext GetActionContext()
