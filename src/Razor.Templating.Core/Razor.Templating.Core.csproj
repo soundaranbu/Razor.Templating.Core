@@ -5,29 +5,29 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Render your .cshtml files to string. Works out of the box for Web, Console, Worker Service, Desktop Apps in .NET Core.</Description>
-    <RepositoryUrl>https://github.com/soundaranbu/RazorTemplating</RepositoryUrl>
+    <Description>Render your .cshtml files to string. Works out of the box for Web, Console, Worker Service, Desktop Apps in .NET.</Description>
+    <RepositoryUrl>https://github.com/soundaranbu/Razor.Templating.Core</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright />
-    <PackageProjectUrl>https://github.com/soundaranbu/RazorTemplating</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/soundaranbu/Razor.Templating.Core</PackageProjectUrl>
     <Authors>Soundar Anbalagan</Authors>
-    <Version>1.9.0</Version>
+    <Version>2.0.0-rc.1</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-        - Added method RenderPartialAsync when you don't need a layout page
-        - Fixed overriding default IWebHostEnvironment object
+      - Added TryRenderAsync() and TryRenderPartialAsync() methods to render the views without throwing exceptions
+      - Removed obselete methods RazorTemplateEngine.RenderAsync() generic method and RazorTemplateEngine.Initialize()
     </PackageReleaseNotes>
     <Nullable>Enable</Nullable>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Include="assets\icon.png">
       <Pack>True</Pack>

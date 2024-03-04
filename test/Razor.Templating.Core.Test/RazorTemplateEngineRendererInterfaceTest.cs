@@ -1,6 +1,7 @@
 using ExampleRazorTemplatesLibrary.Models;
 using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Razor.Templating.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -185,6 +186,21 @@ namespace Razor.Templating.Core.Test
         }
 
         [Fact]
+        public async Task RenderInvalidView_Should_ThrowViewNotFoundException()
+        {
+            try
+            {
+                var engine = GetRazorTemplateEngine();
+                var html = await engine.RenderAsync("/Views/SomeInvalidView.cshtml");
+            }
+            catch (System.Exception e)
+            {
+                Assert.True(e is ViewNotFoundException);
+                Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", e.Message);
+            }
+        }
+
+        [Fact]
         public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
         {
             var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => GetRazorTemplateEngine().RenderAsync(null!));
@@ -218,6 +234,59 @@ namespace Razor.Templating.Core.Test
             var serviceProvider = services.BuildServiceProvider();
 
             return serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+        }
+
+        [Fact]
+        public async Task TryRenderAsync_Should_Return_False_For_InvalidPaths()
+        {
+            var engine = GetRazorTemplateEngine();
+            var (viewExists, renderedView) = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
+
+            Assert.False(viewExists);
+            Assert.Null(renderedView);
+        }
+
+        [Fact]
+        public async Task TryRenderPartialAsync_Should_Return_False_For_InvalidPaths()
+        {
+            var engine = GetRazorTemplateEngine();
+            var (viewExists, renderedView) = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
+
+            Assert.False(viewExists);
+            Assert.Null(renderedView);
+        }
+
+        [Fact]
+        public async Task TryRenderAsync_Should_Return_True_For_ValidPaths_And_Return_RenderedString()
+        {
+            // Act
+            var engine = GetRazorTemplateEngine();
+            var (viewExists, renderedView) = await engine.TryRenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+
+            // Assert
+            Assert.True(viewExists);
+            Assert.Contains("<div>Hi I'm example view without any viewmodel or view data</div>", renderedView);
+        }
+
+        [Fact]
+        public async Task TryRenderPartialAsync_Should_Return_True_For_ValidPaths_And_Return_RenderedString()
+        {
+            // Act
+            var engine = GetRazorTemplateEngine();
+
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
+
+            // Act
+            var (viewExists, renderedView) = await engine.TryRenderPartialAsync("~/Views/_ExamplePartialView.cshtml", model);
+
+            // Assert
+            Assert.True(viewExists);
+            Assert.Contains("\r\n<div>Partial view</div>\r\n<div>Html content: <em>Lorem Ipsium</em></div>\r\n", renderedView);
         }
     }
 }

@@ -13,7 +13,7 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 |                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | > .NET 6     |
 |------------------|---------------|---------------|---------|--------------|
-| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | 1.9.0        | 
+| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | 2.0.0-rc.1        | 
 | Console          | &check;       | &check;       | &check; | &check;      |
 | Api              | &check;       | &check;       | &check; | &check;      |
 | Mvc              | &check;       | &check;       | &check; | &check;      |
@@ -48,16 +48,19 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 ## Installing Nuget Package
 This library is available as [Nuget package](https://www.nuget.org/packages/Razor.Templating.Core/)
 
-##### Using .NET CLI
+### Using .NET CLI
 ```bash
 dotnet add package Razor.Templating.Core
 ```
-##### Using Package Reference .csproj
+### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="1.9.0" />
+<PackageReference Include="Razor.Templating.Core" Version="2.0.0-rc.1" />
 ```
 
-## Simple Usage:
+## Usage - Render View With Layout
+To render a view with layout, model, viewdata or viewbag, then call the `RenderAsync()` on the `RazorTemplateEngine` static class
+
+### RenderAsync() method
 ```csharp
 using Razor.Templating.Core;
 
@@ -82,15 +85,33 @@ Before applying this code, follow this article for sample implementation: https:
 
 ## Render View Without Layout
 In case if there's a need to render a view without layout, use `RenderParitalAsync()` method.
+
+### RenderPartialAsync() method
 ```cs
 var html = await RazorTemplateEngine.RenderPartialAsync("/Views/ExampleView.cshtml", model, viewDataOrViewBag);
 ```
+
+## Render Views Without Throwing Exception
+There are `TryRenderAsync()` and `TryRenderPartialAsync` methods which will not throw exception if the view doesn't exist.
+Instead they return a tuple to indicate whether the view exists and the rendered string.
+
+### TryRenderAsync() method
+```cs
+var (viewExists, renderedView) = await engine.TryRenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+```
+
+### TryRenderPartialAsync() method
+```cs
+var (viewExists, renderedView) = await engine.TryRenderPartialAsync("~/Views/_ExamplePartialView.cshtml", model);
+```
+
+
 ## Razor Views in Library
- Razor view files(.cshtml) can be organized in a separate shared Razor Class Libary(RCL). Sample library can be found [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Templates/ExampleAppRazorTemplates)
+We can organize the Razor view files(.cshtml) in a separate shared Razor Class Libary(RCL). Please find a sample library [here](https://github.com/soundaranbu/Razor.Templating.Core/tree/main/examples/Templates/ExampleAppRazorTemplates)
 
- The Razor Class Library's `.csproj` file should look something like below. Whereas, `AddRazorSupportForMvc` property is important.
+ The Razor Class Library's `.csproj` file should look something like below. Whereas, `AddRazorSupportForMvc` property is mandatory.
 
- Also, RCL should be referenced to the main project or where the `RazorTemplateEngine.RenderAsync` method is invoked.
+ Also, RCL should be referenced by the main project or where any of the rendering methods like `RazorTemplateEngine.RenderAsync()` are invoked.
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
@@ -128,12 +149,12 @@ services.AddRazorTemplating();
 
 Once the dependencies are registered, we can use either one of these ways:
 
-#### Using `RazorTemplateEngine` static class
+### Using `RazorTemplateEngine` static class
 ```cs
 var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml");
 ```
 
-#### Using `IRazorTemplateEngine`
+### Using `IRazorTemplateEngine`
 - Instead of using the `RazorTemplateEngine` static class, it's also possible to use the `IRazorTemplateEngine` interface to inject dependency directly into the constructor.
 
 ```cs

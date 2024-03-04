@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
+using Razor.Templating.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -72,6 +73,34 @@ namespace Razor.Templating.Core
                 viewDataDictionary.Add(keyValuePair!);
             }
             return viewDataDictionary;
+        }
+
+        public async Task<(bool ViewExists, string? RenderedView)> TryRenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        {
+            try
+            {
+                var renderedView = await RenderAsync(viewName, viewModel, viewBagOrViewData);
+                return (true, renderedView);
+            }
+            catch (ViewNotFoundException)
+            {
+            }
+
+            return (false, null);
+        }
+
+        public async Task<(bool ViewExists, string? RenderedView)> TryRenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        {
+            try
+            {
+                var renderedView = await RenderPartialAsync(viewName, viewModel, viewBagOrViewData);
+                return (true, renderedView);
+            }
+            catch (ViewNotFoundException)
+            {
+            }
+
+            return (false, null);
         }
     }
 }

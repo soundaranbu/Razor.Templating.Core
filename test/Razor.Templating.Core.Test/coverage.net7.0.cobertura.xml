@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.9395" branch-rate="0.78" version="1.9" timestamp="1705159347" lines-covered="280" lines-valid="298" branches-covered="39" branches-valid="50">
+<coverage line-rate="0.9395" branch-rate="0.78" version="1.9" timestamp="1705167842" lines-covered="280" lines-valid="298" branches-covered="39" branches-valid="50">
   <sources>
     <source>D:\Projects\RazorTemplating\src\Razor.Templating.Core\</source>
   </sources>
@@ -168,8 +168,8 @@
             </method>
             <method name="CreateInstance" signature="()" line-rate="1" branch-rate="1" complexity="2">
               <lines>
-                <line number="42" hits="5" branch="False" />
-                <line number="44" hits="5" branch="True" condition-coverage="100% (2/2)">
+                <line number="42" hits="4" branch="False" />
+                <line number="44" hits="4" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="11" type="jump" coverage="100%" />
                   </conditions>
@@ -178,8 +178,8 @@
                 <line number="48" hits="1" branch="False" />
                 <line number="49" hits="1" branch="False" />
                 <line number="50" hits="1" branch="False" />
-                <line number="52" hits="5" branch="False" />
-                <line number="53" hits="5" branch="False" />
+                <line number="52" hits="4" branch="False" />
+                <line number="53" hits="4" branch="False" />
               </lines>
             </method>
             <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
@@ -195,8 +195,8 @@
             <line number="26" hits="16" branch="False" />
             <line number="33" hits="1" branch="False" />
             <line number="35" hits="1" branch="False" />
-            <line number="42" hits="5" branch="False" />
-            <line number="44" hits="5" branch="True" condition-coverage="100% (2/2)">
+            <line number="42" hits="4" branch="False" />
+            <line number="44" hits="4" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="11" type="jump" coverage="100%" />
               </conditions>
@@ -205,8 +205,8 @@
             <line number="48" hits="1" branch="False" />
             <line number="49" hits="1" branch="False" />
             <line number="50" hits="1" branch="False" />
-            <line number="52" hits="5" branch="False" />
-            <line number="53" hits="5" branch="False" />
+            <line number="52" hits="4" branch="False" />
+            <line number="53" hits="4" branch="False" />
             <line number="10" hits="1" branch="False" />
           </lines>
         </class>
@@ -279,14 +279,14 @@
             </method>
             <method name=".ctor" signature="(System.IServiceProvider)" line-rate="1" branch-rate="0.5" complexity="2">
               <lines>
-                <line number="20" hits="19" branch="False" />
-                <line number="21" hits="19" branch="False" />
-                <line number="22" hits="19" branch="True" condition-coverage="50% (1/2)">
+                <line number="20" hits="18" branch="False" />
+                <line number="21" hits="18" branch="False" />
+                <line number="22" hits="18" branch="True" condition-coverage="50% (1/2)">
                   <conditions>
                     <condition number="11" type="jump" coverage="50%" />
                   </conditions>
                 </line>
-                <line number="23" hits="19" branch="False" />
+                <line number="23" hits="18" branch="False" />
               </lines>
             </method>
           </methods>
@@ -304,14 +304,14 @@
             <line number="74" hits="6" branch="False" />
             <line number="75" hits="23" branch="False" />
             <line number="76" hits="23" branch="False" />
-            <line number="20" hits="19" branch="False" />
-            <line number="21" hits="19" branch="False" />
-            <line number="22" hits="19" branch="True" condition-coverage="50% (1/2)">
+            <line number="20" hits="18" branch="False" />
+            <line number="21" hits="18" branch="False" />
+            <line number="22" hits="18" branch="True" condition-coverage="50% (1/2)">
               <conditions>
                 <condition number="11" type="jump" coverage="50%" />
               </conditions>
             </line>
-            <line number="23" hits="19" branch="False" />
+            <line number="23" hits="18" branch="False" />
           </lines>
         </class>
         <class name="Razor.Templating.Core.RazorTemplateEngineRenderer/&lt;RenderAsync&gt;d__2" filename="RazorTemplateEngineRenderer.cs" line-rate="1" branch-rate="1" complexity="2">
@@ -396,9 +396,9 @@
                 <line number="83" hits="0" branch="False" />
                 <line number="85" hits="1" branch="False" />
                 <line number="86" hits="1" branch="False" />
-                <line number="88" hits="1" branch="False" />
+                <line number="87" hits="1" branch="False" />
+                <line number="89" hits="1" branch="False" />
                 <line number="90" hits="1" branch="False" />
-                <line number="91" hits="1" branch="False" />
               </lines>
             </method>
           </methods>
@@ -409,37 +409,37 @@
             <line number="83" hits="0" branch="False" />
             <line number="85" hits="1" branch="False" />
             <line number="86" hits="1" branch="False" />
-            <line number="88" hits="1" branch="False" />
+            <line number="87" hits="1" branch="False" />
+            <line number="89" hits="1" branch="False" />
             <line number="90" hits="1" branch="False" />
-            <line number="91" hits="1" branch="False" />
           </lines>
         </class>
         <class name="Razor.Templating.Core.RazorTemplateEngineRenderer/&lt;TryRenderPartialAsync&gt;d__6" filename="RazorTemplateEngineRenderer.cs" line-rate="0.8887999999999999" branch-rate="1" complexity="1">
           <methods>
             <method name="MoveNext" signature="()" line-rate="0.8887999999999999" branch-rate="1" complexity="1">
               <lines>
-                <line number="94" hits="1" branch="False" />
+                <line number="93" hits="1" branch="False" />
+                <line number="95" hits="1" branch="False" />
                 <line number="96" hits="1" branch="False" />
-                <line number="97" hits="1" branch="False" />
-                <line number="98" hits="0" branch="False" />
+                <line number="97" hits="0" branch="False" />
+                <line number="99" hits="1" branch="False" />
                 <line number="100" hits="1" branch="False" />
                 <line number="101" hits="1" branch="False" />
                 <line number="103" hits="1" branch="False" />
-                <line number="105" hits="1" branch="False" />
-                <line number="106" hits="1" branch="False" />
+                <line number="104" hits="1" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="94" hits="1" branch="False" />
+            <line number="93" hits="1" branch="False" />
+            <line number="95" hits="1" branch="False" />
             <line number="96" hits="1" branch="False" />
-            <line number="97" hits="1" branch="False" />
-            <line number="98" hits="0" branch="False" />
+            <line number="97" hits="0" branch="False" />
+            <line number="99" hits="1" branch="False" />
             <line number="100" hits="1" branch="False" />
             <line number="101" hits="1" branch="False" />
             <line number="103" hits="1" branch="False" />
-            <line number="105" hits="1" branch="False" />
-            <line number="106" hits="1" branch="False" />
+            <line number="104" hits="1" branch="False" />
           </lines>
         </class>
         <class name="Razor.Templating.Core.RazorViewToStringRenderer" filename="RazorViewToStringRenderer.cs" line-rate="0.9591" branch-rate="0.75" complexity="6">
@@ -738,14 +738,14 @@
                 <line number="109" hits="16" branch="False" />
                 <line number="110" hits="16" branch="False" />
                 <line number="111" hits="16" branch="False" />
-                <line number="113" hits="11088" branch="True" condition-coverage="100% (2/2)">
+                <line number="113" hits="11312" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="117" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="114" hits="5520" branch="False" />
-                <line number="115" hits="52480" branch="False" />
-                <line number="116" hits="5520" branch="True" condition-coverage="100% (2/2)">
+                <line number="114" hits="5632" branch="False" />
+                <line number="115" hits="53824" branch="False" />
+                <line number="116" hits="5632" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="97" type="jump" coverage="100%" />
                   </conditions>
@@ -753,7 +753,7 @@
                 <line number="117" hits="256" branch="False" />
                 <line number="118" hits="256" branch="False" />
                 <line number="119" hits="256" branch="False" />
-                <line number="120" hits="5520" branch="False" />
+                <line number="120" hits="5632" branch="False" />
                 <line number="122" hits="16" branch="False" />
                 <line number="123" hits="16" branch="False" />
               </lines>
@@ -857,14 +857,14 @@
             <line number="109" hits="16" branch="False" />
             <line number="110" hits="16" branch="False" />
             <line number="111" hits="16" branch="False" />
-            <line number="113" hits="11088" branch="True" condition-coverage="100% (2/2)">
+            <line number="113" hits="11312" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="117" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="114" hits="5520" branch="False" />
-            <line number="115" hits="52480" branch="False" />
-            <line number="116" hits="5520" branch="True" condition-coverage="100% (2/2)">
+            <line number="114" hits="5632" branch="False" />
+            <line number="115" hits="53824" branch="False" />
+            <line number="116" hits="5632" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="97" type="jump" coverage="100%" />
               </conditions>
@@ -872,7 +872,7 @@
             <line number="117" hits="256" branch="False" />
             <line number="118" hits="256" branch="False" />
             <line number="119" hits="256" branch="False" />
-            <line number="120" hits="5520" branch="False" />
+            <line number="120" hits="5632" branch="False" />
             <line number="122" hits="16" branch="False" />
             <line number="123" hits="16" branch="False" />
             <line number="128" hits="1" branch="False" />
