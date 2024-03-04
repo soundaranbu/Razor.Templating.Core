@@ -75,7 +75,7 @@ namespace Razor.Templating.Core
             return viewDataDictionary;
         }
 
-        public async Task<(bool ViewExists, string RenderedView)> TryRenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        public async Task<(bool ViewExists, string? RenderedView)> TryRenderAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
             try
             {
@@ -86,10 +86,10 @@ namespace Razor.Templating.Core
             {
             }
 
-            return (false, "");
+            return (false, null);
         }
 
-        public async Task<(bool ViewExists, string RenderedView)> TryRenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
+        public async Task<(bool ViewExists, string? RenderedView)> TryRenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Razor.Templating.Core
             {
             }
 
-            return (false, "");
+            return (false, null);
         }
     }
 }

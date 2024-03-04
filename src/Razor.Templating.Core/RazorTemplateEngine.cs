@@ -15,7 +15,7 @@ namespace Razor.Templating.Core
         /// <see cref="IRazorTemplateEngine"/>.
         /// </summary>
         /// <param name="services"></param>
-        /// <exception cref="InvalidOperationException">The service has already been initiaized.</exception>
+        /// <exception cref="InvalidOperationException">The service has already been initialized.</exception>
         internal static void UseServiceCollection(IServiceCollection services)
         {
             _services = services;
@@ -23,15 +23,6 @@ namespace Razor.Templating.Core
             // Whenever a new service collection is set, rebuild the IRazorTemplateEngine instance
             // This is expected to be called only once during the application startup
             _instance = new(CreateInstance, true);
-        }
-
-        /// <summary>
-        /// Creates the cache of RazorViewToStringRenderer. If already initialized, re-initializes.
-        /// </summary>
-        [Obsolete("This method is now marked as obsolete and no longer used. It will be removed in the upcoming versions. You can safely remove it and it doesn't affect any functionality.")]
-        public static void Initialize()
-        {
-            // TODO: Remove this method in v2.0.0
         }
 
         /// <summary>
@@ -77,18 +68,15 @@ namespace Razor.Templating.Core
         }
 
         /// <summary>
-        /// Renders the Razor View(.cshtml) To String
+        /// Renders the Razor View(.cshtml) Without Layout to String. This method does not throw exception when View is not found.
         /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <param name="viewName">Relative path of the .cshtml view. Eg:  /Views/YourView.cshtml or ~/Views/YourView.cshtml</param>
-        /// <param name="viewModel">Optional model data</param>
-        /// <param name="viewBagOrViewData">Optional view data</param>
-        /// <returns>Rendered HTML string of the view</returns>
-        [Obsolete("This method with generic type param is now obsolete and it will be removed in the upcoming versions. Please use the overload method without generic parameter instead.")]
-        public async static Task<string> RenderAsync<TModel>(string viewName, object viewModel, Dictionary<string, object> viewBagOrViewData)
+        /// <param name="viewName"></param>
+        /// <param name="viewModel"></param>
+        /// <param name="viewBagOrViewData"></param>
+        /// <returns></returns>
+        public async static Task<(bool ViewExists, string? RenderedView)> TryRenderPartialAsync(string viewName, object? viewModel = null, Dictionary<string, object>? viewBagOrViewData = null)
         {
-            // TODO: Remove this method in v2.0.0
-            return await _instance.Value.RenderAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
+            return await _instance.Value.TryRenderPartialAsync(viewName, viewModel, viewBagOrViewData).ConfigureAwait(false);
         }
     }
 }

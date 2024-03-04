@@ -14,10 +14,6 @@ namespace Razor.Templating.Core.Test
         [Fact]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
-            //Optionally call this to create cache of the renderer
-            //Otherwise, render time will be more than usual on first time only
-            RazorTemplateEngine.Initialize();
-
             // Arrange
             var model = new ExampleModel()
             {
@@ -47,7 +43,7 @@ namespace Razor.Templating.Core.Test
             viewData["Title"] = "This is Title";
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
             Assert.NotNull(html);

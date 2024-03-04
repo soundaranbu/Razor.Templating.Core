@@ -79,7 +79,7 @@ namespace Razor.Templating.Core
                 "Hint:",
                 "- Check whether you have added reference to the Razor Class Library that contains the view files.",
                 "- Check whether the view file name is correct or exists at the given path.",
-                "- Refer documentation or file issue here: https://github.com/soundaranbu/RazorTemplating"}));
+                "- Refer documentation or file issue here: https://github.com/soundaranbu/Razor.Templating.Core"}));
 
             throw new ViewNotFoundException(errorMessage);
         }
