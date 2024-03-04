@@ -240,20 +240,20 @@ namespace Razor.Templating.Core.Test
         public async Task TryRenderAsync_Should_Return_False_For_InvalidPaths()
         {
             var engine = GetRazorTemplateEngine();
-            var result = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
+            var (viewExists, renderedView) = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
 
-            Assert.False(result.ViewExists);
-            Assert.Null(result.RenderedView);
+            Assert.False(viewExists);
+            Assert.Null(renderedView);
         }
 
         [Fact]
         public async Task TryRenderPartialAsync_Should_Return_False_For_InvalidPaths()
         {
             var engine = GetRazorTemplateEngine();
-            var result = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
+            var (viewExists, renderedView) = await engine.TryRenderAsync("/Views/SomeInvalidView.cshtml");
 
-            Assert.False(result.ViewExists);
-            Assert.Null(result.RenderedView);
+            Assert.False(viewExists);
+            Assert.Null(renderedView);
         }
 
         [Fact]
@@ -261,11 +261,11 @@ namespace Razor.Templating.Core.Test
         {
             // Act
             var engine = GetRazorTemplateEngine();
-            var result = await engine.TryRenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
+            var (viewExists, renderedView) = await engine.TryRenderAsync("~/Views/Feature/ExampleViewWithoutViewModel.cshtml");
 
             // Assert
-            Assert.True(result.ViewExists);
-            Assert.Contains("<div>Hi I'm example view without any viewmodel or view data</div>", result.RenderedView);
+            Assert.True(viewExists);
+            Assert.Contains("<div>Hi I'm example view without any viewmodel or view data</div>", renderedView);
         }
 
         [Fact]
@@ -282,11 +282,11 @@ namespace Razor.Templating.Core.Test
             };
 
             // Act
-            var result = await engine.TryRenderPartialAsync("~/Views/_ExamplePartialView.cshtml", model);
+            var (viewExists, renderedView) = await engine.TryRenderPartialAsync("~/Views/_ExamplePartialView.cshtml", model);
 
             // Assert
-            Assert.True(result.ViewExists);
-            Assert.Contains("\r\n<div>Partial view</div>\r\n<div>Html content: <em>Lorem Ipsium</em></div>\r\n", result.RenderedView);
+            Assert.True(viewExists);
+            Assert.Contains("\r\n<div>Partial view</div>\r\n<div>Html content: <em>Lorem Ipsium</em></div>\r\n", renderedView);
         }
     }
 }
