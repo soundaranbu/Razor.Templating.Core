@@ -10,9 +10,4 @@
       <ProjectReference Include="..\..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
       <ProjectReference Include="..\..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
     </ItemGroup>
-
-    <!--<ItemGroup>
-      <ProjectReference Include="..\..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
-    </ItemGroup>-->
-
 </Project>

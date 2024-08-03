@@ -16,10 +16,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        //var html = await _engine.RenderAsync("~/Views/Home/Index.cshtml");
-        //return Content(html);
-
-        return View();
+        var html = await _engine.RenderAsync("Index");
+        return Content(html);
     }
 
     public async Task<IActionResult> RenderRcl()
