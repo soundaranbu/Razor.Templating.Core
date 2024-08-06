@@ -11,8 +11,7 @@
       <ProjectReference Include="..\..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
     </ItemGroup>
 
-    <!--<ItemGroup>
-      <ProjectReference Include="..\..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
-    </ItemGroup>-->
-
+  <ItemGroup>
+    <InternalsVisibleTo Include="Razor.Templating.Core.Test" />
+  </ItemGroup>
 </Project>

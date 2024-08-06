@@ -2,14 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div>Content from Index.cshtml</div>
 
 <ul>
+    <li><a href="/home/Index">Render content by using only the view name instead of path</a></li>
     <li><a href="/home/RenderRcl">Render content using templating engine</a></li>
     <li><a href="/home/RenderPartialTest">Render partial content using templating engine</a></li>
 </ul>
 
-
+<partial name="_partialTest"/>
