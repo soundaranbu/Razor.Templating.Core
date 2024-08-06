@@ -34,8 +34,28 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\examples\Mvc\ExampleWebApp.Net6_0\ExampleWebApp.Net6_0.csproj" />
     <ProjectReference Include="..\..\examples\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
     <ProjectReference Include="..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing">
+      <Version>8.0.7</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing">
+      <Version>7.0.20</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing">
+      <Version>6.0.32</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

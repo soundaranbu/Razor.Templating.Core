@@ -168,6 +168,13 @@ namespace Razor.Templating.Core.Test
         }
 
         [Fact]
+        public async Task RenderViewByNameOutsideMvcApplication_Should_ThrowError()
+        {
+            var actual = await Assert.ThrowsAnyAsync<InvalidOperationException>(() => RazorTemplateEngine.RenderAsync("Index"));
+            Assert.Contains("Unable to find view 'Index'.", actual.Message);
+        }
+
+        [Fact]
         public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
         {
             var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(null!));
