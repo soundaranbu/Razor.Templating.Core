@@ -39,7 +39,7 @@ namespace Razor.Templating.Core.Dynamic
             using var scope = sp.CreateScope();
             _db = scope.ServiceProvider.GetRequiredService<TestDatabaseContext>();
 
-            var razorView = _db.Templates.FirstOrDefault(x => x.ViewName == filter);
+            var razorView = _db.Templates.FirstOrDefault(x => filter.Contains(x.ViewName));
 
             return razorView != null ? razorView?.LastModified > DateTime.UtcNow : false;
         }

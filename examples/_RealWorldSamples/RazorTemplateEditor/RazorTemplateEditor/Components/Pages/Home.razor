@@ -1,7 +1,128 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using Newtonsoft.Json
+@using Razor.Templating.Core
+@using Razor.Templating.Core.Dynamic.Data
+@using System.Text.Json
+@using System.Dynamic
+@using System.Diagnostics
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Razor View Live Editor</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="card mb-2">
+    <div class="card-header">Saved Templates</div>
+    <div class="card-body">
+        @foreach (var item in _templates)
+        {
+            <li>@item.Id - @item.LastModified <button class="btn btn-primary" @onclick="() => RenderAsync(item)">View</button></li>
+        }
+    </div>
+</div>
 
-Welcome to your new app.
+<div class="card">
+    <div class="card-header">Razor View Editor & Preview</div>
+    <div class="card-content p-3">
+        <div class="d-flex">
+            @if (_currentTemplate is not null)
+            {
+                <div class="d-flex flex-column w-50 mx-2">
+                    <h6>Enter View Model in JSON Format</h6>
+                    <InputTextArea class="form-control w-100" style="height: 50vh" @bind-Value=_currentTemplate.ViewModel />
+                </div>
+                <div class="d-flex w-100 flex-column mx-2">
+                    <h6>Enter View (.cshtml)</h6>
+                    <InputTextArea @bind-Value:after="SaveCurrentTemplateAndRenderAsync" class="form-control w-100" style="height: 50vh" @bind-Value="_currentTemplate.ViewTemplate" />
+                </div>
+            }
+            <div class="d-flex flex-column w-100 mx-2">
+                <h6>Rendered Content Preview (@_renderDuration.ToString(@"ss\.fffff") seconds)</h6>
+                <div class="card p-2 h-100">
+                    @((MarkupString)_renderedContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    private TestDatabaseContext _testDb { get; set; } = default!;
+
+    [Inject]
+    private IRazorTemplateEngine _razorTemplateEngine { get; set; } = default!;
+
+    private List<Template> _templates { get; set; } = new();
+
+    private string _templateContent { get; set; } = string.Empty;
+    private string _templateJsonModel { get; set; } = """"
+                                                        {
+                                                            "firstName": "Soundar"
+                                                        }
+                                                      """";
+    private string _renderedContent { get; set; } = string.Empty;
+    private TimeSpan _renderDuration { get; set; } = TimeSpan.MinValue;
+
+    private Template _currentTemplate { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentTemplate = await _testDb.Templates.FirstOrDefaultAsync() ?? new();
+
+        await GetAllTemplatesAsync();
+    }
+
+    private async Task GetAllTemplatesAsync()
+    {
+        _templates = await _testDb.Templates.AsNoTracking().ToListAsync();        
+    }
+
+    private async Task SaveCurrentTemplateAndRenderAsync()
+    {
+        _currentTemplate.ViewName = $"{Guid.NewGuid()}.cshtml";
+        _currentTemplate.LastModified = DateTime.UtcNow;
+        if (_currentTemplate.Id > 0)
+        {
+            _testDb.Templates.Update(_currentTemplate);
+        }
+        else
+        {
+            _currentTemplate.Id = Random.Shared.Next(1, 10000000);
+            await _testDb.Templates.AddAsync(_currentTemplate);
+        }
+
+        await _testDb.SaveChangesAsync();
+
+        await RenderAsync(_currentTemplate);
+
+        await GetAllTemplatesAsync();
+        await InvokeAsync(StateHasChanged);
+
+    }
+
+    private async Task SaveTemplateAsync()
+    {
+        await _testDb.Templates.AddAsync(new Template
+            {
+                Id = Random.Shared.Next(1, 10000),
+                ViewName = $"{Guid.NewGuid()}.cshtml",
+                ViewTemplate = _templateContent,
+                ViewModel = _templateJsonModel,
+                LastModified = DateTime.UtcNow
+            });
+
+        await _testDb.SaveChangesAsync();
+
+        await OnInitializedAsync();
+    }
+
+    private async Task RenderAsync(Template template)
+    {
+        _currentTemplate = template;
+        var stopwatch = Stopwatch.StartNew();
+        var modelData = JsonConvert.DeserializeObject(template.ViewModel.Trim());
+        _renderedContent = await _razorTemplateEngine.RenderPartialAsync(template.ViewName, modelData);
+        stopwatch.Stop();
+
+        _renderDuration = stopwatch.Elapsed;
+    }
+}

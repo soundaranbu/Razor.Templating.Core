@@ -22,10 +22,12 @@ namespace Razor.Templating.Core.Dynamic.Data
                 Id = 1,
                 ViewName = "/mysampleview.cshtml",
                 ViewTemplate = template,
+                ViewModel = "",
                 LastModified = DateTime.UtcNow,
                 LastRead = DateTime.MinValue
             };
-            //modelBuilder.Entity<Template>().HasData(model);
+
+            modelBuilder.Entity<Template>().HasData(model);
         }
     }
 
@@ -34,6 +36,7 @@ namespace Razor.Templating.Core.Dynamic.Data
         public int Id { get; set; }
         public string ViewName { get; set; } = null!;
         public string ViewTemplate { get; set; } = null!;
+        public string ViewModel { get; set; } = null!;
         public DateTime LastRead { get; set; }
         public DateTime LastModified { get; set; }
     }
