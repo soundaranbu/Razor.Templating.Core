@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace RazorTemplateEditor.Data
+namespace Razor.Templating.Core.Dynamic.Data
 {
     public class TestDatabaseContext : DbContext
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Razor.Templating.Core.Infrastructure
+namespace Razor.Templating.Core.Dynamic
 {
     internal sealed class EmptyDisposable : IDisposable
     {

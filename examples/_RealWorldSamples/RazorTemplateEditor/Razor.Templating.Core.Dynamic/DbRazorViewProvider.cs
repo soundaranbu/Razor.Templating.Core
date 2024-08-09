@@ -1,8 +1,8 @@
-﻿using Razor.Templating.Core.Helpers;
-using RazorTemplateEditor.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Razor.Templating.Core.Dynamic.Data;
 using System.Text;
 
-namespace RazorTemplateEditor.RazorProvider
+namespace Razor.Templating.Core.Dynamic
 {
     public class DbRazorViewProvider : RazorViewFileProvider
     {

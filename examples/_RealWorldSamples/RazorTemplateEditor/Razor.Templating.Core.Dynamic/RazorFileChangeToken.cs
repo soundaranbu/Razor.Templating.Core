@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Primitives;
-using System;
 
-namespace Razor.Templating.Core.Infrastructure
+namespace Razor.Templating.Core.Dynamic
 {
     internal class RazorFileChangeToken : IChangeToken
     {

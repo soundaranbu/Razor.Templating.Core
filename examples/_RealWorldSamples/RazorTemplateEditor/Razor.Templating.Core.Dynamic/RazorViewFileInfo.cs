@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.FileProviders;
-using System;
-using System.IO;
 
-namespace Razor.Templating.Core.Helpers
+namespace Razor.Templating.Core.Dynamic
 {
     public class RazorViewFileInfo : IFileInfo
     {

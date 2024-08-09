@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
-using Razor.Templating.Core.Infrastructure;
-using System;
-using System.IO;
 
-namespace Razor.Templating.Core.Helpers
+namespace Razor.Templating.Core.Dynamic
 {
     public abstract class RazorViewFileProvider : IFileProvider
     {
