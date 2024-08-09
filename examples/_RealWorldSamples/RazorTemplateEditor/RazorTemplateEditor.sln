@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorTemplateEditor", "RazorTemplateEditor\RazorTemplateEditor.csproj", "{1DACA715-8F9B-43B1-BCA6-AE93695FB5B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorTemplateEditor", "RazorTemplateEditor\RazorTemplateEditor.csproj", "{1DACA715-8F9B-43B1-BCA6-AE93695FB5B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor.Templating.Core", "..\..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj", "{7E171152-9E05-401D-9E68-86E569E078EC}"
 EndProject

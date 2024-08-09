@@ -48,7 +48,7 @@
             };
 
         viewData = JsonSerializer.Deserialize<Dictionary<string, object>>(form.Json);
-        renderedText = await RazorTemplateEngine.RenderAsync<object>(viewName, null!, viewData: viewData);
+        renderedText = await RazorTemplateEngine.RenderAsync(viewName, null!, viewBagOrViewData: viewData);
     }
 
     private async Task HandleSubmit()
