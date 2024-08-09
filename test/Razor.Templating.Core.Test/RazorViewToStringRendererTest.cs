@@ -1,6 +1,7 @@
 using ExampleRazorTemplatesLibrary.Models;
 using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Razor.Templating.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,9 +14,6 @@ namespace Razor.Templating.Core.Test
         [Fact]
         public async Task RenderView_WithModelAndViewData_WithPartialView()
         {
-            //Optionally call this to create cache of the renderer
-            //Otherwise, render time will be more than usual on first time only
-            RazorTemplateEngine.Initialize();
             // Arrange
             var model = new ExampleModel()
             {
@@ -31,8 +29,10 @@ namespace Razor.Templating.Core.Test
             var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
 
             // Assert
-            Assert.NotNull(html);
-            Assert.Contains("<div>Hello, I'm example view without any model and view data</div>", html);
+            Assert.Contains("<div>Plain text: Lorem Ipsium</div>", html);
+            Assert.Contains("<div>ViewBag data: 1</div>", html);
+            Assert.Contains("<div>ViewData data: 2</div>", html);
+            Assert.Contains("<div>Html content: <em>Lorem Ipsium</em></div>", html);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Razor.Templating.Core.Test
             viewData["Title"] = "This is Title";
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync<object>("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
+            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewWithLayout.cshtml", null, viewData);
 
             // Assert
             Assert.NotNull(html);
@@ -84,12 +84,11 @@ namespace Razor.Templating.Core.Test
             };
 
             // Act
-            var html = await RazorTemplateEngine.RenderAsync("~/Views/ExamplePartialView.cshtml", model);
+            var html = await RazorTemplateEngine.RenderPartialAsync("~/Views/_ExamplePartialView.cshtml", model);
 
             // Assert
-            Assert.NotNull(html);
-            Assert.Contains("Partial view", html);
-            Assert.Contains("Html content: <em>Lorem Ipsium</em>", html);
+            var expected = "\r\n<div>Partial view</div>\r\n<div>Html content: <em>Lorem Ipsium</em></div>\r\n";
+            Assert.Equal(expected, html);
         }
 
         [Fact]
@@ -108,7 +107,6 @@ namespace Razor.Templating.Core.Test
             // Add after registering all dependencies
             // this is important for the razor template engine to find the injected services
             services.AddRazorTemplating();
-
             // Act
             var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
 
@@ -116,7 +114,6 @@ namespace Razor.Templating.Core.Test
             Assert.NotNull(html);
             Assert.Contains("Injected Service Data: Some Random Value - ", html);
         }
-
 
         [Fact]
         public async Task RenderView_WithModel_WithViewImport()
@@ -163,15 +160,39 @@ namespace Razor.Templating.Core.Test
         [Fact]
         public async Task RenderInvalidView_Should_ThrowError()
         {
-            try
-            {
-                var html = await RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml");
-            }
-            catch (System.Exception e)
-            {
-                Assert.True(e is InvalidOperationException);
-                Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", e.Message);
-            }
+            var actual = await Assert.ThrowsAnyAsync<InvalidOperationException>(() => RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml"));
+            Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", actual.Message);
+
+            actual = await Assert.ThrowsAsync<ViewNotFoundException>(() => RazorTemplateEngine.RenderAsync("/Views/SomeInvalidView.cshtml"));
+            Assert.Contains("Unable to find view '/Views/SomeInvalidView.cshtml'.", actual.Message);
+        }
+
+        [Fact]
+        public async Task RenderViewByNameOutsideMvcApplication_Should_ThrowError()
+        {
+            var actual = await Assert.ThrowsAnyAsync<InvalidOperationException>(() => RazorTemplateEngine.RenderAsync("Index"));
+            Assert.Contains("Unable to find view 'Index'.", actual.Message);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Null()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(null!));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Empty()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(string.Empty));
+            Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Throws_ArgumentNullException_If_RenderAsync_When_ViewName_Is_Whitespace()
+        {
+            var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(" "));
+            Assert.Equal("viewName", actual.ParamName);
         }
     }
 }

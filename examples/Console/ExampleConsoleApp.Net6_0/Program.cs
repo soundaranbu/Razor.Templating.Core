@@ -1,13 +1,11 @@
 ﻿using ExampleRazorTemplatesLibrary.Models;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
-using Microsoft.EntityFrameworkCore;
+using ExampleRazorTemplatesLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core;
-using System.Diagnostics;
 
 namespace ExampleConsoleApp.Net6_0
 {
-    class Program
+    public class Program
     {
         async static Task Main(string[] args)
         {
@@ -57,35 +55,65 @@ namespace ExampleConsoleApp.Net6_0
         {
             try
             {
-                RazorTemplateEngine.Initialize();
+                Console.WriteLine(DateTime.Now);
 
-                System.Console.WriteLine(DateTime.Now);
-                var model = new ExampleModel()
-                {
-                    PlainText = "Some text",
-                    HtmlContent = "<em>Some emphasized text</em>"
-                };
+                await RenderViewWithModelAsync();
+                await RenderViewComponentWithoutModelAsync();
+                await RenderWithDependencyInjectionAsync();
 
-                var viewData = new Dictionary<string, object>();
-                viewData["Value1"] = "1";
-                viewData["Value2"] = "2";
-
-                var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
-                System.Console.Write(html);
-                System.Console.WriteLine(DateTime.Now);
-
-
-                // Render View with View Component
-                html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
-                System.Console.Write(html);
-                System.Console.WriteLine(DateTime.Now);
-
+                Console.WriteLine(DateTime.Now);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
 
-                System.Console.WriteLine("{0}", e);
+                Console.WriteLine("{0}", e);
             }
+
+            Console.ReadLine();
+        }
+
+        private static async Task RenderViewComponentWithoutModelAsync()
+        {
+            // Render View with View Component
+            var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
+            Console.Write(html);
+        }
+
+        private static async Task RenderViewWithModelAsync()
+        {
+            var model = new ExampleModel()
+            {
+                PlainText = "Some text",
+                HtmlContent = "<em>Some emphasized text</em>"
+            };
+            var viewData = new Dictionary<string, object>();
+            viewData["Value1"] = "1";
+            viewData["Value2"] = "2";
+
+            var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
+            Console.Write(html);
+            Console.WriteLine(DateTime.Now);
+        }
+
+        private static async Task RenderWithDependencyInjectionAsync()
+        {
+            // Use service collection
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Lorem Ipsium",
+                HtmlContent = "<em>Lorem Ipsium</em>"
+            };
+
+            // Add dependencies to the service collection and add razor templating to the collection
+            var services = new ServiceCollection();
+            services.AddTransient<ExampleService>();
+            // Add after registering all dependencies
+            // this is important for the razor template engine to find the injected services
+            services.AddRazorTemplating();
+            // Act
+            var html1 = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInjection.cshtml", model);
+            Console.WriteLine(html1);
         }
     }
 

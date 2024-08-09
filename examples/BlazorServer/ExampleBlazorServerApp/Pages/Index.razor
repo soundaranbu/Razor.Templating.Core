@@ -1,0 +1,37 @@
+﻿@page "/"
+@using Razor.Templating.Core
+@using System.Text.Json
+@inject IRazorTemplateEngine RazorTemplateEngine
+@inject Models.AppState State
+
+<PageTitle>Index</PageTitle>
+
+<b>State Set From Component:</b>
+<br />
+@JsonSerializer.Serialize(State)
+
+<br />
+<button @onclick="RenderAsync">Render View</button>
+
+<br />
+<br />
+@if (!string.IsNullOrEmpty(html))
+{
+    <b>Rendered View:</b>
+    @((MarkupString)html)
+}
+
+@code
+{
+    string html;
+
+    protected override void OnInitialized()
+    {
+        State.State = "Set in initialized.";
+    }
+
+    async Task RenderAsync()
+    {
+        html = await RazorTemplateEngine.RenderAsync("~/Views/Index.cshtml");
+    }
+}

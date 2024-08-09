@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -6,6 +6,7 @@
     <_FunctionsExtensionTargetFramework>netstandard2.0</_FunctionsExtensionTargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
   </ItemGroup>
   <ItemGroup>

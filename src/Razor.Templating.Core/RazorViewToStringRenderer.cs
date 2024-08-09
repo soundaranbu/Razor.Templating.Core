@@ -5,51 +5,49 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Razor.Templating.Core.Exceptions;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Razor.Templating.Core
 {
-    internal class RazorViewToStringRenderer
+    internal sealed class RazorViewToStringRenderer
     {
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IActionContextAccessor _actionContextAccessor;
 
         public RazorViewToStringRenderer(
             IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider, IHttpContextAccessor contextAccessor, LinkGenerator linkGenerator)
+            IServiceProvider serviceProvider,
+            IActionContextAccessor actionContextAccessor)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
+            _actionContextAccessor = actionContextAccessor;
         }
 
-        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model)
+        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
         {
-            return await RenderViewToStringAsync(viewName, model, new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()));
-        }
-
-        public async Task<string> RenderViewToStringAsync<TModel>([DisallowNull] string viewName, [DisallowNull] TModel model, [DisallowNull] ViewDataDictionary viewDataDictionary)
-        {
-            var actionContext = GetActionContext();
-            var view = FindView(actionContext, viewName);
+            var actionContext = _actionContextAccessor.ActionContext ?? GetActionContext();
+            var view = FindView(actionContext, viewName, isMainPage);
 
             await using var output = new StringWriter();
             var viewContext = new ViewContext(
                 actionContext,
                 view,
-                new ViewDataDictionary<TModel>(viewDataDictionary, model),
+                new ViewDataDictionary<object>(viewDataDictionary, model),
                 new TempDataDictionary(
                     actionContext.HttpContext,
                     _tempDataProvider),
@@ -61,15 +59,15 @@ namespace Razor.Templating.Core
             return output.ToString();
         }
 
-        private IView FindView(ActionContext actionContext, string viewName)
+        private IView FindView(ActionContext actionContext, string viewName, bool isMainPage)
         {
-            var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: true);
+            var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
             if (getViewResult.Success)
             {
                 return getViewResult.View;
             }
 
-            var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage: true);
+            var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage);
             if (findViewResult.Success)
             {
                 return findViewResult.View;
@@ -85,9 +83,9 @@ namespace Razor.Templating.Core
                 "Hint:",
                 "- Check whether you have added reference to the Razor Class Library that contains the view files.",
                 "- Check whether the view file name is correct or exists at the given path.",
-                "- Refer documentation or file issue here: https://github.com/soundaranbu/RazorTemplating"}));
+                "- Refer documentation or file issue here: https://github.com/soundaranbu/Razor.Templating.Core"}));
 
-            throw new InvalidOperationException(errorMessage);
+            throw new ViewNotFoundException(errorMessage);
         }
 
         private ActionContext GetActionContext()
