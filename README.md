@@ -53,7 +53,7 @@ dotnet add package Razor.Templating.Core
 ```
 ### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="2.0.0" />
+<PackageReference Include="Razor.Templating.Core" Version="2.1.0-rc.1" />
 ```
 
 ## Usage - Render View With Layout
