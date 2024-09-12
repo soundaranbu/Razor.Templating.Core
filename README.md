@@ -1,5 +1,3 @@
-<img src="https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/src/Razor.Templating.Core/assets/icon.png" width="70" height="70" /> 
-
 # Razor.Templating.Core
 
 ![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=master) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
@@ -11,16 +9,16 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 ## Supported Application Types
 
-|                  | .NET Core 3.0 | .NET Core 3.1 | .NET 5  | > .NET 6     |
-|------------------|---------------|---------------|---------|--------------|
-| Preferred Version|   v1.6.0      |     v1.6.0    |  v1.6.0 | 2.0.0        | 
-| Console          | &check;       | &check;       | &check; | &check;      |
-| Api              | &check;       | &check;       | &check; | &check;      |
-| Mvc              | &check;       | &check;       | &check; | &check;      |
-| Worker Service   | &check;       | &check;       | &check; | &check;      |
-| WPF              | &check;       | &check;       | &check; | &check;      |
-| WinForms         | &check;       | &check;       | &check; | &check;      |
-| Azure Functions  | &check;       | &check;       | &check; | &check;      |
+|                  | .NET Core 3 to .NET 5  | .NET 6 & Above|
+|------------------|------------------------|---------------|
+| Preferred Version|   v1.6.0               | 2.1.0-rc.1    | 
+| Console          | &check;                | &check;       |
+| Api              | &check;                | &check;       |
+| Mvc              | &check;                | &check;       |
+| Worker Service   | &check;                | &check;       |
+| WPF              | &check;                | &check;       |
+| WinForms         | &check;                | &check;       |
+| Azure Functions  | &check;                | &check;       |
 
 
 ## Supported View Features
@@ -35,6 +33,7 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 | Partial Views                     | &check;       |
 | Tag Helpers                       | &check;       |
 | View Components (.NET 5 +)        | &check;       |
+| View Localization (Only MVC)      | &check;       |
 | Dependency Injection into Views   | &check;       |
 | @Url.ContentUrl**                 | &cross;       |
 | @Url.RouteUrl**                   | &cross;       |
