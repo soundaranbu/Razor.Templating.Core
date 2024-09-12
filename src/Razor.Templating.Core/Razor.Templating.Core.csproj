@@ -12,14 +12,14 @@
     <Copyright />
     <PackageProjectUrl>https://github.com/soundaranbu/Razor.Templating.Core</PackageProjectUrl>
     <Authors>Soundar Anbalagan</Authors>
-    <Version>2.0.0</Version>
+    <Version>2.1.0-rc.1</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Added TryRenderAsync() and TryRenderPartialAsync() methods to render the views without throwing exceptions
-      - Removed obselete methods RazorTemplateEngine.RenderAsync() generic method and RazorTemplateEngine.Initialize()
+      - Fixed an issue in the MVC application where views were not being discovered in the same controller’s view location. Now, if the controller is HomeController and the view file Index.cshtml is located under Views/Home/Index.cshtml, the library can render the view from HomeController simply by passing Index as the view name. Previously, it was necessary to pass the full relative URL Views/Home/Index.cshtml. This functionality is available only when IRazorTemplateEngine is utilized through Dependency Injection (DI). For applications that are not MVC-based, this view discovery method will not work, and the library will revert to the default behavior, which requires the full relative path of the view file
+      - Adds support for MVC View localization
     </PackageReleaseNotes>
     <Nullable>Enable</Nullable>
   </PropertyGroup>
