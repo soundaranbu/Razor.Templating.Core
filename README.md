@@ -11,7 +11,7 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 
 |                  | .NET Core 3 to .NET 5  | .NET 6 & Above|
 |------------------|------------------------|---------------|
-| Preferred Version|   v1.6.0               | 2.1.0-rc.1    | 
+| Preferred Version|   v1.6.0               | 2.1.0    | 
 | Console          | &check;                | &check;       |
 | Api              | &check;                | &check;       |
 | Mvc              | &check;                | &check;       |
@@ -53,7 +53,7 @@ dotnet add package Razor.Templating.Core
 ```
 ### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="2.1.0-rc.1" />
+<PackageReference Include="Razor.Templating.Core" Version="2.1.0" />
 ```
 
 ## Usage - Render View With Layout
