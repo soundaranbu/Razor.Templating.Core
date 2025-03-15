@@ -28,10 +28,9 @@
   </ItemGroup>
 
   <Target Name="GenerateHtmlCoverageReport" AfterTargets="GenerateCoverageResultAfterTest">
-    <RemoveDir Directories="Reports"></RemoveDir>
+    <RemoveDir Directories="Reports" Condition="Exists('Reports')" />
     <ReportGenerator ReportFiles="@(CoverletReport)" TargetDirectory="Reports" ReportTypes="HtmlInline_AzurePipelines;Badges" />
   </Target>
-
 
   <ItemGroup>
     <ProjectReference Include="..\..\examples\Mvc\ExampleWebApp.Net6_0\ExampleWebApp.Net6_0.csproj" />
