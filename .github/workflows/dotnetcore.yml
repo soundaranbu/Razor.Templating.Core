@@ -21,28 +21,20 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '8.0.x'
-        #include-prerelease: true
 
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '7.0.x'
-        #include-prerelease: true
-      # to be used by azure functions
 
     - name: Setup .NET 6
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.0.x'
 
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.404
-
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build Razor.Templating.Core.slnx --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
