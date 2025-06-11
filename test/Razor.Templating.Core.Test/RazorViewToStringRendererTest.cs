@@ -212,10 +212,10 @@ namespace Razor.Templating.Core.Test
             CultureInfo.CurrentUICulture = new CultureInfo("en-US");
 
             // Act
-            var englishtml = await RazorTemplateEngine.RenderPartialAsync("~/Views/ExampleViewWithLocalization.cshtml");
+            var englisHtml = await RazorTemplateEngine.RenderPartialAsync("~/Views/ExampleViewWithLocalization.cshtml");
 
             // Assert
-            Assert.Contains("<h2>Hello, this is a localized phrase!</h2>\r\n<p>This text comes from the resource file</p>", englishtml);
+            Assert.Contains("<h2>Hello, this is a localized phrase!</h2>\r\n<p>This text comes from the resource file</p>", englisHtml);
         }
     }
 }
