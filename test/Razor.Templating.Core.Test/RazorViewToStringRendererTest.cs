@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -193,6 +194,28 @@ namespace Razor.Templating.Core.Test
         {
             var actual = await Assert.ThrowsAsync<ArgumentNullException>(() => RazorTemplateEngine.RenderAsync(" "));
             Assert.Equal("viewName", actual.ParamName);
+        }
+
+        [Fact]
+        public async Task Renders_CorrectLangStringFromResx_When_CultureInfoIsSet()
+        {
+            // Arrange
+            CultureInfo.CurrentUICulture = new CultureInfo("es-ES");
+
+            // Act
+            var spanishHtml = await RazorTemplateEngine.RenderPartialAsync("~/Views/ExampleViewWithLocalization.cshtml");
+
+            // Assert
+            Assert.Contains("<h2>&#xA1;Hola, esto es una frase localizada!</h2>\r\n<p>Este texto proviene del archivo de recursos.</p>", spanishHtml);
+
+            // Reset culture to English
+            CultureInfo.CurrentUICulture = new CultureInfo("en-US");
+
+            // Act
+            var englisHtml = await RazorTemplateEngine.RenderPartialAsync("~/Views/ExampleViewWithLocalization.cshtml");
+
+            // Assert
+            Assert.Contains("<h2>Hello, this is a localized phrase!</h2>\r\n<p>This text comes from the resource file</p>", englisHtml);
         }
     }
 }
