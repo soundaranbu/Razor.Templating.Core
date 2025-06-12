@@ -47,10 +47,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Setup .NET 8
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version:  '9.0.x'
 
       - name: Run benchmark
         run: dotnet run -c Release --project benchmark/Razor.Template.Core.PerfBenchmark/Razor.Template.Core.PerfBenchmark.csproj
