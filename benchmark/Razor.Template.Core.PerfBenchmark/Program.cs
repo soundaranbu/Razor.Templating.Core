@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Analysers;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Exporters;
@@ -8,6 +9,7 @@ using Razor.Templating.Core;
 
 var config = ManualConfig.CreateMinimumViable()
     .AddExporter(MarkdownExporter.GitHub)
+    .AddAnalyser(EnvironmentAnalyser.Default)
     .WithArtifactsPath(".");
 
 BenchmarkRunner.Run<RazorTemplatingCoreBenchMark>(config);
