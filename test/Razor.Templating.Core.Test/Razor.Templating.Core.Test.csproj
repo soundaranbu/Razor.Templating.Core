@@ -37,7 +37,6 @@
     <ReportGenerator ReportFiles="@(CoverletReport)" TargetDirectory="Reports" ReportTypes="HtmlInline_AzurePipelines;Badges" />
   </Target>
 
-
   <ItemGroup>
     <ProjectReference Include="..\..\examples\Mvc\ExampleWebApp.Net6_0\ExampleWebApp.Net6_0.csproj" />
     <ProjectReference Include="..\..\examples\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
