@@ -1,11 +1,11 @@
 # Razor.Templating.Core
 
-![Build+Test](https://github.com/soundaranbu/RazorTemplating/workflows/Build+Test/badge.svg?branch=main) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
-![Coverage](https://raw.githubusercontent.com/soundaranbu/RazorTemplating/main/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_linecoverage_green.svg)
+![Build+Test](https://github.com/soundaranbu/Razor.Templating.Core/workflows/Build+Test/badge.svg?branch=main) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
+![Coverage](https://raw.githubusercontent.com/soundaranbu/Razor.Templating.Core/main/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_linecoverage_green.svg)
 
-Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.1) for HTML templating was never been so easy like this. Render your .cshtml files into string easily using this library.
+Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor) for HTML templating was never been so easy like this. Render your .cshtml files into string easily using this library.
 
-This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk?view=aspnetcore-3.1) for precompiling the views.
+This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk) for precompiling the views.
 
 ## Supported Application Types
 
