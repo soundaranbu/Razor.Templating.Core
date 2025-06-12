@@ -1,19 +1,21 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Running;
 using ExampleRazorTemplatesLibrary.Models;
 using Razor.Templating.Core;
 
-BenchmarkRunner.Run<RazorTemplateBenchMark>();
+var config = ManualConfig.CreateMinimumViable()
+    .AddExporter(MarkdownExporter.GitHub)
+    .WithArtifactsPath(".");
+
+BenchmarkRunner.Run<RazorTemplatingCoreBenchMark>(config);
 
 [MemoryDiagnoser]
-public class RazorTemplateBenchMark
+[MarkdownExporterAttribute.GitHub]
+public class RazorTemplatingCoreBenchMark
 {
-
-    [GlobalSetup]
-    public void Setup()
-    {
-    }
-
     [Benchmark]
     public async Task RenderViewWithModelAsync()
     {

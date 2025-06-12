@@ -1,6 +1,8 @@
 <Solution>
+  <Folder Name="/Benchmark/">
+    <Project Path="benchmark/Razor.Template.Core.PerfBenchmark/Razor.Template.Core.PerfBenchmark.csproj" />
+  </Folder>
   <Folder Name="/Core/">
-    <Project Path="src/Razor.Template.Core.PerfBenchmark/Razor.Template.Core.PerfBenchmark.csproj" />
     <Project Path="src/Razor.Templating.Core/Razor.Templating.Core.csproj" />
   </Folder>
   <Folder Name="/Examples/" />
