@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <RootNamespace>ExampleAzureFunction.Net6._0</RootNamespace>
     <_FunctionsExtensionTargetFramework>netstandard2.0</_FunctionsExtensionTargetFramework>
