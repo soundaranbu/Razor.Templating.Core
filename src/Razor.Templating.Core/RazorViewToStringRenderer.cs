@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -24,23 +23,23 @@ namespace Razor.Templating.Core
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IActionContextAccessor _actionContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public RazorViewToStringRenderer(
             IRazorViewEngine viewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider,
-            IActionContextAccessor actionContextAccessor)
+            IHttpContextAccessor httpContextAccessor)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
-            _actionContextAccessor = actionContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
         {
-            var actionContext = _actionContextAccessor.ActionContext ?? GetActionContext();
+            var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName, isMainPage);
 
             await using var output = new StringWriter();
@@ -89,6 +88,27 @@ namespace Razor.Templating.Core
         }
 
         private ActionContext GetActionContext()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            var endpoint = httpContext?.GetEndpoint();
+            var actionDescriptor = endpoint?.Metadata.GetMetadata<ActionDescriptor>();
+
+            ActionContext? actionContext;
+
+            if (httpContext is null)
+            {
+                // Non HTTP request scenarios like console, worker services
+                actionContext = GetDefaultActionContext();
+            }
+            else
+            {
+                actionContext = new ActionContext(httpContext, httpContext.GetRouteData(), actionDescriptor ?? new ActionDescriptor());
+            }
+
+            return actionContext;
+        }
+
+        private ActionContext GetDefaultActionContext()
         {
             var httpContext = new DefaultHttpContext
             {
