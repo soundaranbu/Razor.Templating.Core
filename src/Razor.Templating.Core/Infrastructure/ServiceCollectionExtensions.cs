@@ -59,7 +59,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             services.TryAddSingleton<DiagnosticSource>(new DiagnosticListener(Constants.LibraryIdentifier));
             services.TryAddSingleton<DiagnosticListener>(new DiagnosticListener(Constants.LibraryIdentifier));
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.TryAddSingleton<ConsolidatedAssemblyApplicationPartFactory>();
             services.AddLogging();
             services.AddHttpContextAccessor();
