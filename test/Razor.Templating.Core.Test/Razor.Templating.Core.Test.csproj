@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\examples\Mvc\Mvc.csproj" />
-    <ProjectReference Include="..\..\examples\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
+    <ProjectReference Include="..\..\examples\Templates\ExampleAppRazorTemplates\RazorTemplatesLibrary.csproj" />
     <ProjectReference Include="..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
 	</ItemGroup>
 </Project>

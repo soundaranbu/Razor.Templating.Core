@@ -6,9 +6,11 @@
     <Project Path="src/Razor.Templating.Core/Razor.Templating.Core.csproj" />
   </Folder>
   <Folder Name="/Examples/">
-    <Project Path="examples/Console/ExampleConsoleApp.Net6_0/ExampleConsoleApp.csproj" />
+    <Project Path="examples/Api/ExampleMinApiApp/MinimalApi.csproj" />
+    <Project Path="examples/AzureFunction/FunctionAppHttp/FunctionAppHttp.csproj" Id="4571db78-0462-486d-bea7-a18962716e36" />
+    <Project Path="examples/Desktop/Example.Windows.Desktop.WPF/WpfDesktopApp.csproj" />
     <Project Path="examples/Mvc/Mvc.csproj" />
-    <Project Path="examples/Templates/ExampleAppRazorTemplates/ExampleRazorTemplatesLibrary.csproj" />
+    <Project Path="examples/Templates/ExampleAppRazorTemplates/RazorTemplatesLibrary.csproj" />
     <Project Path="examples/WorkerService/WorkerService.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">

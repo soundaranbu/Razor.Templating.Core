@@ -10,12 +10,9 @@
       <_Parameter1>Razor.Templating.Core.Test</_Parameter1>
     </AssemblyAttribute>
 	</ItemGroup>
-	<!--<ItemGroup>
-	  <PackageReference Include="Razor.Templating.Core" Version="2.1.0" />
-	</ItemGroup>-->
 	<ItemGroup>
     <ProjectReference Include="..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
-    <ProjectReference Include="..\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
+    <ProjectReference Include="..\Templates\ExampleAppRazorTemplates\RazorTemplatesLibrary.csproj" />
   </ItemGroup>
 
 </Project>
