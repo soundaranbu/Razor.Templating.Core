@@ -7,6 +7,7 @@
   </Folder>
   <Folder Name="/Examples/">
     <Project Path="examples/Api/ExampleMinApiApp/MinimalApi.csproj" />
+    <Project Path="examples/Api/ExampleWebApiApp/WebApi.csproj" />
     <Project Path="examples/AzureFunction/FunctionAppHttp/FunctionAppHttp.csproj" Id="4571db78-0462-486d-bea7-a18962716e36" />
     <Project Path="examples/Desktop/Example.Windows.Desktop.WPF/WpfDesktopApp.csproj" />
     <Project Path="examples/Mvc/Mvc.csproj" />
