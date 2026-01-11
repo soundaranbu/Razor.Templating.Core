@@ -5,31 +5,14 @@
   <Folder Name="/Core/">
     <Project Path="src/Razor.Templating.Core/Razor.Templating.Core.csproj" />
   </Folder>
-  <Folder Name="/Examples/" />
-  <Folder Name="/Examples/Api/">
-    <Project Path="examples/Api/ExampleMinApiApp.Net6_0/ExampleMinApiApp.Net6_0.csproj" />
-    <Project Path="examples/Api/ExampleWebApiApp.Net6_0/ExampleWebApiApp.Net6_0.csproj" />
-  </Folder>
-  <Folder Name="/Examples/AzureFunctions/">
-    <Project Path="examples/AzureFunction/ExampleAzureFunction.Net6.0/ExampleAzureFunction.Net6.0.csproj" />
-  </Folder>
-  <Folder Name="/Examples/BlazorServer/">
-    <Project Path="examples/BlazorServer/ExampleBlazorServerApp/ExampleBlazorServerApp.csproj" />
-  </Folder>
-  <Folder Name="/Examples/Console/">
-    <Project Path="examples/Console/ExampleConsoleApp.Net6_0/ExampleConsoleApp.Net6_0.csproj" />
-  </Folder>
-  <Folder Name="/Examples/Desktop/">
-    <Project Path="examples/Desktop/Example.Windows.Desktop.WPF/Example.Windows.Desktop.WPF.csproj" />
-  </Folder>
-  <Folder Name="/Examples/Mvc/">
-    <Project Path="examples/Mvc/ExampleWebApp.Net6_0/ExampleWebApp.Net6_0.csproj" />
-  </Folder>
-  <Folder Name="/Examples/Templates/">
-    <Project Path="examples/Templates/ExampleAppRazorTemplates/ExampleRazorTemplatesLibrary.csproj" />
-  </Folder>
-  <Folder Name="/Examples/WorkerService/">
-    <Project Path="examples/WorkerService/ExampleWorkerService.Net6_0/ExampleWorkerService.Net6_0.csproj" />
+  <Folder Name="/Examples/">
+    <Project Path="examples/Api/ExampleMinApiApp/MinimalApi.csproj" />
+    <Project Path="examples/Api/ExampleWebApiApp/WebApi.csproj" />
+    <Project Path="examples/AzureFunction/FunctionAppHttp/FunctionAppHttp.csproj" Id="4571db78-0462-486d-bea7-a18962716e36" />
+    <Project Path="examples/Desktop/Example.Windows.Desktop.WPF/WpfDesktopApp.csproj" />
+    <Project Path="examples/Mvc/Mvc.csproj" />
+    <Project Path="examples/RazorTemplates/RazorTemplatesLibrary.csproj" />
+    <Project Path="examples/WorkerService/WorkerService.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />

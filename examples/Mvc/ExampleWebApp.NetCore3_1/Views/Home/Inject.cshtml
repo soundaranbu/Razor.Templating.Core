@@ -1,9 +1,0 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-    Layout = null;
-}
-@inject ExampleRazorTemplatesLibrary.Services.ExampleConfigurationService ExampleConfigurationService
-
-<div class="text-center">
-    <h1 class="display-4">Value from Injected ExampleConfigurationService. @ExampleConfigurationService.GetConfigValue()</h1>
-</div>

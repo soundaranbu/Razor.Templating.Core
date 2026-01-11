@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+		<RootNamespace>Example.Windows.Desktop.WPF</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
+    <ProjectReference Include="..\..\RazorTemplates\RazorTemplatesLibrary.csproj" />
+  </ItemGroup>
+
+</Project>

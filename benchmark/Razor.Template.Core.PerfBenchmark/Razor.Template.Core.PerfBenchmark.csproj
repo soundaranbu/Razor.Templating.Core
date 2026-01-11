@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\examples\Templates\ExampleAppRazorTemplates\ExampleRazorTemplatesLibrary.csproj" />
+    <ProjectReference Include="..\..\examples\RazorTemplates\RazorTemplatesLibrary.csproj" />
     <ProjectReference Include="..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
   </ItemGroup>
 
