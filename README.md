@@ -1,6 +1,6 @@
 # Razor.Templating.Core
 
-![Build+Test](https://github.com/soundaranbu/Razor.Templating.Core/workflows/Build+Test/badge.svg?branch=main) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
+[![Build+Test](https://github.com/soundaranbu/Razor.Templating.Core/actions/workflows/dotnetcore.yml/badge.svg?branch=main)](https://github.com/soundaranbu/Razor.Templating.Core/actions/workflows/dotnetcore.yml) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
 ![Coverage](https://raw.githubusercontent.com/soundaranbu/Razor.Templating.Core/main/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_linecoverage_green.svg)
 
 Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor) for HTML templating has never been easier. Render your .cshtml files to strings easily using this library.
@@ -46,7 +46,7 @@ For older .NET versions, refer to the [wiki](https://github.com/soundaranbu/Razo
 - Report Generation & more
 
 ## Performance
-Performance of rendering the views to HTML is as fast as rendering the MVC page. The first render may be slightly slower due to the initialization. But, the subsequent renderings are significantly faster. Refer to the benchmark results [here](benchmark\Razor.Template.Core.PerfBenchmark\results\RazorTemplatingCoreBenchMark-report-github.md) and run it for yourself in your own machine to verify the results.
+Performance of rendering the views to HTML is as fast as rendering the MVC page. The first render may be slightly slower due to the initialization. But, the subsequent renderings are significantly faster. Refer to the benchmark results [here](benchmark/Razor.Template.Core.PerfBenchmark/results/RazorTemplatingCoreBenchMark-report-github.md) and run it for yourself in your own machine to verify the results.
 
 | Method                   |     Mean |    Error |   StdDev |   Gen0 | Allocated |
 | ------------------------ | -------: | -------: | -------: | -----: | --------: |
