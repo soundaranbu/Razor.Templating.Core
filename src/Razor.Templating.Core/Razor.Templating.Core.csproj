@@ -21,6 +21,9 @@
 			Find the release notes at https://github.com/soundaranbu/Razor.Templating.Core/releases
 		</PackageReleaseNotes>
     <Nullable>Enable</Nullable>
+
+		<!-- It's because Microsoft.AspNetCore.App is not AOT compatible and the library requires Assembly loading to discover the views properly.-->
+		<IsAotCompatible>false</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

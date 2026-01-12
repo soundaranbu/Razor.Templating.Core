@@ -7,7 +7,7 @@ namespace ExampleConsoleApp;
 
 public class Program
 {
-    async static Task Main(string[] args)
+    private async static Task Main(string[] args)
     {
         try
         {
@@ -28,14 +28,14 @@ public class Program
         Console.ReadLine();
     }
 
-    private static async Task RenderViewComponentWithoutModelAsync()
+    private async static Task RenderViewComponentWithoutModelAsync()
     {
         // Render View with View Component
         var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleViewWithViewComponent.cshtml");
         Console.Write(html);
     }
 
-    private static async Task RenderViewWithModelAsync()
+    private async static Task RenderViewWithModelAsync()
     {
         var model = new ExampleModel()
         {
@@ -51,7 +51,7 @@ public class Program
         Console.WriteLine(DateTime.Now);
     }
 
-    private static async Task RenderWithDependencyInjectionAsync()
+    private async static Task RenderWithDependencyInjectionAsync()
     {
         // Use service collection
         // Arrange
