@@ -27,7 +27,7 @@ namespace HtmlToPdf.Api.Controllers
             var rs = new LocalReporting()
                         .KillRunningJsReportProcesses()
                         .UseBinary(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? JsReportBinary.GetBinary() : jsreport.Binary.Linux.JsReportBinary.GetBinary())
-                        .Configure(cfg => cfg.AllowedLocalFilesAccess().FileSystemStore().BaseUrlAsWorkingDirectory())
+                        .Configure(cfg => cfg.DoTrustUserCode().FileSystemStore().BaseUrlAsWorkingDirectory())
                         .AsUtility()
                         .Create();
 

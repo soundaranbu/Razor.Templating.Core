@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Razor.Templating.Core;
 using System.Threading.Tasks;
+
 namespace Razor.Templating.Example.Invoice
 {
     class Program
@@ -37,24 +38,24 @@ namespace Razor.Templating.Example.Invoice
                     ReferenceNumber = "94759849374"
                 },
                 LineItems = new List<Templates.LineItem>
-        {
-            new Templates.LineItem
-            {
-            Id = 1,
-            ItemName = "USB Type-C Cable",
-            Quantity = 3,
-            PricePerItem = 10.33M
-            },
-               new Templates.LineItem
-            {
-            Id = 1,
-            ItemName = "SSD-512G",
-            Quantity = 10,
-            PricePerItem = 90.54M
-            }
-        },
-                CompanyLogoUrl = "https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/src/Razor.Templating.Core/assets/icon.png"
-            };
+                {
+                    new Templates.LineItem
+                    {
+                        Id = 1,
+                        ItemName = "USB Type-C Cable",
+                        Quantity = 3,
+                        PricePerItem = 10.33M
+                    },
+                    new Templates.LineItem
+                    {
+                        Id = 1,
+                        ItemName = "SSD-512G",
+                        Quantity = 10,
+                        PricePerItem = 90.54M
+                        }
+                    },
+                    CompanyLogoUrl = "https://raw.githubusercontent.com/soundaranbu/RazorTemplating/master/src/Razor.Templating.Core/assets/icon.png"
+                };
             var invoiceHtml = await RazorTemplateEngine.RenderAsync("~/Invoice.cshtml", invoiceModel);
             Console.WriteLine(invoiceHtml);
             Console.ReadLine();

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Razor.Templates/Razor.Templates.csproj" />
+  <Project Path="Razor.Templating.Example.Invoice/Razor.Templating.Example.Invoice.csproj" />
+</Solution>
