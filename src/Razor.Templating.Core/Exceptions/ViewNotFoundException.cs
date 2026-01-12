@@ -2,10 +2,6 @@ using System;
 
 namespace Razor.Templating.Core.Exceptions;
 
-public class ViewNotFoundException : InvalidOperationException
+public class ViewNotFoundException(string message) : InvalidOperationException(message)
 {
-    public ViewNotFoundException(string message) : base(message){
-        
-    }
-
 }

@@ -16,131 +16,117 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Razor.Templating.Core
+namespace Razor.Templating.Core;
+
+internal sealed class RazorViewToStringRenderer(
+    IRazorViewEngine viewEngine,
+    ITempDataProvider tempDataProvider,
+    IServiceProvider serviceProvider,
+    IHttpContextAccessor httpContextAccessor)
 {
-    internal sealed class RazorViewToStringRenderer
+    public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
     {
-        private readonly IRazorViewEngine _viewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        var actionContext = GetActionContext();
+        var view = FindView(actionContext, viewName, isMainPage);
 
-        public RazorViewToStringRenderer(
-            IRazorViewEngine viewEngine,
-            ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            _viewEngine = viewEngine;
-            _tempDataProvider = tempDataProvider;
-            _serviceProvider = serviceProvider;
-            _httpContextAccessor = httpContextAccessor;
-        }
+        await using var output = new StringWriter();
+        var viewContext = new ViewContext(
+            actionContext,
+            view,
+            new ViewDataDictionary<object>(viewDataDictionary, model),
+            new TempDataDictionary(
+                actionContext.HttpContext,
+                tempDataProvider),
+            output,
+            new HtmlHelperOptions());
 
-        public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
-        {
-            var actionContext = GetActionContext();
-            var view = FindView(actionContext, viewName, isMainPage);
+        await view.RenderAsync(viewContext);
 
-            await using var output = new StringWriter();
-            var viewContext = new ViewContext(
-                actionContext,
-                view,
-                new ViewDataDictionary<object>(viewDataDictionary, model),
-                new TempDataDictionary(
-                    actionContext.HttpContext,
-                    _tempDataProvider),
-                output,
-                new HtmlHelperOptions());
-
-            await view.RenderAsync(viewContext);
-
-            return output.ToString();
-        }
-
-        private IView FindView(ActionContext actionContext, string viewName, bool isMainPage)
-        {
-            var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
-            if (getViewResult.Success)
-            {
-                return getViewResult.View;
-            }
-
-            var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage);
-            if (findViewResult.Success)
-            {
-                return findViewResult.View;
-            }
-
-            var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
-            var errorMessage = string.Join(
-                Environment.NewLine,
-                new string[] {
-                    $"Unable to find view '{viewName}'. The following locations were searched:"
-                }.Concat(searchedLocations)
-                .Concat(new string[]{
-                "Hint:",
-                "- Check whether you have added reference to the Razor Class Library that contains the view files.",
-                "- Check whether the view file name is correct or exists at the given path.",
-                "- Refer documentation or file issue here: https://github.com/soundaranbu/Razor.Templating.Core"}));
-
-            throw new ViewNotFoundException(errorMessage);
-        }
-
-        private ActionContext GetActionContext()
-        {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var endpoint = httpContext?.GetEndpoint();
-            var actionDescriptor = endpoint?.Metadata.GetMetadata<ActionDescriptor>();
-
-            ActionContext? actionContext;
-
-            if (httpContext is null)
-            {
-                // Non HTTP request scenarios like console, worker services
-                actionContext = GetDefaultActionContext();
-            }
-            else
-            {
-                actionContext = new ActionContext(httpContext, httpContext.GetRouteData(), actionDescriptor ?? new ActionDescriptor());
-            }
-
-            return actionContext;
-        }
-
-        private ActionContext GetDefaultActionContext()
-        {
-            var httpContext = new DefaultHttpContext
-            {
-                RequestServices = _serviceProvider
-            };
-            var app = new ApplicationBuilder(_serviceProvider);
-            var routeBuilder = new RouteBuilder(app)
-            {
-                DefaultHandler = new CustomRouter()
-            };
-
-            routeBuilder.MapRoute(
-                string.Empty,
-                "{controller}/{action}/{id}",
-                new RouteValueDictionary(new { id = "defaultid" }));
-
-            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
-            actionContext.RouteData.Routers.Add(routeBuilder.Build());
-            return actionContext;
-        }
+        return output.ToString();
     }
 
-    internal class CustomRouter : IRouter
+    private IView FindView(ActionContext actionContext, string viewName, bool isMainPage)
     {
-        public VirtualPathData? GetVirtualPath(VirtualPathContext context)
+        var getViewResult = viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
+        if (getViewResult.Success)
         {
-            return null;
+            return getViewResult.View;
         }
 
-        public Task RouteAsync(RouteContext context)
+        var findViewResult = viewEngine.FindView(actionContext, viewName, isMainPage);
+        if (findViewResult.Success)
         {
-            return Task.CompletedTask;
+            return findViewResult.View;
         }
+
+        var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
+        var errorMessage = string.Join(
+            Environment.NewLine,
+            new string[] {
+                $"Unable to find view '{viewName}'. The following locations were searched:"
+            }.Concat(searchedLocations)
+            .Concat([
+            "Hint:",
+            "- Check whether you have added reference to the Razor Class Library that contains the view files.",
+            "- Check whether the view file name is correct or exists at the given path.",
+            "- Refer documentation or file issue here: https://github.com/soundaranbu/Razor.Templating.Core"]));
+
+        throw new ViewNotFoundException(errorMessage);
+    }
+
+    private ActionContext GetActionContext()
+    {
+        var httpContext = httpContextAccessor.HttpContext;
+        var endpoint = httpContext?.GetEndpoint();
+        var actionDescriptor = endpoint?.Metadata.GetMetadata<ActionDescriptor>();
+
+        ActionContext? actionContext;
+
+        if (httpContext is null)
+        {
+            // Non HTTP request scenarios like console, worker services
+            actionContext = GetDefaultActionContext();
+        }
+        else
+        {
+            actionContext = new ActionContext(httpContext, httpContext.GetRouteData(), actionDescriptor ?? new ActionDescriptor());
+        }
+
+        return actionContext;
+    }
+
+    private ActionContext GetDefaultActionContext()
+    {
+        var httpContext = new DefaultHttpContext
+        {
+            RequestServices = serviceProvider
+        };
+        var app = new ApplicationBuilder(serviceProvider);
+        var routeBuilder = new RouteBuilder(app)
+        {
+            DefaultHandler = new CustomRouter()
+        };
+
+        routeBuilder.MapRoute(
+            string.Empty,
+            "{controller}/{action}/{id}",
+            new RouteValueDictionary(new { id = "defaultid" }));
+
+        var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+        actionContext.RouteData.Routers.Add(routeBuilder.Build());
+        return actionContext;
+    }
+}
+
+internal class CustomRouter : IRouter
+{
+    public VirtualPathData? GetVirtualPath(VirtualPathContext context)
+    {
+        return null;
+    }
+
+    public Task RouteAsync(RouteContext context)
+    {
+        return Task.CompletedTask;
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Razor.Templating.Core.Infrastructure;
 
-namespace Razor.Templating.Core.Infrastructure
+internal static class Constants
 {
-    internal static class Constants
-    {
-        public const string LibraryIdentifier = "Razor.Templating.Core";
-    }
+    public const string LibraryIdentifier = "Razor.Templating.Core";
 }

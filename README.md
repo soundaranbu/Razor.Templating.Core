@@ -3,40 +3,41 @@
 ![Build+Test](https://github.com/soundaranbu/Razor.Templating.Core/workflows/Build+Test/badge.svg?branch=main) ![Nuget](https://img.shields.io/nuget/v/Razor.Templating.Core) ![Downloads](https://img.shields.io/nuget/dt/Razor.Templating.Core) 
 ![Coverage](https://raw.githubusercontent.com/soundaranbu/Razor.Templating.Core/main/test/Razor.Templating.Core.Test/Reports/badge_shieldsio_linecoverage_green.svg)
 
-Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor) for HTML templating was never been so easy like this. Render your .cshtml files into string easily using this library.
+Using [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor) for HTML templating has never been easier. Render your .cshtml files to strings easily using this library.
 
-This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk) for precompiling the views.
+This library uses precompiled Razor views provided by the [Razor SDK](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/sdk).
 
 ## Supported Application Types
 
-|                  | .NET Core 3 to .NET 5  | .NET 6 & Above|
-|------------------|------------------------|---------------|
-| Preferred Version|   v1.6.0               | 2.1.0    | 
-| Console          | &check;                | &check;       |
-| Api              | &check;                | &check;       |
-| Mvc              | &check;                | &check;       |
-| Worker Service   | &check;                | &check;       |
-| WPF              | &check;                | &check;       |
-| WinForms         | &check;                | &check;       |
-| Azure Functions  | &check;                | &check;       |
+|                   | .NET 6 & Above | .NET 10 & Above |
+| ----------------- | -------------- | --------------- |
+| Preferred Version | v2.1.0         | 3.0.0           |
+| Console           | &check;        | &check;         |
+| Api               | &check;        | &check;         |
+| Mvc               | &check;        | &check;         |
+| Worker Service    | &check;        | &check;         |
+| WPF               | &check;        | &check;         |
+| WinForms          | &check;        | &check;         |
+| Azure Functions   | &check;        | &check;         |
 
+For older .NET versions, refer to the [wiki](https://github.com/soundaranbu/Razor.Templating.Core/wiki#historic-versions)
 
 ## Supported View Features
-| MVC Razor View Features           |               |
-|---------------------------------- |---------------|
-| ViewModel                         | &check;       |
-| ViewBag                           | &check;       |
-| ViewData                          | &check;       |
-| Layouts                           | &check;       |
-| ViewStarts                        | &check;       |
-| ViewImports                       | &check;       |
-| Partial Views                     | &check;       |
-| Tag Helpers                       | &check;       |
-| View Components (.NET 5 +)        | &check;       |
-| View Localization (Only MVC)      | &check;       |
-| Dependency Injection into Views   | &check;       |
-| @Url.ContentUrl**                 | &cross;       |
-| @Url.RouteUrl**                   | &cross;       |
+| MVC Razor View Features         |         |
+| ------------------------------- | ------- |
+| ViewModel                       | &check; |
+| ViewBag                         | &check; |
+| ViewData                        | &check; |
+| Layouts                         | &check; |
+| ViewStarts                      | &check; |
+| ViewImports                     | &check; |
+| Partial Views                   | &check; |
+| Tag Helpers                     | &check; |
+| View Components                 | &check; |
+| View Localization (Only MVC)    | &check; |
+| Dependency Injection into Views | &check; |
+| @Url.ContentUrl**               | &cross; |
+| @Url.RouteUrl**                 | &cross; |
 
 **Contributors are welcome who can help to enable these unsupported features.
 
@@ -44,8 +45,19 @@ This project makes use of [Razor SDK](https://docs.microsoft.com/en-us/aspnet/co
 - Email Templating
 - Report Generation & more
 
-## Installing Nuget Package
-This library is available as [Nuget package](https://www.nuget.org/packages/Razor.Templating.Core/)
+## Performance
+Performance of rendering the views to HTML is as fast as rendering the MVC page. The first render may be slightly slower due to the initialization. But, the subsequent renderings are significantly faster. Refer to the benchmark results [here](benchmark\Razor.Template.Core.PerfBenchmark\results\RazorTemplatingCoreBenchMark-report-github.md) and run it for yourself in your own machine to verify the results.
+
+| Method                   |     Mean |    Error |   StdDev |   Gen0 | Allocated |
+| ------------------------ | -------: | -------: | -------: | -----: | --------: |
+| RenderViewWithModelAsync | 28.73 μs | 0.403 μs | 0.357 μs | 5.8594 |     24 KB |
+
+## Runtime Compilation
+From .NET 10, the Razor runtime compilation APIs are [marked as obsolete](https://learn.microsoft.com/en-us/dotnet/core/compatibility/aspnet-core/10/razor-runtime-compilation-obsolete). As a result, they will be removed from ASP.NET Core in the future. If you're looking to save a Razor view in a database or in a separate folder outside the project and render it on the fly, that scenario is not supported. Microsoft recommends using build-time compilation by including the Razor view in the project and built as part of your app.
+
+
+## Installing the NuGet package
+This library is available as [NuGet package](https://www.nuget.org/packages/Razor.Templating.Core/)
 
 ### Using .NET CLI
 ```bash
@@ -53,11 +65,11 @@ dotnet add package Razor.Templating.Core
 ```
 ### Using Package Reference .csproj
 ```bash
-<PackageReference Include="Razor.Templating.Core" Version="2.1.0" />
+<PackageReference Include="Razor.Templating.Core" Version="3.0.0" />
 ```
 
 ## Usage - Render View With Layout
-To render a view with layout, model, viewdata or viewbag, then call the `RenderAsync()` on the `RazorTemplateEngine` static class
+To render a view with a layout, model, ViewData, or ViewBag, call `RenderAsync()` on the `RazorTemplateEngine` static class.
 
 ### RenderAsync() method
 ```csharp
@@ -71,28 +83,27 @@ var model = new ExampleModel()
 
 // Both ViewBag and ViewData should be added to the same dictionary. 
 var viewDataOrViewBag = new Dictionary<string, object>();
-// ViewData is same as mvc
+// ViewData is the same as in MVC.
 viewDataOrViewBag["Value1"] = "1";
 
-// ViewBag.Value2 can be written as below. There's no change on how it's accessed in .cshtml file
+// ViewBag.Value2 can be written as shown below. There's no change in how it's accessed in a .cshtml file.
 viewDataOrViewBag["Value2"] = "2";
 
 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewDataOrViewBag);
 ```
-Before applying this code, follow this article for sample implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
+Before using this code, see this article for a sample implementation: https://medium.com/@soundaranbu/render-razor-view-cshtml-to-string-in-net-core-7d125f32c79
 
 
-## Render View Without Layout
-In case if there's a need to render a view without layout, use `RenderParitalAsync()` method.
+## Render a View Without a Layout
+If you need to render a view without a layout, use the `RenderPartialAsync()` method.
 
 ### RenderPartialAsync() method
 ```cs
 var html = await RazorTemplateEngine.RenderPartialAsync("/Views/ExampleView.cshtml", model, viewDataOrViewBag);
 ```
 
-## Render Views Without Throwing Exception
-There are `TryRenderAsync()` and `TryRenderPartialAsync` methods which will not throw exception if the view doesn't exist.
-Instead they return a tuple to indicate whether the view exists and the rendered string.
+## Render Views Without Throwing Exceptions
+There are `TryRenderAsync()` and `TryRenderPartialAsync()` methods which do not throw an exception if the view doesn't exist. Instead, they return a tuple indicating whether the view exists and the rendered string.
 
 ### TryRenderAsync() method
 ```cs
@@ -106,11 +117,11 @@ var (viewExists, renderedView) = await engine.TryRenderPartialAsync("~/Views/_Ex
 
 
 ## Razor Views in Library
-We can organize the Razor view files(.cshtml) in a separate shared Razor Class Libary(RCL). Please find a sample library [here](https://github.com/soundaranbu/Razor.Templating.Core/tree/main/examples/Templates/ExampleAppRazorTemplates)
+You can organize Razor view files (.cshtml) in a separate shared Razor Class Library (RCL). See a sample library [here](https://github.com/soundaranbu/Razor.Templating.Core/tree/main/examples/RazorTemplates).
 
- The Razor Class Library's `.csproj` file should look something like below. Whereas, `AddRazorSupportForMvc` property is mandatory.
+The Razor Class Library's `.csproj` file should look like the example below. The `AddRazorSupportForMvc` property is required.
 
- Also, RCL should be referenced by the main project or where any of the rendering methods like `RazorTemplateEngine.RenderAsync()` are invoked.
+Also, the RCL should be referenced by the main project or by any project that invokes rendering methods such as `RazorTemplateEngine.RenderAsync()`.
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
@@ -125,14 +136,14 @@ We can organize the Razor view files(.cshtml) in a separate shared Razor Class L
 ```
 
 ## Dependency Injection
-Dependencies can be injected directly into views using `@inject` in .csthml file. Refer [sample application here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples/Mvc)
+Dependencies can be injected directly into views using `@inject` in a `.cshtml` file. See a sample application [here](https://github.com/soundaranbu/RazorTemplating/tree/main/examples/Mvc)
 
-In ASP.NET Core, add dependency like below in `Startup.cs -> ConfigureServices`
+In ASP.NET Core, register dependencies as shown below in `Program.cs`
 ```csharp
 ...
-services.AddTransient<ExampleService>();
-//add after registering all the dependencies
-services.AddRazorTemplating();
+builder.Services.AddTransient<ExampleService>();
+// Add this after registering all other dependencies
+builder.Services.AddRazorTemplating();
 ```
 or in console or other applications, add as below
 ```csharp
@@ -142,7 +153,7 @@ using Microsoft.Extensions.DependencyInjection;
 var services = new ServiceCollection();
 services.AddTransient<ExampleService>();
 // Add RazorTemplating after registering all dependencies
-// this is important for the razor template engine to find the injected services
+// This is important for the Razor template engine to find injected services.
 services.AddRazorTemplating(); 
 ```
 
@@ -154,7 +165,7 @@ var html = await RazorTemplateEngine.RenderAsync("~/Views/ExampleViewServiceInje
 ```
 
 ### Using `IRazorTemplateEngine`
-- Instead of using the `RazorTemplateEngine` static class, it's also possible to use the `IRazorTemplateEngine` interface to inject dependency directly into the constructor.
+- Instead of using the `RazorTemplateEngine` static class, you can use the `IRazorTemplateEngine` interface and inject it directly into your class constructor.
 
 ```cs
 public class MyService {
@@ -172,43 +183,20 @@ public class MyService {
     }
 }
 ```
- 
-## How to render razor views from absolute path
-We can make use of ASP.NET Core's inbuilt [RazorRuntimeCompilation](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/view-compilation?view=aspnetcore-6.0&tabs=visual-studio) to render any .cshtml inside or outside of the project.
-
-As of `v1.7.0+`, we can achieve this as below:
-```csharp
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Razor.Templating.Core;
-
-var services = new ServiceCollection();
-services.AddMvcCore().AddRazorRuntimeCompilation();
-services.Configure<MvcRazorRuntimeCompilationOptions>(opts =>
-{
-    opts.FileProviders.Add(new PhysicalFileProvider(@"D:\PathToRazorViews")); // This will be the root path
-});
-services.AddRazorTemplating();
-
-var html = await RazorTemplateEngine.RenderAsync("/Views/Home/Rcl.cshtml"); // relative path to the root
-```
-
-Please note this may become slightly better in the future versions of our library.
 
 ## Note:
-- Please ensure that the views path is always unique among all the shared template projects.
+- Please ensure that view paths are unique across all shared template projects.
 
 ## Sample Applications
  Please find the sample applications [here](https://github.com/soundaranbu/RazorTemplating/tree/master/examples) 
  
 ## Support
-If you find this helpful, consider supporting the development of this library by sponsoring one or more coffee ;) Thanks!
+If you find this helpful, consider supporting development by buying a coffee. Thanks!
 
 [![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86&style=for-the-badge&logo=appveyor)](https://github.com/sponsors/soundaranbu)
 
 #### References:
-Thanks to all the great articles and projects which helped to bring this library out!
+Thanks to all the great articles and projects that helped bring this library to life!
 - https://github.com/Andy9FromSpace/razor-renderer-core
 - https://github.com/aspnet/Entropy/tree/master/samples/Mvc.RenderViewToString
 - https://www.frakkingsweet.com/razor-template-rendering/

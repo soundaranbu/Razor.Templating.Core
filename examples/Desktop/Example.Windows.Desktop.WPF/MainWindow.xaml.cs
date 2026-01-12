@@ -15,10 +15,10 @@ namespace Example.Windows.Desktop.WPF
         {
             InitializeComponent();
 
-            renderButton.Click += renderButton_Click;
+            renderButton.Click += RenderButton_Click;
         }
 
-        private async void renderButton_Click(object sender, RoutedEventArgs e)
+        private async void RenderButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -28,16 +28,18 @@ namespace Example.Windows.Desktop.WPF
                     HtmlContent = "<em>You can do awesome stuff like Reporting, Invoicing, etc,. Try it today</em>"
                 };
 
-                var viewData = new Dictionary<string, object>();
-                viewData["Value1"] = "1";
-                viewData["Value2"] = "2";
+                var viewData = new Dictionary<string, object>
+                {
+                    ["Value1"] = "1",
+                    ["Value2"] = "2"
+                };
 
                 var html = await RazorTemplateEngine.RenderAsync("/Views/ExampleView.cshtml", model, viewData);
                 textBlock.Text = html;
 
                 browser.NavigateToString(html);
             }
-            catch (System.Exception exception)
+            catch (System.Exception)
             {
                 throw;
             }
