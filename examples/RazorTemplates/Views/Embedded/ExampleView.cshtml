@@ -1,0 +1,12 @@
+﻿@model ExampleRazorTemplatesLibrary.Models.ExampleModel
+
+<html>
+<head>
+</head>
+<body>
+    <div>Plain text: @Model?.PlainText</div>
+    <div>ViewBag data: @ViewBag?.Value1</div>
+    <div>ViewData data: @ViewData["Value2"]</div>
+    @Html.Partial("_ExamplePartialView.cshtml", Model)
+</body>
+</html>
