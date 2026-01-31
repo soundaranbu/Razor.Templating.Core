@@ -7,8 +7,8 @@ using Razor.Templating.Core;
 
 // Force load the assembly into the AppDomain BEFORE AddRazorTemplating() is called.
 // This ensures ApplicationPartsManager.GetRclAssemblies() discovers it.
-//_ = typeof(EmbeddedResourceProjectMarker).Assembly;
-//_ = typeof(EmbeddedRazorTemplatesProjectMarker).Assembly;
+_ = typeof(EmbeddedResourceProjectMarker).Assembly;
+_ = typeof(EmbeddedRazorTemplatesProjectMarker).Assembly;
 _ = typeof(RazorTemplatesLibraryProjectMarker).Assembly;
 
 var host = Host.CreateDefaultBuilder(args)
@@ -24,43 +24,42 @@ var viewData = new Dictionary<string, object>();
 viewData["Value1"] = $"Loading at {DateTime.Now.ToString("u")}";
 viewData["Value2"] = "from caller ViewData";
 
-//ShowRazorTemplateModel();
-//ShowEmbeddedResourceModel();
+ShowRazorTemplateModel();
+ShowEmbeddedResourceModel();
 ShowEmbeddedRclModel();
 
 // local helper functions
 
-//async void ShowRazorTemplateModel()
-//{
-//    var model = new EmbeddedRazorTemplates.Models.ExampleModel()
-//    {
-//        PlainText = "Hello from embedded resource in a class library!",
-//        HtmlContent = "<strong>This is bold text from the model.</strong>"
-//    };
+async void ShowRazorTemplateModel()
+{
+    var model = new EmbeddedRazorTemplates.Models.ExampleModel()
+    {
+        PlainText = "Hello from embedded resource in a standard class library!",
+        HtmlContent = "<strong>This is bold text from the model.</strong>"
+    };
 
-//    var viewPath = "/RazorViews/EmbeddedResourceView.cshtml";
-//    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
+    var viewPath = "/RazorViews/EmbeddedResourceView.cshtml";
+    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
 
-//    Console.WriteLine("Rendered embedded view from class library:");
-//    Console.WriteLine(html);
+    Console.WriteLine("Rendered embedded view from standard class library:");
+    Console.WriteLine(html);
 
-//}
+}
 
-//async void ShowEmbeddedResourceModel()
-//{
-//    var model = new EmbeddedResourceTemplates.Models.ExampleModel()
-//    {
-//        PlainText = "Hello from embedded resource in a razor web app!",
-//        HtmlContent = "<strong>This is bold text from the model.</strong>"
-//    };
+async void ShowEmbeddedResourceModel()
+{
+    var model = new EmbeddedResourceTemplates.Models.ExampleModel()
+    {
+        PlainText = "Hello from embedded resource in a razor web app!",
+        HtmlContent = "<strong>This is bold text from the model.</strong>"
+    };
 
-//    var viewPath = "/Views/Embedded/EmbeddedResourceView.cshtml";
-//    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
+    var viewPath = "/Views/Embedded/EmbeddedResourceView.cshtml";
+    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
 
-//    Console.WriteLine("Rendered embedded view from razor web app:");
-//    Console.WriteLine(html);
-//}
-
+    Console.WriteLine("Rendered embedded view from razor web app:");
+    Console.WriteLine(html);
+}
 
 async void ShowEmbeddedRclModel()
 {
@@ -70,9 +69,9 @@ async void ShowEmbeddedRclModel()
         HtmlContent = "<strong>This is bold text from the model.</strong>"
     };
 
-    var viewPath = "/Views/Embedded/ExampleView.cshtml";
+    var viewPath = "/Views/Embedded/ExampleView2.cshtml";
     var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
 
-    Console.WriteLine("Rendered embedded view from razor class library:");
+    Console.WriteLine("Rendered embedded view from RCL:");
     Console.WriteLine(html);
 }
