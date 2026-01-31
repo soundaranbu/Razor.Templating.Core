@@ -7,6 +7,7 @@
     <div>Plain text: @Model?.PlainText</div>
     <div>ViewBag data: @ViewBag?.Value1</div>
     <div>ViewData data: @ViewData["Value2"]</div>
-    @Html.Partial("_ExamplePartialView.cshtml", Model)
+    @* IMPORTANT: the file name is case sensitive when using embedded resources *@
+    @Html.Partial("_examplePartialView2.cshtml", Model)
 </body>
 </html>
