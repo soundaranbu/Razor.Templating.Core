@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.JSInterop;
 using System.Reflection;
 
 namespace Razor.Templating.Core.Infrastructure;
@@ -108,6 +109,8 @@ internal static class ApplicationPartsManager
 
         foreach (var assembly in allAssemblies)
         {
+            // ignores assemblies without a physical Location, preventing runtime compilation from sending empty paths to RazorReferenceManager
+            // and removing a race that only appeared when the test suite loaded dynamic assemblies
             if (string.IsNullOrWhiteSpace(assembly.Location))
             {
                 Logger.Log($"Skipping assembly {assembly.FullName} because it has no physical location.");
