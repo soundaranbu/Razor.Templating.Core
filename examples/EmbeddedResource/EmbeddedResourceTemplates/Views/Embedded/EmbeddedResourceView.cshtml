@@ -1,0 +1,29 @@
+@model EmbeddedResourceTemplates.Models.ExampleModel
+@{
+
+    // Only set default if not already provided by caller
+    // ViewBag and ViewData are the same dictionary internally and accessed by dot notation (no intellisense) or string key respectively
+    // here we demonstrate both for clarity
+    if (ViewBag.Value1 == null)
+    {
+        ViewBag.Value1 = "No ViewBag Value1 provided";
+    }
+
+    if (ViewData["Value2"] == null)
+    {
+        ViewData["Value2"] = "No ViewData Value2 provided";
+    }
+}
+<html>
+<head>
+    <title>Embedded Resource View</title>
+</head>
+<body>
+    <h1>Embedded Resource View</h1>
+    <div>Plain text: @Model.PlainText</div>
+    <div>ViewBag data: @ViewBag?.Value1</div>
+    <div>ViewData data: @ViewData["Value2"]</div>
+    @await Html.PartialAsync("_ExamplePartialView.cshtml", Model)
+</body>
+</html>
+
