@@ -1,5 +1,6 @@
 using EmbeddedRazorTemplates;
 using EmbeddedResourceTemplates;
+using ExampleRazorTemplatesLibrary;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Razor.Templating.Core;
@@ -8,7 +9,7 @@ using Razor.Templating.Core;
 // This ensures ApplicationPartsManager.GetRclAssemblies() discovers it.
 _ = typeof(EmbeddedResourceProjectMarker).Assembly;
 _ = typeof(EmbeddedRazorTemplatesProjectMarker).Assembly;
-
+_ = typeof(RazorTemplatesLibraryProjectMarker).Assembly;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -25,7 +26,7 @@ viewData["Value2"] = "from caller ViewData";
 
 ShowRazorTemplateModel();
 ShowEmbeddedResourceModel();
-
+ShowEmbeddedRclModel();
 
 // local helper functions
 
@@ -33,14 +34,14 @@ async void ShowRazorTemplateModel()
 {
     var model = new EmbeddedRazorTemplates.Models.ExampleModel()
     {
-        PlainText = "Hello from embedded resource in a class library!",
+        PlainText = "Hello from embedded resource in a standard class library!",
         HtmlContent = "<strong>This is bold text from the model.</strong>"
     };
 
     var viewPath = "/RazorViews/EmbeddedResourceView.cshtml";
     var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
 
-    Console.WriteLine("Rendered embedded view from class library:");
+    Console.WriteLine("Rendered embedded view from standard class library:");
     Console.WriteLine(html);
 
 }
@@ -60,3 +61,17 @@ async void ShowEmbeddedResourceModel()
     Console.WriteLine(html);
 }
 
+async void ShowEmbeddedRclModel()
+{
+    var model = new ExampleRazorTemplatesLibrary.Models.ExampleModel()
+    {
+        PlainText = "Hello from embedded resource in a razor class library!",
+        HtmlContent = "<strong>This is bold text from the model.</strong>"
+    };
+
+    var viewPath = "/Views/Embedded/ExampleView2.cshtml";
+    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
+
+    Console.WriteLine("Rendered embedded view from RCL:");
+    Console.WriteLine(html);
+}

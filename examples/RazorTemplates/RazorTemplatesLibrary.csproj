@@ -4,10 +4,12 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Views\Embedded\**" />
-    <Content Remove="Views\Embedded\**" />
-    <EmbeddedResource Remove="Views\Embedded\**" />
-    <None Remove="Views\Embedded\**" />
+    <Content Remove="Views\Embedded\ExampleView2.cshtml" />
+    <Content Remove="Views\Embedded\_examplePartialView2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Embedded\ExampleView2.cshtml" />
+    <EmbeddedResource Include="Views\Embedded\_examplePartialView2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
