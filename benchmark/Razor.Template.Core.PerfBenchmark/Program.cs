@@ -51,6 +51,18 @@ public class RazorTemplatingCoreBenchMark
     }
 
     [Benchmark]
+    public async Task RenderEmbeddedRclViewWithModelAsync()
+    {
+        var model = BuildRazorTemplateModel();
+        var viewData = new Dictionary<string, object>();
+        viewData["Value1"] = "1";
+        viewData["Value2"] = "2";
+
+        var html = await RazorTemplateEngine.RenderAsync("/Views/Embedded/ExampleView2.cshtml", model, viewData);
+    }
+
+
+    [Benchmark]
     public async Task RenderEmbeddedResourceViewWithModelAsync()
     {
         var model = BuildEmbeddedResourceModel();
