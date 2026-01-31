@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core.Exceptions;
 using System;
 using System.IO;
@@ -18,12 +21,25 @@ using System.Threading.Tasks;
 
 namespace Razor.Templating.Core;
 
-internal sealed class RazorViewToStringRenderer(
-    IRazorViewEngine viewEngine,
-    ITempDataProvider tempDataProvider,
-    IServiceProvider serviceProvider,
-    IHttpContextAccessor httpContextAccessor)
+internal sealed class RazorViewToStringRenderer
 {
+    private readonly IRazorViewEngine _viewEngine;
+    private readonly ITempDataProvider _tempDataProvider;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public RazorViewToStringRenderer(
+        IRazorViewEngine viewEngine,
+        ITempDataProvider tempDataProvider,
+        IServiceProvider serviceProvider,
+        IHttpContextAccessor httpContextAccessor)
+    {
+        _viewEngine = viewEngine;
+        _tempDataProvider = tempDataProvider;
+        _serviceProvider = serviceProvider;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
     public async Task<string> RenderViewToStringAsync(string viewName, object? model, ViewDataDictionary viewDataDictionary, bool isMainPage = true)
     {
         var actionContext = GetActionContext();
@@ -36,7 +52,7 @@ internal sealed class RazorViewToStringRenderer(
             new ViewDataDictionary<object>(viewDataDictionary, model),
             new TempDataDictionary(
                 actionContext.HttpContext,
-                tempDataProvider),
+                _tempDataProvider),
             output,
             new HtmlHelperOptions());
 
@@ -47,36 +63,111 @@ internal sealed class RazorViewToStringRenderer(
 
     private IView FindView(ActionContext actionContext, string viewName, bool isMainPage)
     {
-        var getViewResult = viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
+        var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage);
         if (getViewResult.Success)
         {
             return getViewResult.View;
         }
 
-        var findViewResult = viewEngine.FindView(actionContext, viewName, isMainPage);
+        var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage);
         if (findViewResult.Success)
         {
             return findViewResult.View;
         }
 
+        // Fallback: try to resolve the view through compiled view descriptors (views compiled into referenced assemblies).
+        var embeddedView = TryFindViewFromCompiledViewDescriptors(actionContext, viewName, isMainPage);
+        if (embeddedView != null)
+        {
+            return embeddedView;
+        }
+
         var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
         var errorMessage = string.Join(
             Environment.NewLine,
-            new string[] {
+            new[] {
                 $"Unable to find view '{viewName}'. The following locations were searched:"
             }.Concat(searchedLocations)
-            .Concat([
+            .Concat(new[]{
             "Hint:",
             "- Check whether you have added reference to the Razor Class Library that contains the view files.",
             "- Check whether the view file name is correct or exists at the given path.",
-            "- Refer documentation or file issue here: https://github.com/soundaranbu/Razor.Templating.Core"]));
+            "- Refer documentation or file issue here: https://github.com/soundaranbu/Razor.Templating.Core"}));
 
         throw new ViewNotFoundException(errorMessage);
     }
 
+    /// <summary>
+    /// Attempts to find a view that is compiled into assemblies (for example via Razor Class Libraries / precompiled views).
+    /// </summary>
+    private IView? TryFindViewFromCompiledViewDescriptors(ActionContext actionContext, string viewName, bool isMainPage)
+    {
+        var partManager = _serviceProvider.GetService<ApplicationPartManager>();
+        if (partManager is null)
+        {
+            return null;
+        }
+
+        var normalizedViewName = NormalizeViewPath(viewName);
+
+        var viewsFeature = new ViewsFeature();
+        partManager.PopulateFeature(viewsFeature);
+
+        foreach (var descriptor in viewsFeature.ViewDescriptors)
+        {
+            // RelativePath examples: "/Views/Home/Index.cshtml" , "/Views/_ViewStart.cshtml"
+            var descriptorPath = NormalizeViewPath(descriptor.RelativePath);
+
+            // Only match exact paths to avoid ambiguous matches (e.g., "Index" matching multiple views).
+            if (!string.Equals(descriptorPath, normalizedViewName, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            // Prefer FindView when the caller is using MVC-style names (e.g. "Index").
+            var findResult = _viewEngine.FindView(actionContext, descriptor.RelativePath, isMainPage);
+            if (findResult.Success)
+            {
+                return findResult.View;
+            }
+
+            var getResult = _viewEngine.GetView(executingFilePath: null, viewPath: descriptor.RelativePath, isMainPage);
+            if (getResult.Success)
+            {
+                return getResult.View;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Normalizes the view path for consistent comparison.
+    /// </summary>
+    private static string NormalizeViewPath(string viewPath)
+    {
+        if (string.IsNullOrEmpty(viewPath))
+        {
+            return viewPath;
+        }
+
+        var normalized = viewPath.TrimStart('~', '/');
+
+        // Normalize path separators
+        normalized = normalized.Replace('\\', '/');
+
+        // Ensure .cshtml extension for comparisons when the caller passes bare names like "Index".
+        if (!normalized.EndsWith(".cshtml", StringComparison.OrdinalIgnoreCase))
+        {
+            normalized += ".cshtml";
+        }
+
+        return normalized;
+    }
+
     private ActionContext GetActionContext()
     {
-        var httpContext = httpContextAccessor.HttpContext;
+        var httpContext = _httpContextAccessor.HttpContext;
         var endpoint = httpContext?.GetEndpoint();
         var actionDescriptor = endpoint?.Metadata.GetMetadata<ActionDescriptor>();
 
@@ -99,9 +190,9 @@ internal sealed class RazorViewToStringRenderer(
     {
         var httpContext = new DefaultHttpContext
         {
-            RequestServices = serviceProvider
+            RequestServices = _serviceProvider
         };
-        var app = new ApplicationBuilder(serviceProvider);
+        var app = new ApplicationBuilder(_serviceProvider);
         var routeBuilder = new RouteBuilder(app)
         {
             DefaultHandler = new CustomRouter()
