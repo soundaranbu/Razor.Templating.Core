@@ -11,6 +11,7 @@
     <Project Path="examples/AzureFunction/FunctionAppHttp/FunctionAppHttp.csproj" Id="4571db78-0462-486d-bea7-a18962716e36" />
     <Project Path="examples/Console/Console.csproj" />
     <Project Path="examples/Desktop/Example.Windows.Desktop.WPF/WpfDesktopApp.csproj" />
+    <Project Path="examples/EmbeddedResource/EmbeddedRazorTemplates/EmbeddedRazorTemplates.csproj" />
     <Project Path="examples/EmbeddedResource/EmbeddedResourceConsumer/EmbeddedResourceConsumer.csproj" />
     <Project Path="examples/EmbeddedResource/EmbeddedResourceTemplates/EmbeddedResourceTemplates.csproj" />
     <Project Path="examples/Mvc/Mvc.csproj" />

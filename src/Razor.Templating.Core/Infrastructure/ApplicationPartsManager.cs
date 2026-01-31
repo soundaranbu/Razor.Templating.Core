@@ -108,6 +108,11 @@ internal static class ApplicationPartsManager
 
         foreach (var assembly in allAssemblies)
         {
+            if (string.IsNullOrWhiteSpace(assembly.Location))
+            {
+                Logger.Log($"Skipping assembly {assembly.FullName} because it has no physical location.");
+                continue;
+            }
             var hasAnyMvcReference = assembly.GetReferencedAssemblies().Select(x => x.Name).Intersect(RclReferences).Any();
             if (hasAnyMvcReference)
             {

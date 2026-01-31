@@ -1,5 +1,5 @@
+using EmbeddedRazorTemplates;
 using EmbeddedResourceTemplates;
-using EmbeddedResourceTemplates.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Razor.Templating.Core;
@@ -7,6 +7,8 @@ using Razor.Templating.Core;
 // Force load the assembly into the AppDomain BEFORE AddRazorTemplating() is called.
 // This ensures ApplicationPartsManager.GetRclAssemblies() discovers it.
 _ = typeof(EmbeddedResourceProjectMarker).Assembly;
+_ = typeof(EmbeddedRazorTemplatesProjectMarker).Assembly;
+
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -15,21 +17,46 @@ var host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-var model = new ExampleModel
-{
-    PlainText = "Hello from embedded resource!",
-    HtmlContent = "<strong>This is bold text from the model.</strong>"
-};
 
 // ViewBag and ViewData are the same dictionary internally
 var viewData = new Dictionary<string, object>();
 viewData["Value1"] = $"Loading at {DateTime.Now.ToString("u")}";
 viewData["Value2"] = "from caller ViewData";
 
-var viewPath = "/Views/Embedded/EmbeddedResourceView.cshtml";
+ShowRazorTemplateModel();
+ShowEmbeddedResourceModel();
 
-var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
 
-Console.WriteLine("Rendered embedded view:");
-Console.WriteLine(html);
+// local helper functions
+
+async void ShowRazorTemplateModel()
+{
+    var model = new EmbeddedRazorTemplates.Models.ExampleModel()
+    {
+        PlainText = "Hello from embedded resource in a class library!",
+        HtmlContent = "<strong>This is bold text from the model.</strong>"
+    };
+
+    var viewPath = "/RazorViews/EmbeddedResourceView.cshtml";
+    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
+
+    Console.WriteLine("Rendered embedded view from class library:");
+    Console.WriteLine(html);
+
+}
+
+async void ShowEmbeddedResourceModel()
+{
+    var model = new EmbeddedResourceTemplates.Models.ExampleModel()
+    {
+        PlainText = "Hello from embedded resource in a razor web app!",
+        HtmlContent = "<strong>This is bold text from the model.</strong>"
+    };
+
+    var viewPath = "/Views/Embedded/EmbeddedResourceView.cshtml";
+    var html = await RazorTemplateEngine.RenderAsync(viewPath, model, viewData);
+
+    Console.WriteLine("Rendered embedded view from razor web app:");
+    Console.WriteLine(html);
+}
 

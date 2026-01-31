@@ -1,4 +1,4 @@
-@model EmbeddedResourceTemplates.Models.ExampleModel
+@model EmbeddedRazorTemplates.Models.ExampleModel
 @{
 
     // Only set default if not already provided by caller
@@ -16,11 +16,11 @@
 }
 <html>
 <head>
-    <title>Embedded Resource View from Razor Web App</title>
+    <title>Embedded Resource Razor View from class library</title>
 </head>
 <body>
-    <h1>Embedded Resource View from Razor Web App</h1>
-    <p>This is a normal razor web app (not RCL) with cshtml files as embedded resources</p>
+    <h1>Embedded Resource Razor View from class library</h1>
+    <p>This is a normal class library with cshtml files as embedded resources</p>
     <div>Plain text: @Model.PlainText</div>
     <div>ViewBag data: @ViewBag?.Value1</div>
     <div>ViewData data: @ViewData["Value2"]</div>

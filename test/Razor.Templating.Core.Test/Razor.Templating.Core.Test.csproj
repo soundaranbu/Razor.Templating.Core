@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
@@ -34,6 +34,7 @@
     <ReportGenerator ReportFiles="@(CoverletReport)" TargetDirectory="Reports" ReportTypes="HtmlInline_AzurePipelines;Badges" />
   </Target>
   <ItemGroup>
+    <ProjectReference Include="..\..\examples\EmbeddedResource\EmbeddedRazorTemplates\EmbeddedRazorTemplates.csproj" />
     <ProjectReference Include="..\..\examples\EmbeddedResource\EmbeddedResourceTemplates\EmbeddedResourceTemplates.csproj" />
     <ProjectReference Include="..\..\examples\Mvc\Mvc.csproj" />
     <ProjectReference Include="..\..\examples\RazorTemplates\RazorTemplatesLibrary.csproj" />

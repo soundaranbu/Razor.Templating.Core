@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RazorViews\EmbeddedResourceView.cshtml" />
+    <EmbeddedResource Include="RazorViews\HelloWorld.cshtml" />
+    <EmbeddedResource Include="RazorViews\_ExamplePartialView.cshtml" />
+  </ItemGroup>
+
+</Project>
