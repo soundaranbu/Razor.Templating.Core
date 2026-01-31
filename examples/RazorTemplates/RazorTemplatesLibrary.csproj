@@ -1,13 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Remove="Views\Embedded\**" />
+    <Content Remove="Views\Embedded\**" />
+    <EmbeddedResource Remove="Views\Embedded\**" />
+    <None Remove="Views\Embedded\**" />
+  </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Resources\LangResources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -15,7 +19,6 @@
       <DependentUpon>LangResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Resources\LangResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

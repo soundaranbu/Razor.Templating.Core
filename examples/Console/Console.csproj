@@ -1,16 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-		<RootNamespace>ExampleConsoleApp</RootNamespace>
-		<Nullable>enable</Nullable>
+    <RootNamespace>ExampleConsoleApp</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\Razor.Templating.Core\Razor.Templating.Core.csproj" />
     <ProjectReference Include="..\RazorTemplates\RazorTemplatesLibrary.csproj" />
   </ItemGroup>
-
 </Project>

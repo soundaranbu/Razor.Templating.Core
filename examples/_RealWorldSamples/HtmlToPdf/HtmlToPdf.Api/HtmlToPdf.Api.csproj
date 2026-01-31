@@ -1,22 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>e101dde7-353e-4386-ab5e-e4627a97d754</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-    <PackageReference Include="Razor.Templating.Core" Version="2.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
-    <PackageReference Include="jsreport.Binary" Version="4.4.0" />
-    <PackageReference Include="jsreport.Binary.Linux" Version="4.4.0" />
-    <PackageReference Include="jsreport.Local" Version="3.8.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+    <PackageReference Include="Razor.Templating.Core" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="jsreport.Binary" />
+    <PackageReference Include="jsreport.Binary.Linux" />
+    <PackageReference Include="jsreport.Local" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\HtmlToPdf.Template\HtmlToPdf.Template.csproj" />
   </ItemGroup>
-
 </Project>
