@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace Razor.Templating.Core.Infrastructure;
@@ -43,7 +39,7 @@ internal static class ApplicationPartsManager
     /// This is specifically for Azure functions
     /// </summary>
     /// <returns></returns>
-    private static List<Assembly> GetAllBinDirectoryAssemblies()
+    private static IEnumerable<Assembly> GetAllBinDirectoryAssemblies()
     {
         // for single file apps, this returns null
         var executingAssemblyLocation = Assembly.GetExecutingAssembly()?.Location;
@@ -58,7 +54,7 @@ internal static class ApplicationPartsManager
         var dllFiles = Directory.GetFiles(binPath!, "*.dll", SearchOption.TopDirectoryOnly);
         Logger.Log($"Found {dllFiles?.Length} dll files in executing assembly path");
 
-        foreach (var dll in dllFiles ?? [])
+        foreach (var dll in dllFiles ?? Array.Empty<string>())
         {
             try
             {
@@ -93,7 +89,7 @@ internal static class ApplicationPartsManager
         // To support Azure Functions
         var binAssemblies = GetAllBinDirectoryAssemblies();
         var assemblies = binAssemblies.ToList();
-        if (assemblies?.Count > 0)
+        if (assemblies?.Any() ?? false)
         {
             allAssemblies.AddRange(assemblies);
         }
@@ -105,7 +101,7 @@ internal static class ApplicationPartsManager
     /// Get the list of all razor class libraries excluding non-RCL libraries
     /// </summary>
     /// <returns></returns>
-    private static List<Assembly> GetRclAssemblies()
+    private static IEnumerable<Assembly> GetRclAssemblies()
     {
         var rclAssemblies = new List<Assembly>();
         var allAssemblies = GetAllAssemblies();
@@ -125,8 +121,8 @@ internal static class ApplicationPartsManager
     /// <summary>
     /// If any of the following references are added to library, then the library is said to RCL library
     /// </summary>
-    private static readonly string[] RclReferences =
-    [
+    private static readonly List<string> RclReferences = new()
+    {
         "Microsoft.AspNetCore.Mvc",
         "Microsoft.AspNetCore.Mvc.Abstractions",
         "Microsoft.AspNetCore.Mvc.ApiExplorer",
@@ -141,5 +137,5 @@ internal static class ApplicationPartsManager
         "Microsoft.AspNetCore.Mvc.RazorPages",
         "Microsoft.AspNetCore.Mvc.TagHelpers",
         "Microsoft.AspNetCore.Mvc.ViewFeatures"
-    ];
+    };
 }
