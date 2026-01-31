@@ -14,7 +14,7 @@ namespace ExampleRazorTemplatesLibrary.Services
 
         public string GetConfigValue()
         {
-            return _configuration["SampleConfig"];
+            return _configuration["SampleConfig"] ?? "Missing Configuration for SampleConfig";
         }
     }
 }

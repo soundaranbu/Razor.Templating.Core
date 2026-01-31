@@ -226,7 +226,7 @@ namespace Razor.Templating.Core.Test
         /// Gets an instance of <see cref="IRazorTemplateEngine"/>.
         /// </summary>
         /// <param name="configure">Optional parameter to configure more services before creating instance.</param>
-        private static IRazorTemplateEngine GetRazorTemplateEngine(Action<IServiceCollection> configure = null)
+        private static IRazorTemplateEngine GetRazorTemplateEngine(Action<IServiceCollection>? configure = null)
         {
             var services = new ServiceCollection();
             services.AddRazorTemplating();
