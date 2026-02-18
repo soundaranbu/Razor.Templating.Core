@@ -82,7 +82,7 @@ internal sealed class RazorViewToStringRenderer(
 
         ActionContext? actionContext;
 
-        if (httpContext is null)
+        if (httpContext is null || endpoint is null)
         {
             // Non HTTP request scenarios like console, worker services
             actionContext = GetDefaultActionContext();
