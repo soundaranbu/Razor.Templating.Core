@@ -25,13 +25,11 @@ jobs:
 
       - name: Pack (create nupkg and snupkg)
         run: |
-          dotnet pack src/Razor.Templating.Core/Razor.Templating.Core.csproj \
-            --configuration Release --no-build \
-            --output ./artifacts \
-            /p:PackageVersion=${{ github.event.inputs.version }} \
-            /p:IncludeSymbols=true \
-            /p:SymbolPackageFormat=snupkg \
-            /p:IncludeSource=true \
+          dotnet pack src/Razor.Templating.Core/Razor.Templating.Core.csproj `
+            --configuration Release --no-build `
+            --output ./artifacts `
+            /p:PackageVersion=${{ github.event.inputs.version }} `
+            /p:IncludeSource=true `
             /p:ContinuousIntegrationBuild=true
 
       - name: List artifacts
@@ -42,9 +40,9 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          dotnet nuget push ./artifacts/*.nupkg \
-            --api-key $NUGET_API_KEY \
-            --source https://api.nuget.org/v3/index.json \
+          dotnet nuget push ./artifacts/*.nupkg `
+            --api-key $NUGET_API_KEY `
+            --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
 
       - name: Push snupkg (symbols) to NuGet
@@ -52,7 +50,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          dotnet nuget push ./artifacts/*.snupkg \
-            --api-key $NUGET_API_KEY \
-            --source https://api.nuget.org/v3/index.json \
+          dotnet nuget push ./artifacts/*.snupkg `
+            --api-key $NUGET_API_KEY `
+            --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
