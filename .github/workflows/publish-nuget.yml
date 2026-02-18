@@ -10,6 +10,7 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
+    environment: Prod
 
     steps:
       - uses: actions/checkout@v6
@@ -41,7 +42,7 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           dotnet nuget push ./artifacts/*.nupkg `
-            --api-key $NUGET_API_KEY `
+            --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
 
@@ -51,6 +52,6 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           dotnet nuget push ./artifacts/*.snupkg `
-            --api-key $NUGET_API_KEY `
+            --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
