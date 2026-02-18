@@ -13,6 +13,7 @@ jobs:
     environment: NuGetOrg
     permissions:
       id-token: write
+      contents: write
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-dotnet@v5
