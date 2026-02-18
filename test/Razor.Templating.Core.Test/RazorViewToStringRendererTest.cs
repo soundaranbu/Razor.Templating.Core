@@ -236,10 +236,10 @@ namespace Razor.Templating.Core.Test
 
             var serviceProvider = services.BuildServiceProvider();
 
-            var razorTemplateEngine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+            var engine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
             
-            // Act & Assert
-            var html = await razorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml", model);
+            // Act
+            var html = await engine.RenderAsync("~/Views/ExampleView.cshtml", model);
 
             // Assert
             Assert.NotNull(html);
@@ -264,10 +264,10 @@ namespace Razor.Templating.Core.Test
 
             var serviceProvider = services.BuildServiceProvider();
 
-            var razorTemplateEngine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+            var engine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
 
             // Act
-            var html = await razorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml", model);
+            var html = await engine.RenderAsync("~/Views/ExampleView.cshtml", model);
 
             // Assert
             Assert.NotNull(html);

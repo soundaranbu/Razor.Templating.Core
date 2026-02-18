@@ -1,0 +1,64 @@
+name: Publish NuGet Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version to publish (semver)'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+          include-prerelease: true
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack (create nupkg and snupkg)
+        run: |
+          dotnet pack src/Razor.Templating.Core/Razor.Templating.Core.csproj \
+            --configuration Release --no-build \
+            --output ./artifacts \
+            /p:PackageVersion=${{ github.event.inputs.version }} \
+            /p:IncludeSymbols=true \
+            /p:SymbolPackageFormat=snupkg \
+            /p:IncludeSource=true \
+            /p:ContinuousIntegrationBuild=true
+
+      - name: List artifacts
+        run: dir ./artifacts
+
+      - name: Push nupkg to NuGet
+        if: success()
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --api-key $NUGET_API_KEY \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Push snupkg (symbols) to NuGet
+        if: success()
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ./artifacts/*.snupkg \
+            --api-key $NUGET_API_KEY \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
