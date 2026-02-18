@@ -12,7 +12,8 @@
     <Copyright />
     <PackageProjectUrl>https://github.com/soundaranbu/Razor.Templating.Core</PackageProjectUrl>
     <Authors>Soundar Anbalagan</Authors>
-    <Version>3.0.0</Version>
+    <!-- Set in pipeline -->
+    <!-- <Version>3.0.0</Version> -->
     <RepositoryType>git</RepositoryType>
     <PackageTags>razor-templating,html-templatingrazor,render,dotnet-core,core,template-engine,email,emails,razor-view-to-string-renderer, razor-view-engine</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
