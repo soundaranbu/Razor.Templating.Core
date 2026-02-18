@@ -36,25 +36,25 @@ jobs:
       - name: List artifacts
         run: dir ./artifacts
 
-      - name: Push nupkg to NuGet
-        if: success()
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.nupkg" `
-            --api-key $env:NUGET_API_KEY `
-            --source https://api.nuget.org/v3/index.json `
-            --skip-duplicate
+      # - name: Push nupkg to NuGet
+      #   if: success()
+      #   env:
+      #     NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      #   run: |
+      #     dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.nupkg" `
+      #       --api-key $env:NUGET_API_KEY `
+      #       --source https://api.nuget.org/v3/index.json `
+      #       --skip-duplicate
 
-      - name: Push snupkg (symbols) to NuGet
-        if: success()
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.snupkg" `
-            --api-key $env:NUGET_API_KEY `
-            --source https://api.nuget.org/v3/index.json `
-            --skip-duplicate
+      # - name: Push snupkg (symbols) to NuGet
+      #   if: success()
+      #   env:
+      #     NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      #   run: |
+      #     dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.snupkg" `
+      #       --api-key $env:NUGET_API_KEY `
+      #       --source https://api.nuget.org/v3/index.json `
+      #       --skip-duplicate
 
       - name: Create GitHub Release
         if: success()
