@@ -1,5 +1,6 @@
 using ExampleRazorTemplatesLibrary.Models;
 using ExampleRazorTemplatesLibrary.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core.Exceptions;
 using System;
@@ -217,5 +218,71 @@ namespace Razor.Templating.Core.Test
             // Assert
             Assert.Contains("<h2>Hello, this is a localized phrase!</h2>\r\n<p>This text comes from the resource file</p>", englisHtml);
         }
+
+        [Fact]
+        public async Task RenderView_WhenHttpContextIsNull_UsesDefaultActionContext()
+        {
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Non-HTTP Context Test",
+                HtmlContent = "<em>Test from background task</em>"
+            };
+
+            var services = new ServiceCollection();
+            services.AddRazorTemplating();
+
+            services.AddTransient<IHttpContextAccessor>(_ => new MockHttpContextAccessor(null));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var razorTemplateEngine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+            
+            // Act & Assert
+            var html = await razorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml", model);
+
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("<div>Plain text: Non-HTTP Context Test</div>", html);
+            Assert.Contains("<div>Html content: <em>Test from background task</em></div>", html);
+        }
+
+        [Fact]
+        public async Task RenderView_WhenEndpointIsNull_UsesDefaultActionContext()
+        {
+            // Arrange
+            var model = new ExampleModel()
+            {
+                PlainText = "Null Endpoint Test",
+                HtmlContent = "<em>Test with null endpoint</em>"
+            };
+
+            var services = new ServiceCollection();
+            services.AddRazorTemplating();
+
+            services.AddTransient<IHttpContextAccessor>(_ => new MockHttpContextAccessor(new DefaultHttpContext()));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var razorTemplateEngine = serviceProvider.GetRequiredService<IRazorTemplateEngine>();
+
+            // Act
+            var html = await razorTemplateEngine.RenderAsync("~/Views/ExampleView.cshtml", model);
+
+            // Assert
+            Assert.NotNull(html);
+            Assert.Contains("<div>Plain text: Null Endpoint Test</div>", html);
+            Assert.Contains("<div>Html content: <em>Test with null endpoint</em></div>", html);
+        }
+    }
+
+    internal class MockHttpContextAccessor : IHttpContextAccessor
+    {
+        public MockHttpContextAccessor(HttpContext? httpContext)
+        {
+            HttpContext = httpContext;
+        }
+
+        public HttpContext? HttpContext { get; set; }
     }
 }

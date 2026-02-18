@@ -6,6 +6,7 @@
     <CollectCoverage>true</CollectCoverage>
     <CoverletOutputFormat>cobertura</CoverletOutputFormat>
     <Include>[Razor.Templating.Core]*</Include>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
