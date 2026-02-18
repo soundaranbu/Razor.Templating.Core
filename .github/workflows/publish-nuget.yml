@@ -10,7 +10,7 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
-    environment: Prod
+    environment: NuGetOrg
 
     steps:
       - uses: actions/checkout@v6
@@ -41,7 +41,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          dotnet nuget push "./artifacts/*.nupkg" `
+          dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.nupkg" `
             --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
@@ -51,7 +51,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          dotnet nuget push "./artifacts/*.snupkg" `
+          dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.snupkg" `
             --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
