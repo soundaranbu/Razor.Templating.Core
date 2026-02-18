@@ -55,3 +55,13 @@ jobs:
             --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
+
+      - name: Create GitHub Release
+        if: success()
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.nupkg,./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.snupkg"
+          tag: v${{ github.event.inputs.version }}
+          draft: false
+          generateReleaseNotes: true
+          prerelease: ${{ contains(github.event.inputs.version, 'rc') || contains(github.event.inputs.version, 'alpha') || contains(github.event.inputs.version, 'beta') }}
