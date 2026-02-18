@@ -10,8 +10,10 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
-    environment: Prod
-
+    environment: NuGetOrg
+    permissions:
+      id-token: write
+      contents: write
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-dotnet@v5
@@ -36,12 +38,18 @@ jobs:
       - name: List artifacts
         run: dir ./artifacts
 
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push nupkg to NuGet
         if: success()
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{steps.login.outputs.NUGET_API_KEY}}
         run: |
-          dotnet nuget push ./artifacts/*.nupkg `
+          dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.nupkg" `
             --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
@@ -49,9 +57,19 @@ jobs:
       - name: Push snupkg (symbols) to NuGet
         if: success()
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{steps.login.outputs.NUGET_API_KEY}}
         run: |
-          dotnet nuget push ./artifacts/*.snupkg `
+          dotnet nuget push "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.snupkg" `
             --api-key $env:NUGET_API_KEY `
             --source https://api.nuget.org/v3/index.json `
             --skip-duplicate
+
+      - name: Create GitHub Release
+        if: success()
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.nupkg,./artifacts/Razor.Templating.Core.${{ github.event.inputs.version }}.snupkg"
+          tag: v${{ github.event.inputs.version }}
+          draft: false
+          generateReleaseNotes: true
+          prerelease: ${{ contains(github.event.inputs.version, 'rc') || contains(github.event.inputs.version, 'alpha') || contains(github.event.inputs.version, 'beta') }}
